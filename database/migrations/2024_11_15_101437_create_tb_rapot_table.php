@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tb_rapot', function (Blueprint $table) {
             $table->bigIncrements('id_rapot');
-            $table->bigInteger('id_siswa');
-            $table->bigInteger('id_kelas');
+            $table->unsignedBigInteger('id_siswa');
+            $table->unsignedBigInteger('id_kelas');
             $table->enum('semester',['1','2']);
             $table->integer('sakit');
             $table->integer('izin');
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->bigInteger('nip_wali_kelas');
             $table->string('nama_kepsek');
             $table->bigInteger('nip_kepsek');
-            $table->foreign('id_siswa')->references('id_siswa')->on('tb_siswa')->onDelete();
-            $table->foreign('id_kelas')->references('id_kelas')->on('tb_kelas')->onDelete();
+            $table->foreign('id_siswa')->references('id_siswa')->on('tb_siswa')->onDelete('cascade');
+            $table->foreign('id_kelas')->references('id_kelas')->on('tb_kelas')->onDelete('cascade');
             $table->timestamps();
         });
     }
