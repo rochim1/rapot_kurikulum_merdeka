@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tb_capaian_kompetensi', function (Blueprint $table) {
             $table->bigIncrements('id_capaian_kompetensi');
-            $table->bigInteger('id_mata_pelajran');
-            $table->bigInteger('id_kelas');
+            $table->unsignedBigInteger('id_mata_pelajaran');
+            $table->unsignedBigInteger('id_kelas');
             $table->text('target_capaian');
             $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('tb_mata_pelajaran')->onDelete('cascade');
             $table->foreign('id_kelas')->references('id_kelas')->on('tb_kelas')->onDelete('cascade');
