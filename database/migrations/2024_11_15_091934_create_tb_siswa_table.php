@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('tb_siswa', function (Blueprint $table) {
             $table->bigIncrements('id_siswa');
-            $table->bigInteger('id_user')->unsigned();
+            $table->unsignedBigInteger('id_user');
             $table->string('nama', 100);
-            $table->string('nis')->unsigned()->unique();
-            $table->string('nisn')->unsigned()->unique()->nullable();
+            $table->string('nis')->unique();
+            $table->string('nisn')->unique()->nullable();
             $table->string('tempat_lahir', 50)->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->string('jk', 10);
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('nama_ibu', 100)->nullable();
             $table->string('no_telp_ortu', 100)->nullable();
             $table->text('alamat')->nullable();
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
