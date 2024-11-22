@@ -1,7 +1,7 @@
 <ul class="menu-inner py-1">
     <li class="menu-item">
         <a href="{{ url('') }}" class="menu-link">
-            <i class='menu-icon tf-icons bx bxs-dashboard'></i>
+            <i class="menu-icon bi bi-building"></i>
             <div data-i18n="Analytics">Dashboard</div>
         </a>
     </li>

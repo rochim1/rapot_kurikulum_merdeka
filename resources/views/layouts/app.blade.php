@@ -12,9 +12,6 @@
     <!-- Boostrap -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-    {{-- bootstrap 4 --}}
-    <link rel="stylesheet" href="{{ asset('bootstrap-4/dist/css/bootstrap.min.css') }}">
-
     <!-- template -->
     <link rel="stylesheet" href="{{ asset('css/template-admin.css') }}">
     <link rel="stylesheet" href="{{ asset('css/template-admin-theme-default.css') }}">
@@ -34,8 +31,8 @@
                 <div class="row justify-content-center py-4">
                     <a class="sidebar-brand d-flex align-items-center justify-content-center text-center my-n1 text-decoration-none text-muted"
                     href="{{ url('admin/dashboard') }}">
-                    <img src="https://rapormerdeka.com/assets/images/brand-logo-2.png" alt class="w-px-50    h-auto rounded-circle me-3" />
-                    <div class="">Rapor KM <br> SD Negeri 2 Keling</div>
+                    <img src="{{ asset('media/logo pendidikan.png') }}" alt class="w-px-50    h-auto rounded-circle me-3">
+                    <div class="">RAPOR KM <br> SDN 2 AIR DERAS</div>
                 </a>
                 
                 </div>
@@ -52,7 +49,7 @@
                 @include('layouts.navbar')
 
                 <div class="content-wrapper">
-                    <div class="container-xxl flex-grow-1 container-p-y px-n3">
+                    <div class="container flex-grow-1 container-p-y">
 
                         {{-- content --}}
                         @yield('content')
@@ -72,12 +69,9 @@
 
     {{-- Jquery --}}
     <script src="{{ asset('jquery/jquery-3.6.0.min.js') }}"></script>
+
     {{-- sweetalert 2 --}}
     @include('sweetalert::alert')
-
-
-    <!-- Core JS -->
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
 
     <!-- scrol bar -->
     <script src="{{ asset('js/perfect-scrollbar.js') }}"></script>

@@ -9,7 +9,7 @@
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow mt-n5 mt-sm-n5 mt-md-n5 mt-lg-n5 mt-xl-0 mt-xxl-0"
+                <a class="nav-link dropdown-toggle hide-arrow mt-sm-n5 mt-md-n5 mt-lg-n5 mt-xl-0 mt-xxl-0"
                     href="#" data-bs-toggle="dropdown">
                     <span class="mr-2 d-lg-inline text-gray-600 small">
                         {{ auth()->user()->name }}      
@@ -27,10 +27,10 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ url('admin/logout') }}" id="btn_logout">
-                            <i class="bi bi-box-arrow-right me-2"></i>
-                            <span class="align-middle">Log Out</span>
-                        </a>
+                        <form id="btn_logout_form" action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" id="btn_logout" class="btn btn-danger col-12">Logout</button>
+                        </form> 
                     </li>
                 </ul>
             </li>
