@@ -51,6 +51,11 @@
         </a>
         <ul class="menu-sub">
             <li class="menu-item">
+                <a href="{{ route('data-guru')}}" class="menu-link">
+                    <div data-i18n="Account">Guru</div>
+                </a>
+            </li>
+            <li class="menu-item">
                 <a href="{{ url('') }}" class="menu-link">
                     <div data-i18n="Account">Wali Kelas</div>
                 </a>
