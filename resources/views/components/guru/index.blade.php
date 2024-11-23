@@ -16,6 +16,35 @@
                 <!-- Tombol Tambah -->
                 <div class="mb-3">
                     <a href="{{ route('create-guru') }}" class="btn btn-primary">Tambah Guru</a>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#importGuru">
+                        Import Guru
+                    </button>
+                </div>
+                <!-- Modal Import Guru -->
+                <div class="modal fade" id="importGuru" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Import Data</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('import-guru') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                    <label for="">Masukkan file</label>
+                                    <input type="file" name="file" class="form-control @error('file')
+                                        is-invalid
+                                    @enderror">
+                                    @error('file')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                            <button type="button" class="btn btn-primary">Import</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Tabel Guru -->
                 <div class="table-responsive">
