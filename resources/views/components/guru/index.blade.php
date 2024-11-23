@@ -59,8 +59,8 @@
                                     <td>{{ $guru->pendidikan_terakhir }}</td>
                                     <td>{{ $guru->is_wali_kelas }}</td>
                                     <td>
-                                        <a href="{{ route('guru.show', $guru->id_guru) }}" class="btn btn-info btn-sm">Lihat</a>
-                                        <a href="{{ route('guru.edit', $guru->id_guru) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{ route('edit-guru', $guru->id_guru) }}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{{ route('delete-guru', $guru->id_guru) }}" class="btn btn-danger btn-sm">Hapus</a>
                                     </td>
                                 </tr>
                             @empty

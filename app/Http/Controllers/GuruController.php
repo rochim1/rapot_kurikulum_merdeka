@@ -130,8 +130,10 @@ class GuruController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Guru $guru)
+    public function destroy($id)
     {
-        //
+        $guru=Guru::findOrFile($id);
+        $guru->delete();
+        return redirect()->route('data-guru')->with('success','Data guru berhasil dihapus');
     }
 }

@@ -38,4 +38,5 @@ Route::middleware(['role:admin'])->group(function () {
     Route::post('/store-guru', [GuruController::class, 'store'])->name('store-guru');
     Route::get('/edit-guru/{id}', [GuruController::class, 'edit'])->name('edit-guru');
     Route::post('/update-guru/{id}', [GuruController::class, 'update'])->name('update-guru');
+    Route::get('/delete-guru/{id}', [GuruController::class, 'destroy'])->name('delete-guru');
 });
