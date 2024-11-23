@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('nip_kepsek');
             $table->string('pangkat_golongan_kepsek');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

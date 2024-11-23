@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_mata_pelajaran',50);
             $table->enum('kelompok',['A','B','C']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

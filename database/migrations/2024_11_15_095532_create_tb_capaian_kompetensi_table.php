@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('tb_mata_pelajaran')->onDelete('cascade');
             $table->foreign('id_kelas')->references('id_kelas')->on('tb_kelas')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('pendidikan_terakhir', 50)->nullable();
             $table->boolean('is_wali_kelas')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

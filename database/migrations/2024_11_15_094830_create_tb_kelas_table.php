@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('id_guru')->references('id_guru')->on('tb_guru')->onDelete('cascade');
             $table->foreign('id_tahun_ajaran')->references('id_tahun_ajaran')->on('tb_tahun_ajaran')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

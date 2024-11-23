@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id_tahun_ajaran');
             $table->string('nama_tahun_ajaran',50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

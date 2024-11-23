@@ -18,6 +18,7 @@ return new class extends Migration
             $table->longText('keterangan');
             $table->foreign('id_ekstrakulikuler')->references('id_ekstrakulikuler')->on('tb_ekstrakulikuler')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
