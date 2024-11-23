@@ -84,17 +84,47 @@ class GuruController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Guru $guru)
+    public function edit($id)
     {
-        //
+        // Ambil data guru berdasarkan ID
+        $guru = Guru::findOrFail($id);
+
+        // Kembalikan view dengan membawa data guru yang akan diedit
+        return view('components.guru.edit', compact('guru'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mengupdate data guru di database
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Guru $guru)
+    public function update(Request $request, $id)
     {
-        //
+        // Validasi input dari form
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nip' => 'nullable|string|max:20',
+            'nrg' => 'nullable|string|max:20',
+            'tempat_lahir' => 'nullable|string|max:100',
+            'tgl_lahir' => 'nullable|date',
+            'agama' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string|max:500',
+            'no_hp' => 'nullable|string|max:15',
+            'jabatan' => 'nullable|string|max:50',
+            'golongan' => 'nullable|string|max:20',
+            'tmt_awal' => 'nullable|date',
+            'pendidikan_terakhir' => 'nullable|string|max:50',
+            'is_wali_kelas' => 'nullable|string|in:Aktif,Tidak Aktif',
+        ]);
+
+        // Cari guru berdasarkan ID dan update data
+        $guru = Guru::findOrFail($id);
+        $guru->update($request->all());
+
+        // Redirect ke halaman data guru dengan pesan sukses
+        return redirect()->route('data-guru')->with('success', 'Data guru berhasil diperbarui.');
     }
 
     /**
