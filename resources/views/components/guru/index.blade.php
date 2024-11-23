@@ -15,7 +15,7 @@
                 @endif
                 <!-- Tombol Tambah -->
                 <div class="mb-3">
-                    {{-- <a href="{{ route('guru.create') }}" class="btn btn-primary">{{ __('Tambah Guru') }}</a> --}}
+                    <a href="{{ route('create-guru') }}" class="btn btn-primary">Tambah Guru</a>
                 </div>
                 <!-- Tabel Guru -->
                 <div class="table-responsive">
@@ -71,7 +71,6 @@
                         </tbody>
                     </table>
                 </div>
-                               
             </div>
         </div>
     </div>

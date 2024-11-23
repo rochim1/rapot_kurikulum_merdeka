@@ -34,4 +34,6 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['role:admin'])->group(function () {
     Route::get('/data-guru', [GuruController::class, 'index'])->name('data-guru');
+    Route::get('/create-guru', [GuruController::class, 'create'])->name('create-guru');
+    Route::get('/store-guru', [GuruController::class, 'store'])->name('store-guru');
 });
