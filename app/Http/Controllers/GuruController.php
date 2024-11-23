@@ -13,7 +13,7 @@ class GuruController extends Controller
     public function index()
     {
         $gurus = Guru::with('mata_pelajaran')->get();
-        return view('guru.index', compact('gurus'));
+        return view('components.guru.index', compact('gurus'));
     }
 
     /**
