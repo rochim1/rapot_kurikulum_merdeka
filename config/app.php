@@ -186,6 +186,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+        'role' => Spatie\Permission\Models\Role::class,
     ])->toArray(),
 
 ];
