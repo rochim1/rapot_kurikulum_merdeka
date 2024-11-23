@@ -32,6 +32,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
 
-Route::middleware(['role:admin|bidan'])->group(function () {
+Route::middleware(['role:admin'])->group(function () {
     Route::get('/data-guru', [GuruController::class, 'index'])->name('data-guru');
 });
