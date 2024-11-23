@@ -43,6 +43,26 @@
             <i class="menu-icon bi bi-building"></i>
             <div data-i18n="Analytics">Rapor</div>
         </a>
+<<<<<<< HEAD
+=======
+        <ul class="menu-sub">
+            <li class="menu-item">
+                <a href="{{ route('data-guru')}}" class="menu-link">
+                    <div data-i18n="Account">Guru</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url('') }}" class="menu-link">
+                    <div data-i18n="Account">Wali Kelas</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url('') }}" class="menu-link">
+                    <div data-i18n="Notifications">Murid</div>
+                </a>
+            </li>
+        </ul>
+>>>>>>> 5bfc5a2e5ce1316aa323f8961c042faeae4905fc
     </li>
 
     <li class="menu-header small text-uppercase">
