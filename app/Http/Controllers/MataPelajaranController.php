@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MataPelajaran;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MataPelajaranController extends Controller
 {
@@ -12,7 +13,10 @@ class MataPelajaranController extends Controller
      */
     public function index()
     {
-        //
+        return view('mata_pelajaran.index', [
+            'mataPelajaran' => MataPelajaran::all(),
+            'title' => 'Mata Pelajaran'
+        ]);
     }
 
     /**
@@ -20,7 +24,9 @@ class MataPelajaranController extends Controller
      */
     public function create()
     {
-        //
+        return view('mata_pelajaran.create', [
+            'title' => 'Mata Pelajaran'
+        ]);
     }
 
     /**
@@ -28,7 +34,14 @@ class MataPelajaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'nama_mata_pelajaran' => 'required|max:50',
+            'kelompok' => 'required|in:A,B,C',
+        ]);
+
+        MataPelajaran::create($validateData);
+        Alert::success('Success', 'Data berhasil disimpan!');
+        return redirect()->route('mata_pelajaran.index');
     }
 
     /**
@@ -44,7 +57,10 @@ class MataPelajaranController extends Controller
      */
     public function edit(MataPelajaran $mataPelajaran)
     {
-        //
+        return view('mata_pelajaran.edit', [
+            'title' => 'Edit Mata Pelajaran',
+            'mataPelajaran' => $mataPelajaran,
+        ]);
     }
 
     /**
@@ -52,7 +68,14 @@ class MataPelajaranController extends Controller
      */
     public function update(Request $request, MataPelajaran $mataPelajaran)
     {
-        //
+        $validateData = $request->validate([
+            'nama_mata_pelajaran' => 'required|max:50',
+            'kelompok' => 'required|in:A,B,C',
+        ]);
+
+        $mataPelajaran->update($validateData);
+        Alert::success('Success', 'Data berhasil diperbarui!');
+        return redirect()->route('mata_pelajaran.index');
     }
 
     /**
@@ -60,6 +83,8 @@ class MataPelajaranController extends Controller
      */
     public function destroy(MataPelajaran $mataPelajaran)
     {
-        //
+        $mataPelajaran->delete();
+        Alert::success('Success', 'Data berhasil dihapus!');
+        return redirect()->route('mata_pelajaran.index');
     }
 }

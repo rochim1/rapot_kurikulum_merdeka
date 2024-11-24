@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Kelas extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = 'kelas';
-    protected $primaryKey = 'id';
-    protected $guarded = ['id'];
+    protected $table = 'tb_kelas';
+    protected $primaryKey = 'id_kelas';
+    protected $guarded = ['id_kelas'];
 }

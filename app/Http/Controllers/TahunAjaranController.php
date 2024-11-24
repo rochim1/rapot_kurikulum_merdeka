@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TahunAjaranController extends Controller
 {
@@ -12,7 +13,10 @@ class TahunAjaranController extends Controller
      */
     public function index()
     {
-        //
+        return view('tahun_ajaran.index', [
+            'tahunAjaran' => TahunAjaran::all(),
+            'title' => 'Tahun Ajaran'
+        ]);
     }
 
     /**
@@ -20,7 +24,9 @@ class TahunAjaranController extends Controller
      */
     public function create()
     {
-        //
+        return view('tahun_ajaran.create', [
+            'title' => 'Tambah Tahun Ajaran'
+        ]);
     }
 
     /**
@@ -28,7 +34,13 @@ class TahunAjaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nama_tahun_ajaran' => 'required|max:50',
+        ]);
+
+        TahunAjaran::create($validatedData);
+        Alert::success('Sukses', 'Tahun ajaran berhasil disimpan!');
+        return redirect()->route('tahun_ajaran.index');
     }
 
     /**
@@ -44,7 +56,10 @@ class TahunAjaranController extends Controller
      */
     public function edit(TahunAjaran $tahunAjaran)
     {
-        //
+        return view('tahun_ajaran.edit', [
+            'title' => 'Edit Tahun Ajaran',
+            'tahunAjaran' => $tahunAjaran,
+        ]);
     }
 
     /**
@@ -52,7 +67,13 @@ class TahunAjaranController extends Controller
      */
     public function update(Request $request, TahunAjaran $tahunAjaran)
     {
-        //
+        $validatedData = $request->validate([
+            'nama_tahun_ajaran' => 'required|max:50',
+        ]);
+
+        $tahunAjaran->update($validatedData);
+        Alert::success('Sukses', 'Tahun ajaran berhasil diperbarui!');
+        return redirect()->route('tahun_ajaran.index');
     }
 
     /**
@@ -60,6 +81,8 @@ class TahunAjaranController extends Controller
      */
     public function destroy(TahunAjaran $tahunAjaran)
     {
-        //
+        $tahunAjaran->delete();
+        Alert::success('Sukses', 'Tahun ajaran berhasil dihapus!');
+        return redirect()->route('tahun_ajaran.index');
     }
 }

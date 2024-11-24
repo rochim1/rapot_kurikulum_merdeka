@@ -29,9 +29,8 @@
         <div class="layout-container">
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="row justify-content-center py-4">
-                    <a class="sidebar-brand d-flex align-items-center justify-content-center text-center my-n1 text-decoration-none text-muted"
-                    href="{{ url('admin/dashboard') }}">
-                    <img src="{{ asset('media/logo pendidikan.png') }}" alt class="w-px-50    h-auto rounded-circle me-3">
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center text-center my-n1 text-decoration-none text-muted" href="{{ url('admin/dashboard') }}">
+                    <img src="{{ asset('media/logo pendidikan.png') }}" alt class="w-px-50 h-auto rounded-circle me-3">
                     <div class="">RAPOR KM <br> SDN 2 AIR DERAS</div>
                 </a>
                 
@@ -72,6 +71,7 @@
 
     {{-- sweetalert 2 --}}
     @include('sweetalert::alert')
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
 
     <!-- scrol bar -->
     <script src="{{ asset('js/perfect-scrollbar.js') }}"></script>
@@ -86,6 +86,48 @@
     <script src="{{ asset('search_optionselect/select2.min.js') }}"></script>
     <script>
         $(".searchSelect").select2();
+    </script>
+
+    {{-- notif --}}
+    <script>
+        // confirmasi delete
+        $(document).on('click', '#btn_delete', function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: 'Data akan terhapus secara permanen',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).parent().submit();
+                }
+            })
+        });
+
+        // confirmasi logout
+        $(document).on('click', '#btn_logout', function(e) {
+        e.preventDefault(); // Mencegah form untuk submit secara default
+
+        Swal.fire({
+            title: 'Yakin anda yakin?',
+            text: 'Anda akan keluar dari sistem ini',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Keluar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika dikonfirmasi, submit form
+                $('#btn_logout_form').submit();
+            }
+        });
+    });
     </script>
 </body>
 </html>
