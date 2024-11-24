@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\RaporController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TahunAjaranController;
 use App\Http\Controllers\GuruController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +44,14 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/tahun_ajaran', TahunAjaranController::class);
     Route::resource('/rapor', RaporController::class);
 
+    
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    Route::resource('siswa', SiswaController::class);
+    Route::resource('mata-pelajaran', MataPelajaranController::class);
+    Route::resource('kelas', KelasController::class);
+    Route::resource('tahun-ajaran', TahunAjaranController::class);
+    Route::resource('rapor', RaporController::class);
 });
 
 Route::middleware(['role:admin'])->group(function () {
