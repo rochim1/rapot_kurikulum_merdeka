@@ -109,7 +109,7 @@ class GuruController extends Controller
      */
     public function destroy($id_guru)
     {
-        $guru=Guru::findOrFile($id_guru);
+        $guru=Guru::find($id_guru);
         $guru->delete();
         Alert::success('success','Data guru berhasil dihapus');
         return redirect()->route('data-guru');
