@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\User;
+use App\Imports\GuruImport;
 use Illuminate\Http\Request;
 use App\Models\MataPelajaran;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class GuruController extends Controller
@@ -113,5 +116,17 @@ class GuruController extends Controller
         $guru->delete();
         Alert::success('success','Data guru berhasil dihapus');
         return redirect()->route('data-guru');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,ods' // Validasi file
+        ]);
+
+        // Proses import
+        Excel::import(new GuruImport, $request->file('file'));
+        Alert::success('success', 'Data guru berhasil diimport.');
+        return back()->with('success', 'Data Guru Berhasil Diimport!');
     }
 }

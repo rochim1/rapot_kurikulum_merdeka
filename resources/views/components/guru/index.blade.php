@@ -31,11 +31,11 @@
                             @error('file')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                    <button type="button" class="btn btn-primary">Import</button>
                     </div>
                 </div>
             </div>
