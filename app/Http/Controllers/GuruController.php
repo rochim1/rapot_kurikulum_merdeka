@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\MataPelajaran;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class GuruController extends Controller
 {
@@ -22,19 +26,18 @@ class GuruController extends Controller
     public function create()
     {
         // Mengambil semua mata pelajaran dari database
-        // $mataPelajarans = MataPelajaran::all();
+        $mataPelajarans = MataPelajaran::all();
 
         // Mengembalikan view dengan membawa data mata pelajaran
-        return view('components.guru.create');
+        return view('components.guru.create', compact('mataPelajarans'));
     }
 
     // Menyimpan data guru
     public function store(Request $request)
     {
-        // Validasi input data
         $request->validate([
             'nama' => 'required|string|max:100',
-            'mata_pelajaran_id' => 'required|exists:mata_pelajarans,id',
+            'mata_pelajaran_id' => 'required|exists:tb_mata_pelajaran,id_mata_pelajaran',
             'nip' => 'nullable|string|max:50',
             'nrg' => 'nullable|string|max:50',
             'jk' => 'required|string|max:10',
@@ -50,27 +53,19 @@ class GuruController extends Controller
             'is_wali_kelas' => 'nullable|string|in:Aktif,Tidak Aktif',
         ]);
 
-        // Menyimpan data guru
-        Guru::create([
-            'nama' => $request->nama,
-            'mata_pelajaran_id' => $request->mata_pelajaran_id,
-            'nip' => $request->nip,
-            'nrg' => $request->nrg,
-            'jk' => $request->jk,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
-            'agama' => $request->agama,
-            'alamat' => $request->alamat,
-            'no_hp' => $request->no_hp,
-            'jabatan' => $request->jabatan,
-            'golongan' => $request->golongan,
-            'tmt_awal' => $request->tmt_awal,
-            'pendidikan_terakhir' => $request->pendidikan_terakhir,
-            'is_wali_kelas' => $request->is_wali_kelas,
+        // Membuat data user
+        $user = User::create([
+            'name' => $request->nama,
+            'email' => $request->nip ? $request->nip . '@gmail.com' : strtolower(str_replace(' ', '.', $request->nama)) . '@gmail.com',
+            'password' => Hash::make('guru'), // Password default
         ]);
 
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('guru.index')->with('success', 'Data guru berhasil disimpan.');
+        // Menetapkan role 'guru' ke user
+        $user->assignRole('walas');
+
+        // Menyimpan data guru dan menghubungkan dengan user
+        $guru = Guru::create(array_merge($request->all(), ['id_user' => $user->id]));
+        return redirect()->route('data-guru')->with('success', 'Data guru berhasil disimpan dan user berhasil dibuat dengan role guru.');
     }
 
     /**

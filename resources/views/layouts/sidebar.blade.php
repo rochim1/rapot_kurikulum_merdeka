@@ -17,6 +17,12 @@
         </a>
     </li>
 
+    <li class="menu-item {{ Request::is('data-guru*') ? 'active' : '' }}">
+        <a href="{{ route('data-guru') }}" class="menu-link">
+            <i class="menu-icon bi bi-building"></i>
+            <div data-i18n="Analytics">Guru</div>
+        </a>
+    </li>
     <li class="menu-item {{ Request::is('mata_pelajaran*') ? 'active' : '' }}">
         <a href="{{ url('/mata_pelajaran') }}" class="menu-link">
             <i class="menu-icon bi bi-building"></i>

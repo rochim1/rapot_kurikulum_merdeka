@@ -69,6 +69,8 @@ return [
          */
 
         'role_has_permissions' => 'role_has_permissions',
+        
+
     ],
 
     'column_names' => [
@@ -96,6 +98,7 @@ return [
         'team_foreign_key' => 'team_id',
     ],
 
+    'default_guard_name' => 'web',
     /*
      * When set to true, the method for checking permissions will be registered on the gate.
      * Set this to false if you want to implement custom logic for checking permissions.
