@@ -12,7 +12,7 @@
 
     <div class="card-body">
         <!-- Tabel Guru -->
-        <form action="{{ route('store-guru') }}" method="POST">
+        <form action="{{ route('store-guru') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -147,6 +147,14 @@
                         <label for="alamat">Alamat</label>
                         <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" rows="3">{{ old('alamat') }}</textarea>
                         @error('alamat')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <!-- Foto -->
+                    <div class="form-group mt-2">
+                        <label for="foto">Foto</label>
+                        <input type="file" class="form-control @error('foto') is-invalid @enderror" id="foto" name="foto">
+                        @error('foto')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

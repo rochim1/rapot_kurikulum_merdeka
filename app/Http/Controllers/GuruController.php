@@ -10,6 +10,7 @@ use App\Models\MataPelajaran;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -54,8 +55,51 @@ class GuruController extends Controller
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
             'pendidikan_terakhir' => 'nullable|string|max:50',
-            'is_wali_kelas' => 'nullable|string|in:Aktif,Tidak Aktif',
+            'status' => 'nullable|string|in:Aktif,Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.string' => 'Nama harus berupa teks.',
+            'nama.max' => 'Nama maksimal 100 karakter.',
+            'mata_pelajaran_id.required' => 'Mata pelajaran wajib dipilih.',
+            'mata_pelajaran_id.exists' => 'Mata pelajaran tidak valid.',
+            'nip.string' => 'NIP harus berupa teks.',
+            'nip.max' => 'NIP maksimal 50 karakter.',
+            'nrg.string' => 'NRG harus berupa teks.',
+            'nrg.max' => 'NRG maksimal 50 karakter.',
+            'jk.required' => 'Jenis kelamin wajib dipilih.',
+            'jk.string' => 'Jenis kelamin harus berupa teks.',
+            'jk.max' => 'Jenis kelamin maksimal 10 karakter.',
+            'tempat_lahir.string' => 'Tempat lahir harus berupa teks.',
+            'tempat_lahir.max' => 'Tempat lahir maksimal 50 karakter.',
+            'tgl_lahir.date' => 'Tanggal lahir harus berupa format tanggal yang valid.',
+            'agama.string' => 'Agama harus berupa teks.',
+            'agama.max' => 'Agama maksimal 50 karakter.',
+            'alamat.string' => 'Alamat harus berupa teks.',
+            'no_hp.string' => 'Nomor HP harus berupa teks.',
+            'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
+            'jabatan.string' => 'Jabatan harus berupa teks.',
+            'jabatan.max' => 'Jabatan maksimal 50 karakter.',
+            'golongan.string' => 'Golongan harus berupa teks.',
+            'golongan.max' => 'Golongan maksimal 50 karakter.',
+            'tmt_awal.date' => 'TMT Awal harus berupa format tanggal yang valid.',
+            'pendidikan_terakhir.string' => 'Pendidikan terakhir harus berupa teks.',
+            'pendidikan_terakhir.max' => 'Pendidikan terakhir maksimal 50 karakter.',
+            'status.string' => 'Status harus berupa teks.',
+            'status.in' => 'Status tidak valid. Pilihan yang tersedia: Aktif, Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun.',
+            'foto.image' => 'File foto harus berupa gambar.',
+            'foto.mimes' => 'Format file foto harus jpg, jpeg, atau png.',
+            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
         ]);
+        
+
+        // Proses upload foto
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            $originalName = $request->file('foto')->getClientOriginalName();
+            $uniqueName = time() . '_' . $originalName; // Menambahkan prefix timestamp untuk unik
+            $fotoPath = $request->file('foto')->storeAs('foto-guru', $uniqueName, 'public');
+        }
 
         // Membuat data user
         $user = User::create([
@@ -68,7 +112,7 @@ class GuruController extends Controller
         $user->assignRole('walas');
 
         // Menyimpan data guru dan menghubungkan dengan user
-        $guru = Guru::create(array_merge($request->all(), ['id_user' => $user->id]));
+        $guru = Guru::create(array_merge($request->all(), ['id_user' => $user->id, 'foto' => $fotoPath,]));
         Alert::success('success', 'Data guru berhasil disimpan dan user berhasil dibuat dengan role guru.');
         return redirect()->route('data-guru');
     }
@@ -128,5 +172,17 @@ class GuruController extends Controller
         Excel::import(new GuruImport, $request->file('file'));
         Alert::success('success', 'Data guru berhasil diimport.');
         return back()->with('success', 'Data Guru Berhasil Diimport!');
+    }
+    public function updateStatus(Request $request, $id_guru)
+    {
+        $request->validate([
+            'status' => 'required|in:Aktif,Non-Aktif,Wali Kelas,Mutasi,Pensiun',
+        ]);
+
+        $guru = Guru::findOrFail($id_guru);
+        $guru->status = $request->status;
+        $guru->save();
+        Alert::success('success', 'Status guru berhasil diperbarui.');
+        return redirect()->back();
     }
 }

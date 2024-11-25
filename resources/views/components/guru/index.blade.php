@@ -46,6 +46,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Foto</th>
                         <th>Nama</th>
                         <th>NIP</th>
                         <th>NRG</th>
@@ -59,7 +60,7 @@
                         <th>Golongan</th>
                         <th>TMT Awal</th>
                         <th>Pendidikan Terakhir</th>
-                        <th>Wali Kelas</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -67,6 +68,7 @@
                     @forelse ($gurus as $guru)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td><img src="{{ asset('storage/' . $guru->foto) }}" alt="Foto Guru" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;"></td>
                             <td>{{ $guru->nama }}</td>
                             <td>{{ $guru->nip }}</td>
                             <td>{{ $guru->nrg }}</td>
@@ -80,7 +82,18 @@
                             <td>{{ $guru->golongan }}</td>
                             <td>{{ $guru->tmt_awal ? \Carbon\Carbon::parse($guru->tmt_awal)->format('d-m-Y') : '-' }}</td>
                             <td>{{ $guru->pendidikan_terakhir }}</td>
-                            <td>{{ $guru->is_wali_kelas }}</td>
+                            <td>
+                                <form action="{{ route('update-status', $guru->id_guru) }}" method="POST">
+                                    @csrf
+                                    <select name="status" class="form-select" style="width: 150px;" onchange="this.form.submit()">
+                                        <option value="Aktif" {{ $guru->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                        <option value="Non-Aktif" {{ $guru->status == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif</option>
+                                        <option value="Wali Kelas" {{ $guru->status == 'Wali Kelas' ? 'selected' : '' }}>Wali Kelas</option>
+                                        <option value="Mutasi" {{ $guru->status == 'Mutasi' ? 'selected' : '' }}>Mutasi</option>
+                                        <option value="Pensiun" {{ $guru->status == 'Pensiun' ? 'selected' : '' }}>Pensiun</option>
+                                    </select>
+                                </form>
+                            </td>
                             <td>
                                 <a href="{{ route('edit-guru', $guru->id_guru) }}" class="btn btn-outline-warning btn-sm" title="Edit"><i class="bi bi-pencil-square"></i></a>
                                 <a href="{{ route('delete-guru', $guru->id_guru) }}" class="btn btn-outline-danger btn-sm" title="Hapus"><i class="bi bi-trash"></i></a>
