@@ -42,7 +42,7 @@
         </div>
         <!-- Tabel Guru -->
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -82,8 +82,8 @@
                             <td>{{ $guru->pendidikan_terakhir }}</td>
                             <td>{{ $guru->is_wali_kelas }}</td>
                             <td>
-                                <a href="{{ route('edit-guru', $guru->id_guru) }}" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil-square"></i>Edit</a>
-                                <a href="{{ route('delete-guru', $guru->id_guru) }}" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i>Hapus</a>
+                                <a href="{{ route('edit-guru', $guru->id_guru) }}" class="btn btn-outline-warning btn-sm" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ route('delete-guru', $guru->id_guru) }}" class="btn btn-outline-danger btn-sm" title="Hapus"><i class="bi bi-trash"></i></a>
                             </td>
                         </tr>
                     @empty

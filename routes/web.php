@@ -59,9 +59,9 @@ Route::middleware(['role:admin'])->group(function () {
     
     Route::get('/create-guru', [GuruController::class, 'create'])->name('create-guru');
     Route::post('/store-guru', [GuruController::class, 'store'])->name('store-guru');
-    Route::get('/edit-guru/{id}', [GuruController::class, 'edit'])->name('edit-guru');
-    Route::post('/update-guru/{id}', [GuruController::class, 'update'])->name('update-guru');
-    Route::get('/delete-guru/{id}', [GuruController::class, 'destroy'])->name('delete-guru');
+    Route::get('/edit-guru/{id_guru}', [GuruController::class, 'edit'])->name('edit-guru');
+    Route::post('/update-guru/{id_guru}', [GuruController::class, 'update'])->name('update-guru');
+    Route::get('/delete-guru/{id_guru}', [GuruController::class, 'destroy'])->name('delete-guru');
     Route::post('/import-guru', [GuruController::class, 'import'])->name('import-guru');
 
 });

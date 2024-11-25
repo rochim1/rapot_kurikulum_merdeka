@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\MataPelajaran;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class GuruController extends Controller
 {
@@ -65,7 +66,8 @@ class GuruController extends Controller
 
         // Menyimpan data guru dan menghubungkan dengan user
         $guru = Guru::create(array_merge($request->all(), ['id_user' => $user->id]));
-        return redirect()->route('data-guru')->with('success', 'Data guru berhasil disimpan dan user berhasil dibuat dengan role guru.');
+        Alert::success('success', 'Data guru berhasil disimpan dan user berhasil dibuat dengan role guru.');
+        return redirect()->route('data-guru');
     }
 
     /**
@@ -79,56 +81,37 @@ class GuruController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id_guru)
     {
-        // Ambil data guru berdasarkan ID
-        $guru = Guru::findOrFail($id);
-
-        // Kembalikan view dengan membawa data guru yang akan diedit
-        return view('components.guru.edit', compact('guru'));
+        $guru = Guru::findOrFail($id_guru);
+        $mataPelajarans = MataPelajaran::all();
+        return view('components.guru.edit', compact('guru', 'mataPelajarans'));
     }
 
-    /**
-     * Mengupdate data guru di database
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_guru)
     {
-        // Validasi input dari form
+        $guru = Guru::findOrFail($id_guru);
+
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'nip' => 'nullable|string|max:20',
-            'nrg' => 'nullable|string|max:20',
-            'tempat_lahir' => 'nullable|string|max:100',
-            'tgl_lahir' => 'nullable|date',
-            'agama' => 'nullable|string|max:20',
-            'alamat' => 'nullable|string|max:500',
-            'no_hp' => 'nullable|string|max:15',
-            'jabatan' => 'nullable|string|max:50',
-            'golongan' => 'nullable|string|max:20',
-            'tmt_awal' => 'nullable|date',
-            'pendidikan_terakhir' => 'nullable|string|max:50',
-            'is_wali_kelas' => 'nullable|string|in:Aktif,Tidak Aktif',
+            'nama' => 'required|string|max:100',
+            'mata_pelajaran_id' => 'nullable|exists:tb_mata_pelajaran,id_mata_pelajaran',
+            // Validasi lainnya
         ]);
 
-        // Cari guru berdasarkan ID dan update data
-        $guru = Guru::findOrFail($id);
         $guru->update($request->all());
-
-        // Redirect ke halaman data guru dengan pesan sukses
-        return redirect()->route('data-guru')->with('success', 'Data guru berhasil diperbarui.');
+        Alert::success('success', 'Data guru berhasil diperbarui.');
+        return redirect()->route('data-guru');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($id_guru)
     {
-        $guru=Guru::findOrFile($id);
+        $guru=Guru::findOrFile($id_guru);
         $guru->delete();
-        return redirect()->route('data-guru')->with('success','Data guru berhasil dihapus');
+        Alert::success('success','Data guru berhasil dihapus');
+        return redirect()->route('data-guru');
     }
 }

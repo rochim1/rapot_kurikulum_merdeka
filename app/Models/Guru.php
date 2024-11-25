@@ -11,6 +11,7 @@ class Guru extends Model
     use HasFactory, SoftDeletes;
 
     protected $table ='tb_guru';
+    protected $primaryKey = 'id_guru';
     protected $guarded=['id_guru'];
 
     public function mata_pelajaran()
