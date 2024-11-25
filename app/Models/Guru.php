@@ -12,4 +12,9 @@ class Guru extends Model
 
     protected $table ='tb_guru';
     protected $guarded=['id_guru'];
+
+    public function mata_pelajaran()
+    {
+        return $this->belongsTo(MataPelajaran::class, 'mata_pelajaran_id');
+    }
 }
