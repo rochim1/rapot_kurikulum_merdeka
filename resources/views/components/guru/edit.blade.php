@@ -12,7 +12,7 @@
 
     <div class="card-body">
         <!-- Form Edit Guru -->
-        <form action="{{ route('update-guru', $guru->id_guru) }}" method="POST">
+        <form action="{{ route('update-guru', $guru->id_guru) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -151,6 +151,22 @@
                         @error('alamat')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                    </div>
+                    <!-- Foto -->
+                    <div class="form-group mt-2">
+                        <label for="foto">Foto</label>
+                        <div class="mb-2">
+                            @if ($guru->foto)
+                                <img src="{{ asset('storage/' . $guru->foto) }}" alt="Foto Saat Ini" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                            @else
+                                <p class="text-muted">Belum ada foto.</p>
+                            @endif
+                        </div>
+                        <input type="file" class="form-control @error('foto') is-invalid @enderror" id="foto" name="foto">
+                        @error('foto')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <small class="form-text text-muted">Kosongkan jika tidak ingin mengubah foto.</small>
                     </div>
                 </div>
             </div>

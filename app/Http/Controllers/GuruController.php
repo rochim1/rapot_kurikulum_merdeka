@@ -137,18 +137,74 @@ class GuruController extends Controller
 
     public function update(Request $request, $id_guru)
     {
-        $guru = Guru::findOrFail($id_guru);
-
         $request->validate([
             'nama' => 'required|string|max:100',
-            'mata_pelajaran_id' => 'nullable|exists:tb_mata_pelajaran,id_mata_pelajaran',
-            // Validasi lainnya
+            'mata_pelajaran_id' => 'required|exists:tb_mata_pelajaran,id_mata_pelajaran',
+            'nip' => 'nullable|string|max:50',
+            'nrg' => 'nullable|string|max:50',
+            'jk' => 'required|string|max:10',
+            'tempat_lahir' => 'nullable|string|max:50',
+            'tgl_lahir' => 'nullable|date',
+            'agama' => 'nullable|string|max:50',
+            'alamat' => 'nullable|string',
+            'no_hp' => 'nullable|string|max:20',
+            'jabatan' => 'nullable|string|max:50',
+            'golongan' => 'nullable|string|max:50',
+            'tmt_awal' => 'nullable|date',
+            'pendidikan_terakhir' => 'nullable|string|max:50',
+            'status' => 'nullable|string|in:Aktif,Tidak Aktif,Wali Kelas,Cuti,Mutasi,Pensiun',
+            // 'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'nama.required' => 'Nama wajib diisi.',
+            'mata_pelajaran_id.required' => 'Mata pelajaran wajib dipilih.',
+            'mata_pelajaran_id.exists' => 'Mata pelajaran tidak valid.',
+            // 'foto.image' => 'File foto harus berupa gambar.',
+            // 'foto.mimes' => 'Format file foto harus jpg, jpeg, atau png.',
+            // 'foto.max' => 'Ukuran file foto maksimal 2 MB.',
         ]);
 
-        $guru->update($request->all());
+        // Ambil data lama
+        $data = Guru::findOrFail($id_guru);
+
+        // Cek jika ada file baru diunggah
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada di folder foto-guru
+            if (!empty($data->foto) && Storage::disk('public')->exists($data->foto)) {
+                Storage::disk('public')->delete($data->foto);
+            }
+
+            // Simpan foto baru
+            $originalName = $request->file('foto')->getClientOriginalName();
+            $uniqueName = time() . '_' . $originalName;
+            $fotoPath = $request->file('foto')->storeAs('foto-guru', $uniqueName, 'public');
+
+            // Update path foto
+            $data->foto = 'foto-guru/' . $uniqueName;
+        }
+
+        // Update data lainnya
+        $data->nama = $request->nama;
+        $data->mata_pelajaran_id = $request->mata_pelajaran_id;
+        $data->nip = $request->nip;
+        $data->nrg = $request->nrg;
+        $data->jk = $request->jk;
+        $data->tempat_lahir = $request->tempat_lahir;
+        $data->tgl_lahir = $request->tgl_lahir;
+        $data->agama = $request->agama;
+        $data->alamat = $request->alamat;
+        $data->no_hp = $request->no_hp;
+        $data->jabatan = $request->jabatan;
+        $data->golongan = $request->golongan;
+        $data->tmt_awal = $request->tmt_awal;
+        $data->pendidikan_terakhir = $request->pendidikan_terakhir;
+
+        // Simpan perubahan
+        $data->save();
+
         Alert::success('success', 'Data guru berhasil diperbarui.');
         return redirect()->route('data-guru');
     }
+
 
 
     /**
