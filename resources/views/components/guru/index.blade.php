@@ -51,15 +51,6 @@
                         <th>NIP</th>
                         <th>NRG</th>
                         <th>Mata Pelajaran</th>
-                        <th>Tempat Lahir</th>
-                        <th>Tanggal Lahir</th>
-                        <th>Agama</th>
-                        <th>Alamat</th>
-                        <th>No. HP</th>
-                        <th>Jabatan</th>
-                        <th>Golongan</th>
-                        <th>TMT Awal</th>
-                        <th>Pendidikan Terakhir</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -73,15 +64,6 @@
                             <td>{{ $guru->nip }}</td>
                             <td>{{ $guru->nrg }}</td>
                             <td>{{ $guru->mata_pelajaran->nama_mata_pelajaran }}</td>
-                            <td>{{ $guru->tempat_lahir }}</td>
-                            <td>{{ $guru->tgl_lahir ? \Carbon\Carbon::parse($guru->tgl_lahir)->format('d-m-Y') : '-' }}</td>
-                            <td>{{ $guru->agama }}</td>
-                            <td>{{ $guru->alamat }}</td>
-                            <td>{{ $guru->no_hp }}</td>
-                            <td>{{ $guru->jabatan }}</td>
-                            <td>{{ $guru->golongan }}</td>
-                            <td>{{ $guru->tmt_awal ? \Carbon\Carbon::parse($guru->tmt_awal)->format('d-m-Y') : '-' }}</td>
-                            <td>{{ $guru->pendidikan_terakhir }}</td>
                             <td>
                                 <form action="{{ route('update-status', $guru->id_guru) }}" method="POST">
                                     @csrf
