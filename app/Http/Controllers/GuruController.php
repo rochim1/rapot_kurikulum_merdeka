@@ -120,9 +120,11 @@ class GuruController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Guru $guru)
+    public function show($id_guru)
     {
-        //
+        $guru = Guru::findOrFail($id_guru);
+        Guru::with('mata_pelajaran')->get();
+        return view('components.guru.show', compact('guru'));
     }
 
     /**

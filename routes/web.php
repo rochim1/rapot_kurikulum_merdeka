@@ -61,6 +61,7 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/edit-guru/{id_guru}', [GuruController::class, 'edit'])->name('edit-guru');
     Route::post('/update-guru/{id_guru}', [GuruController::class, 'update'])->name('update-guru');
     Route::get('/delete-guru/{id_guru}', [GuruController::class, 'destroy'])->name('delete-guru');
+    Route::get('/detile/{id_guru}', [GuruController::class, 'show'])->name('show-guru');
     Route::post('/import-guru', [GuruController::class, 'import'])->name('import-guru');
     Route::post('/guru/{id_guru}/update-status', [GuruController::class, 'updateStatus'])->name('update-status');
 
