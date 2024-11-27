@@ -30,7 +30,7 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth.login')->name('login');
 });
-
+    
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
