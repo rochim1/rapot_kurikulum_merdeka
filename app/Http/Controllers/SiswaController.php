@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\SiswaImport;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SiswaController extends Controller
@@ -48,7 +50,7 @@ class SiswaController extends Controller
             'no_telp_ortu' => 'nullable|max:100',
             'alamat' => 'nullable',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'status' => 'required|in:active,berhenti,mutasi,pensiun',
+            'status' => 'required|in:active,berhenti,mutasi,lulus',
         ]);
 
         if ($request->file('foto')) {
@@ -103,7 +105,7 @@ class SiswaController extends Controller
             'no_telp_ortu' => 'nullable|max:100',
             'alamat' => 'nullable',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'status' => 'required|in:active,berhenti,mutasi,pensiun',
+            'status' => 'required|in:active,berhenti,mutasi,lulus',
         ]);
 
         if ($request->file('foto')) {
@@ -133,6 +135,22 @@ class SiswaController extends Controller
 
         $siswa->delete();
         Alert::success('kerja bagus', 'Data berhasil dihapus!');
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus.');
+        return redirect()->route('siswa.index');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,ods'
+        ]);
+        
+        try {
+            Excel::import(new SiswaImport, $request->file('file'));
+            Alert::success('kerja bagus', 'Data berhasil diimport!');        
+            return redirect()->route('siswa.index');
+        } catch (\Exception $e) {
+            Alert::error('Terjadi kesalahan saat mengimport data', $e->getMessage());        
+            return redirect()->route('siswa.index');
+        }
     }
 }

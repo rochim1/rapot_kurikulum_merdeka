@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\MataPelajaranImport;
 use App\Models\MataPelajaran;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class MataPelajaranController extends Controller
@@ -35,7 +37,7 @@ class MataPelajaranController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'nama_mata_pelajaran' => 'required|max:50',
+            'nama_mata_pelajaran' => 'required',
             'kelompok' => 'required|in:A,B,C',
         ]);
 
@@ -69,7 +71,7 @@ class MataPelajaranController extends Controller
     public function update(Request $request, MataPelajaran $mataPelajaran)
     {
         $validateData = $request->validate([
-            'nama_mata_pelajaran' => 'required|max:50',
+            'nama_mata_pelajaran' => 'required',
             'kelompok' => 'required|in:A,B,C',
         ]);
 
@@ -86,5 +88,21 @@ class MataPelajaranController extends Controller
         $mataPelajaran->delete();
         Alert::success('Success', 'Data berhasil dihapus!');
         return redirect()->route('mata_pelajaran.index');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,ods'
+        ]);
+        
+        try {
+            Excel::import(new MataPelajaranImport, $request->file('file'));
+            Alert::success('kerja bagus', 'Data berhasil diimport!');        
+            return redirect()->route('mata_pelajaran.index');
+        } catch (\Exception $e) {
+            Alert::error('Terjadi kesalahan saat mengimport data', $e->getMessage());        
+            return redirect()->route('mata_pelajaran.index');
+        }
     }
 }

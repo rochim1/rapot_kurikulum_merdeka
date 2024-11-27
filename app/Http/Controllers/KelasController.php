@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\KelasImport;
 use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class KelasController extends Controller
@@ -16,7 +18,7 @@ class KelasController extends Controller
     public function index()
     {
         return view('kelas.index', [
-            'kelas' => Kelas::all(),
+            'kelas' => Kelas::with(['Guru','TahunAjaran'])->get(),
             'title' => 'Kelas'
         ]);
     }
@@ -105,6 +107,22 @@ class KelasController extends Controller
     {
         $kela->delete();
         Alert::success('Kerja bagus', 'Kelas berhasil dihapus!');
-        return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil dihapus.');
+        return redirect()->route('kelas.index');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,ods'
+        ]);
+        
+        try {
+            Excel::import(new KelasImport, $request->file('file'));
+            Alert::success('kerja bagus', 'Data berhasil diimport!');        
+            return redirect()->route('kelas.index');
+        } catch (\Exception $e) {
+            Alert::error('Terjadi kesalahan saat mengimport data', $e->getMessage());        
+            return redirect()->route('kelas.index');
+        }
     }
 }

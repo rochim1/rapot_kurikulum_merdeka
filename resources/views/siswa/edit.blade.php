@@ -133,7 +133,7 @@
                     <option value="active" {{ old('status', $siswa->status) == 'active' ? 'selected' : '' }}>Active</option>
                     <option value="berhenti" {{ old('status', $siswa->status) == 'berhenti' ? 'selected' : '' }}>Berhenti</option>
                     <option value="mutasi" {{ old('status', $siswa->status) == 'mutasi' ? 'selected' : '' }}>Mutasi</option>
-                    <option value="pensiun" {{ old('status', $siswa->status) == 'pensiun' ? 'selected' : '' }}>Pensiun</option>
+                    <option value="lulus" {{ old('status', $siswa->status) == 'lulus' ? 'selected' : '' }}>lulus</option>
                 </select>
                 @error('status')
                     <div class="invalid-feedback">{{ $message }}</div>

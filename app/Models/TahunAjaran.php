@@ -13,4 +13,9 @@ class TahunAjaran extends Model
     protected $table = 'tb_tahun_ajaran';
     protected $primaryKey = 'id_tahun_ajaran';
     protected $guarded = ['id_tahun_ajaran'];
+
+    public function Kelas()
+    {
+        return $this->hasMany(Kelas::class);
+    }
 }

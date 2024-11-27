@@ -127,7 +127,7 @@
                     <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
                     <option value="berhenti" {{ old('status') == 'berhenti' ? 'selected' : '' }}>Berhenti</option>
                     <option value="mutasi" {{ old('status') == 'mutasi' ? 'selected' : '' }}>Mutasi</option>
-                    <option value="pensiun" {{ old('status') == 'pensiun' ? 'selected' : '' }}>Pensiun</option>
+                    <option value="lulus" {{ old('status') == 'lulus' ? 'selected' : '' }}>Lulus</option>
                 </select>
                 @error('status')
                     <div class="invalid-feedback">{{ $message }}</div>

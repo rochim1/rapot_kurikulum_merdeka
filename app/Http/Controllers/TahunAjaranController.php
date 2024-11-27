@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\TahunAjaranImport;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class TahunAjaranController extends Controller
@@ -84,5 +86,21 @@ class TahunAjaranController extends Controller
         $tahunAjaran->delete();
         Alert::success('Sukses', 'Tahun ajaran berhasil dihapus!');
         return redirect()->route('tahun_ajaran.index');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,ods'
+        ]);
+        
+        try {
+            Excel::import(new TahunAjaranImport, $request->file('file'));
+            Alert::success('kerja bagus', 'Data berhasil diimport!');        
+            return redirect()->route('tahun_ajaran.index');
+        } catch (\Exception $e) {
+            Alert::error('Terjadi kesalahan saat mengimport data', $e->getMessage());        
+            return redirect()->route('tahun_ajaran.index');
+        }
     }
 }

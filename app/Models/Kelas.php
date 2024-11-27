@@ -13,4 +13,19 @@ class Kelas extends Model
     protected $table = 'tb_kelas';
     protected $primaryKey = 'id_kelas';
     protected $guarded = ['id_kelas'];
+
+     public function Guru()
+     {
+         return $this->belongsTo(Guru::class, 'id_guru');
+     }
+ 
+     public function TahunAjaran()
+     {
+         return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
+     }
+
+     public function Rapot()
+     {
+         return $this->hasMany(Rapot::class, 'id_kelas', 'id_kelas');
+     }
 }

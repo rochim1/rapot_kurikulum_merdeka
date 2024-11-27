@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\MataPelajaranController;
-use App\Http\Controllers\RaporController;
+use App\Http\Controllers\RapotController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TahunAjaranController;
 use App\Http\Controllers\GuruController;
@@ -35,26 +35,25 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
-
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::resource('/siswa', SiswaController::class);
+    Route::post('/import_siswa', [SiswaController::class, 'import'])->name('import_siswa');
+
     Route::resource('/mata_pelajaran', MataPelajaranController::class);
+    Route::post('/import_mata_pelajaran', [MataPelajaranController::class, 'import'])->name('import_mata_pelajaran');
+
     Route::resource('/kelas', KelasController::class);
+    Route::post('/import_kelas', [KelasController::class, 'import'])->name('import_kelas');
+
     Route::resource('/tahun_ajaran', TahunAjaranController::class);
-    Route::resource('/rapor', RaporController::class);
+    Route::post('/import_tahun_ajaran', [TahunAjaranController::class, 'import'])->name('import_tahun_ajaran');
 
-    
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-    Route::resource('siswa', SiswaController::class);
-    Route::resource('mata-pelajaran', MataPelajaranController::class);
-    Route::resource('kelas', KelasController::class);
-    Route::resource('tahun-ajaran', TahunAjaranController::class);
-    Route::resource('rapor', RaporController::class);
+    Route::resource('/rapot', RapotController::class);
+    // Route::post('/import_rapor', [RapotController::class, 'import'])->name('import_rapor');
 });
 
-Route::middleware(['role:admin'])->group(function () {
+Route::middleware(['auth'],['role:admin'])->group(function () {
     Route::get('/data-guru', [GuruController::class, 'index'])->name('data-guru');
     Route::get('/create-guru', [GuruController::class, 'create'])->name('create-guru');
     Route::post('/store-guru', [GuruController::class, 'store'])->name('store-guru');
