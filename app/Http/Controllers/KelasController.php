@@ -88,34 +88,59 @@ class KelasController extends Controller
         $guru = Guru::all();
         $siswa = Siswa::all();
         $tahunAjaran = TahunAjaran::all();
+        $selectSiswa=$kela->siswa->pluck('id_siswa')->toArray();
         return view('kelas.edit', [
             'title' => 'Edit Kelas',
             'kelas' => $kela,
             'guru' => $guru,
             'siswa' => $siswa,
-            'tahunAjaran' => $tahunAjaran
+            'tahunAjaran' => $tahunAjaran,
+            'selectSiswa' => $selectSiswa,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kelas $kela)
-    {
-        $validateData = $request->validate([
-            'id_guru' => 'required|exists:tb_guru,id_guru',
-            'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
-            'nama_kelas' => 'required|max:50',
-            'tingkat' => 'required|in:1,2,3,4,5,6',
-            'fase' => 'required|in:A,B,C',
-        ]);
+    public function update(Request $request, $id_kelas)
+{
+    // Ambil data kelas berdasarkan ID kelas
+    $kelas = Kelas::findOrFail($id_kelas); // Mengambil kelas berdasarkan ID kelas
 
-        // Update the Kelas
-        $kela->update($validateData);
+    // Validasi data yang dikirim dari form
+    $validateData = $request->validate([
+        'id_guru' => 'required|exists:tb_guru,id_guru',
+        'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
+        'nama_kelas' => 'required|max:50',
+        'tingkat' => 'required|in:1,2,3,4,5,6',
+        'fase' => 'required|in:A,B,C',
+        'id_siswa' => 'required|array',
+        'id_siswa.*' => 'exists:tb_siswa,id_siswa', 
+    ]);
 
-        Alert::success('Kerja bagus', 'Kelas berhasil diperbarui!');
-        return redirect()->route('kelas.index');
+    // Update data kelas
+    $kelas->update([
+        'id_guru' => $validateData['id_guru'],
+        'id_tahun_ajaran' => $validateData['id_tahun_ajaran'],
+        'nama_kelas' => $validateData['nama_kelas'],
+        'tingkat' => $validateData['tingkat'],
+        'fase' => $validateData['fase'],
+    ]);
+
+    // Detach siswa yang sudah ada sebelumnya
+    $kelas->siswa()->detach();
+
+    // Menambahkan siswa baru ke kelas menggunakan attach
+    if (isset($validateData['id_siswa']) && is_array($validateData['id_siswa'])) {
+        $kelas->siswa()->attach($validateData['id_siswa'], ['is_active' => true]);
     }
+
+    // Tampilkan notifikasi sukses
+    Alert::success('Kerja bagus', 'Kelas berhasil diperbarui!');
+
+    // Redirect ke halaman kelas
+    return redirect()->route('kelas.index');
+}
 
     /**
      * Remove the specified resource from storage.

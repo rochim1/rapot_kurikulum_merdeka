@@ -3,7 +3,7 @@
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">{{ $title }}</h4>
-
+    
     <a href="{{ route('kelas.create') }}" class="btn btn-primary btn-icon-split">
         <span class="text"><i class="bi bi-plus"></i> Tambah</span>
     </a>
@@ -18,11 +18,12 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Kelas</th>
-                            {{-- <th>Guru</th>
-                            <th>Tahun Ajaran</th> --}}
+                            {{-- <th>Guru</th> --}}
+                            {{-- <th>Tahun Ajaran</th> --}}
                             <th>Tingkat</th>
                             <th>Fase</th>
                             <th>Siswa</th>
+                            <th>Status</th> <!-- Keterangan Status Kelas -->
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -46,10 +47,19 @@
                                         <span class="text-muted">Tidak ada siswa</span>
                                     @endif
                                 </td>
+                                <td>
+                                    <!-- Menampilkan status aktif atau tidak berdasarkan nilai boolean -->
+                                    @if($item_kelas->is_active == 1)
+                                        <span class="badge bg-success">Aktif</span>
+                                    @else
+                                        <span class="badge bg-danger">Tidak Aktif</span>
+                                    @endif
+                                </td>                                
                                 <td class="d-flex gap-2">
                                     <a href="{{ route('kelas.edit', $item_kelas->id_kelas) }}" class="btn btn-outline-success">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
+                                    
                                     <form id="myForm" action="{{ route('kelas.destroy', $item_kelas->id_kelas) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
@@ -61,7 +71,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center">Data kelas belum tersedia.</td>
+                                <td colspan="7" class="text-center">Data kelas belum tersedia.</td>
                             </tr>
                         @endforelse
                     </tbody>

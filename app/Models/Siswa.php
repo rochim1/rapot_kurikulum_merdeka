@@ -17,6 +17,8 @@ class Siswa extends Model
     public function kelas()
     {
         return $this->belongsToMany(Kelas::class, 'tb_ambil_kelas', 'id_siswa', 'id_kelas')
-                    ->withPivot('is_active'); 
+                    ->withPivot('is_active')
+                    ->withTimestamps();
     }
+
 }
