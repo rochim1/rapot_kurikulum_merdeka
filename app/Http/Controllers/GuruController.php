@@ -57,9 +57,12 @@ class GuruController extends Controller
             'pendidikan_terakhir' => 'nullable|string|max:50',
             'status' => 'nullable|string|in:Aktif,Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'status' => 'nullable|string|max:50',
         ], [
             'nama.required' => 'Nama wajib diisi.',
             'nama.string' => 'Nama harus berupa teks.',
+            'status.required' => 'Status wajib diisi.',
+            'status.string' => 'Status harus berupa teks.',
             'nama.max' => 'Nama maksimal 100 karakter.',
             'mata_pelajaran_id.required' => 'Mata pelajaran wajib dipilih.',
             'mata_pelajaran_id.exists' => 'Mata pelajaran tidak valid.',
@@ -106,6 +109,7 @@ class GuruController extends Controller
             'name' => $request->nama,
             'email' => $request->nip ? $request->nip . '@gmail.com' : strtolower(str_replace(' ', '.', $request->nama)) . '@gmail.com',
             'password' => Hash::make('guru'), // Password default
+            'is_wali_kelas' => $request->status,
         ]);
 
         // Menetapkan role 'guru' ke user

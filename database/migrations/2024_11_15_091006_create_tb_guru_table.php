@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('golongan', 50)->nullable();
             $table->date('tmt_awal')->nullable();
             $table->string('pendidikan_terakhir', 50)->nullable();
-            $table->string('status')->default('Aktif');
+            $table->string('status')->default('Aktif')->nullable();
             $table->string('foto')->nullable();
             $table->timestamps();
             $table->softDeletes();
