@@ -14,6 +14,7 @@
             @csrf
             @method('PUT') <!-- Method for updating -->
 
+            <!-- Guru -->
             <div class="mb-3">
                 <label for="id_guru" class="form-label">Guru</label>
                 <select class="form-select @error('id_guru') is-invalid @enderror" id="id_guru" name="id_guru" required>
@@ -29,6 +30,7 @@
                 @enderror
             </div>
 
+            <!-- Tahun Ajaran -->
             <div class="mb-3">
                 <label for="id_tahun_ajaran" class="form-label">Tahun Ajaran</label>
                 <select class="form-select @error('id_tahun_ajaran') is-invalid @enderror" id="id_tahun_ajaran" name="id_tahun_ajaran" required>
@@ -44,6 +46,7 @@
                 @enderror
             </div>
 
+            <!-- Nama Kelas -->
             <div class="mb-3">
                 <label for="nama_kelas" class="form-label">Nama Kelas</label>
                 <input type="text" class="form-control @error('nama_kelas') is-invalid @enderror" id="nama_kelas" name="nama_kelas" value="{{ old('nama_kelas', $kelas->nama_kelas) }}" maxlength="50" required>
@@ -52,6 +55,7 @@
                 @enderror
             </div>
 
+            <!-- Tingkat -->
             <div class="mb-3">
                 <label for="tingkat" class="form-label">Tingkat</label>
                 <select class="form-select @error('tingkat') is-invalid @enderror" id="tingkat" name="tingkat" required>
@@ -68,6 +72,7 @@
                 @enderror
             </div>
 
+            <!-- Fase -->
             <div class="mb-3">
                 <label for="fase" class="form-label">Fase</label>
                 <select class="form-select @error('fase') is-invalid @enderror" id="fase" name="fase" required>
@@ -81,8 +86,25 @@
                 @enderror
             </div>
 
+            <!-- Siswa (Select2) -->
+            <div class="mb-3">
+                <label for="id_siswa" class="form-label">Pilih Siswa</label>
+                <select class="form-select select2 @error('id_siswa') is-invalid @enderror" id="id_siswa" name="id_siswa[]" multiple="multiple" required>
+                    @foreach($siswa as $item_siswa)
+                        <option value="{{ $item_siswa->id_siswa }}" 
+                            {{ in_array($item_siswa->id_siswa, old('id_siswa', $kelas->siswa->pluck('id_siswa')->toArray())) ? 'selected' : '' }}>
+                            {{ $item_siswa->nama }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('id_siswa')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>
 </div>
+
 @endsection

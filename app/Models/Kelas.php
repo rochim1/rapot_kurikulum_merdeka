@@ -13,4 +13,10 @@ class Kelas extends Model
     protected $table = 'tb_kelas';
     protected $primaryKey = 'id_kelas';
     protected $guarded = ['id_kelas'];
+
+    public function siswa()
+    {
+        return $this->belongsToMany(Siswa::class, 'tb_ambil_kelas', 'id_kelas', 'id_siswa')
+                    ->withPivot('is_active'); 
+    }
 }

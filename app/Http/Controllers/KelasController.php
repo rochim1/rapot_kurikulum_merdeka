@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\Kelas;
+use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class KelasController extends Controller
@@ -27,11 +29,13 @@ class KelasController extends Controller
     public function create()
     {
         $guru = Guru::all();
+        $siswa = Siswa::all(); // Mengambil semua siswa
         $tahunAjaran = TahunAjaran::all();
         return view('kelas.create', [
             'title' => 'Tambah Kelas',
             'guru' => $guru,
-            'tahunAjaran' => $tahunAjaran
+            'tahunAjaran' => $tahunAjaran,
+            'siswa'=>$siswa
         ]);
     }
 
@@ -40,17 +44,30 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
+        // Validasi data yang dikirim dari form
         $validateData = $request->validate([
             'id_guru' => 'required|exists:tb_guru,id_guru',
             'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
             'nama_kelas' => 'required|max:50',
             'tingkat' => 'required|in:1,2,3,4,5,6',
             'fase' => 'required|in:A,B,C',
+            'id_siswa' => 'required',
+            'id_siswa.*' => 'exists:tb_siswa,id_siswa', 
         ]);
 
-        // Create the Kelas
-        Kelas::create($validateData);
+        // Buat data kelas baru
+        $kelas = Kelas::create([
+            'id_guru' => $validateData['id_guru'],
+            'id_tahun_ajaran' => $validateData['id_tahun_ajaran'],
+            'nama_kelas' => $validateData['nama_kelas'],
+            'tingkat' => $validateData['tingkat'],
+            'fase' => $validateData['fase'],
+        ]);
 
+        // Tambahkan siswa ke kelas melalui relasi many-to-many
+        $kelas->siswa()->attach($validateData['id_siswa'], ['is_active' => true]);
+
+        // Tampilkan notifikasi sukses
         Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
         return redirect()->route('kelas.index');
     }
@@ -69,11 +86,13 @@ class KelasController extends Controller
     public function edit(Kelas $kela)
     {
         $guru = Guru::all();
+        $siswa = Siswa::all();
         $tahunAjaran = TahunAjaran::all();
         return view('kelas.edit', [
             'title' => 'Edit Kelas',
             'kelas' => $kela,
             'guru' => $guru,
+            'siswa' => $siswa,
             'tahunAjaran' => $tahunAjaran
         ]);
     }

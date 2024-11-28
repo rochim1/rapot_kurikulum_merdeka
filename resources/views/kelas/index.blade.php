@@ -22,6 +22,7 @@
                             <th>Tahun Ajaran</th> --}}
                             <th>Tingkat</th>
                             <th>Fase</th>
+                            <th>Siswa</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -34,6 +35,17 @@
                                 {{-- <td>{{ $item_kelas->tahunAjaran->nama_tahun_ajaran }}</td> --}}
                                 <td>{{ $item_kelas->tingkat }}</td>
                                 <td>{{ $item_kelas->fase }}</td>
+                                <td>
+                                    @if ($item_kelas->siswa->count())
+                                        <ul class="list-unstyled mb-0">
+                                            @foreach ($item_kelas->siswa as $siswa)
+                                                <li> - {{ $siswa->nama }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <span class="text-muted">Tidak ada siswa</span>
+                                    @endif
+                                </td>
                                 <td class="d-flex gap-2">
                                     <a href="{{ route('kelas.edit', $item_kelas->id_kelas) }}" class="btn btn-outline-success">
                                         <i class="bi bi-pencil-square"></i>
