@@ -79,7 +79,7 @@ class LoginController extends Controller
                 return redirect()->intended(route('home', absolute: false));
             }
 
-        // Periksa status pengguna
+        // Periksa status pengguna wali kelas
             if ($user->guru->status === 'Wali Kelas') {
                 return redirect()->intended(route('home', absolute: false));
             }
