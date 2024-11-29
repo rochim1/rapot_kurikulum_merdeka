@@ -7,7 +7,6 @@
         <span class="text"><i class="bi bi-arrow-left-short"></i> Kembali</span>
     </a>
 </div>
-
 <div class="card shadow mb-4">
     <div class="card-body">
         <form action="{{ route('mata_pelajaran.store') }}" method="POST" enctype="multipart/form-data">
