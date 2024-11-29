@@ -54,7 +54,15 @@
                                     @else
                                         <span class="badge bg-danger">Tidak Aktif</span>
                                     @endif
-                                </td>                                
+                                
+                                    <form action="{{ route('kelas.toggleStatus', $item_kelas->id_kelas) }}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        <select name="is_active" class="form-select form-select-sm" onchange="this.form.submit()">
+                                            <option value="1" {{ $item_kelas->is_active == 1 ? 'selected' : '' }}>Aktif</option>
+                                            <option value="2" {{ $item_kelas->is_active == 2 ? 'selected' : '' }}>Tidak Aktif</option>
+                                        </select>
+                                    </form>                                    
+                                </td>                                                             
                                 <td class="d-flex gap-2">
                                     <a href="{{ route('kelas.edit', $item_kelas->id_kelas) }}" class="btn btn-outline-success">
                                         <i class="bi bi-pencil-square"></i>

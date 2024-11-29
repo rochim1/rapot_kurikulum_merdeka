@@ -65,7 +65,7 @@ class KelasController extends Controller
         ]);
 
         // Tambahkan siswa ke kelas melalui relasi many-to-many
-        $kelas->siswa()->attach($validateData['id_siswa'], ['is_active' => true]);
+        $kelas->siswa()->attach($validateData['id_siswa']);
 
         // Tampilkan notifikasi sukses
         Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
@@ -150,5 +150,18 @@ class KelasController extends Controller
         $kela->delete();
         Alert::success('Kerja bagus', 'Kelas berhasil dihapus!');
         return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil dihapus.');
+    }
+
+    public function toggleStatus(Request $request, $id_kelas)
+    {
+        $request->validate([
+            'is_active' => 'required|integer|in:1,2', 
+        ]);
+        $kelas = Kelas::findOrFail($id_kelas);
+        $kelas->update([
+            'is_active' => $request->input('is_active'),
+        ]);
+        Alert::success('Status berhasil diperbarui!', 'Kelas berhasil diubah statusnya.');
+        return redirect()->route('kelas.index');
     }
 }

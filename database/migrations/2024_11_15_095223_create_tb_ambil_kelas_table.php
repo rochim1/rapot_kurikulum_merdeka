@@ -15,7 +15,6 @@ return new class extends Migration
             $table->bigIncrements('id_ambil_kelas');
             $table->unsignedBigInteger('id_kelas');
             $table->unsignedBigInteger('id_siswa');
-            $table->enum('is_active',[1,2])->default(1);
             $table->foreign('id_kelas')->references('id_kelas')->on('tb_kelas')->onDelete('cascade');
             $table->foreign('id_siswa')->references('id_siswa')->on('tb_siswa')->onDelete('cascade');
             $table->timestamps();
