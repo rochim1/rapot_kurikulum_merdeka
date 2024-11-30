@@ -16,6 +16,12 @@
             <div data-i18n="Analytics">Siswa</div>
         </a>
     </li>
+    <li class="menu-item {{ Request::is('data-ekstrakulikuler*') ? 'active' : '' }}">
+        <a href="{{ route('data-ekstrakulikuler') }}" class="menu-link">
+            <i class="menu-icon bi bi-building"></i>
+            <div data-i18n="Analytics">Ekstrakulikuler</div>
+        </a>
+    </li>
 
     <li class="menu-item {{ Request::is('data-guru*') ? 'active' : '' }}">
         <a href="{{ route('data-guru') }}" class="menu-link">
