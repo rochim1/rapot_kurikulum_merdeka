@@ -44,23 +44,39 @@
         </a>
     </li>
 
-    <li class="menu-item {{ Request::is('rapot*') ? 'active' : '' }}">
-        <a href="{{ route('rapot.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
-            <div data-i18n="Analytics">Rapot</div>
-        </a>
+    <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Wali Kelas</span>
     </li>
-
-    <li class="menu-item">
+    <li class="menu-item 
+        @php
+            if(Request::is('rapot*')) {
+                echo 'active open';
+            }
+        @endphp
+        ">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bi bi-file-earmark-text"></i>
+            <div data-i18n="Account Settings">Rapot</div>
+        </a>
         <ul class="menu-sub">
-            <li class="menu-item">
-                <a href="{{ route('data-guru')}}" class="menu-link">
-                    <div data-i18n="Account">Guru</div>
+            <li class="menu-item {{ Request::is('rapot_nilai') ? 'active' : '' }}">
+                <a href="{{ route('rapot.nilai') }}" class="menu-link">
+                    <div data-i18n="Account">Nilai</div>
                 </a>
             </li>
-            <li class="menu-item">
-                <a href="{{ route('rapot.index') }}" class="menu-link">
-                    <div data-i18n="Account">Wali Kelas</div>
+            <li class="menu-item {{ Request::is('rapot_kehadiran') ? 'active' : '' }}">
+                <a href="{{ route('rapot.kehadiran') }}" class="menu-link">
+                    <div data-i18n="Notifications">Kehadiran</div>
+                </a>
+            </li>
+            <li class="menu-item {{ Request::is('rapot_ekstrakulikuler*') ? 'active' : '' }}">
+                <a href="{{ route('rapot.ekstrakulikuler') }}" class="menu-link">
+                    <div data-i18n="Connections">Ekstrakulikuler</div>
+                </a>
+            </li>
+            <li class="menu-item {{ Request::is('rapot_catatan_wali_kelas*') ? 'active' : '' }}">
+                <a href="{{ route('rapot.catatan_wali_kelas') }}" class="menu-link">
+                    <div data-i18n="Connections">Catatan Wali Kelas</div>
                 </a>
             </li>
         </ul>

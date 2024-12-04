@@ -19,14 +19,13 @@ class Guru extends Model
         return $this->belongsTo(MataPelajaran::class, 'mata_pelajaran_id');
     }
 
-<<<<<<< HEAD
     public function Kelas()
     {
         return $this->hasMany(Kelas::class);
-=======
+    }
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
->>>>>>> 73d461624707df7d478332920915bc11d2fe1388
     }
 }

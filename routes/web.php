@@ -35,7 +35,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
-    Route::middleware(['role:admin|walas'])->group(function () {
+
+    Route::middleware(['auth'], ['role:admin|walas'])->group(function () {
         Route::get('/data-guru', [GuruController::class, 'index'])->name('data-guru');
         Route::get('/create-guru', [GuruController::class, 'create'])->name('create-guru');
         Route::post('/store-guru', [GuruController::class, 'store'])->name('store-guru');
@@ -60,7 +61,11 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/tahun_ajaran', TahunAjaranController::class);
         Route::post('/import_tahun_ajaran', [TahunAjaranController::class, 'import'])->name('import_tahun_ajaran');
 
-        Route::resource('/rapot', RapotController::class);
+        Route::get('/rapot_nilai', [RapotController::class, 'nilai'])->name('rapot.nilai');
+        Route::get('/rapot_kehadiran', [RapotController::class, 'kehadiran'])->name('rapot.kehadiran');
+        Route::get('/rapot_ekstrakulikuler', [RapotController::class, 'ekstrakulikuler'])->name('rapot.ekstrakulikuler');
+        Route::get('/rapot_catatan_wali_kelas', [RapotController::class, 'catatan_wali_kelas'])->name('rapot.catatan_wali_kelas');
+        // Route::resource('/rapot', RapotController::class);
         // Route::post('/import_rapor', [RapotController::class, 'import'])->name('import_rapor');
     });
 });

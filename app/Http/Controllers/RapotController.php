@@ -13,15 +13,37 @@ class RapotController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function nilai()
     {
-        // return view('rapot.index', [
-        return view('rapot.show', [
-            'rapot' =>  Rapot::with(['Siswa', 'Kelas'])->get(),
-            'title' => 'Rapot',
+        return view('rapot.nilai', [
+            'siswa' =>  Siswa::orderBy('nama')->get(),
+            'title' => 'Nilai',
+        ]);
+    }
+    
+    public function kehadiran()
+    {
+        return view('rapot.kehadiran', [
+            'siswa' =>  Siswa::orderBy('nama')->get(),
+            'title' => 'Kehadiran',
         ]);
     }
 
+    public function ekstrakulikuler()
+    {
+        return view('rapot.ekstrakulikuler', [
+            'siswa' =>  Siswa::orderBy('nama')->get(),
+            'title' => 'Ekstrakulikuler',
+        ]);
+    }
+
+    public function catatan_wali_kelas()
+    {
+        return view('rapot.catatan_wali_kelas', [
+            'siswa' =>  Siswa::orderBy('nama')->get(),
+            'title' => 'Catatan Wali Kelas',
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */
