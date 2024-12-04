@@ -65,7 +65,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/rapot_kehadiran', [RapotController::class, 'kehadiran'])->name('rapot.kehadiran');
         Route::get('/rapot_ekstrakulikuler', [RapotController::class, 'ekstrakulikuler'])->name('rapot.ekstrakulikuler');
         Route::get('/rapot_catatan_wali_kelas', [RapotController::class, 'catatan_wali_kelas'])->name('rapot.catatan_wali_kelas');
-        // Route::resource('/rapot', RapotController::class);
         // Route::post('/import_rapor', [RapotController::class, 'import'])->name('import_rapor');
     });
 });
