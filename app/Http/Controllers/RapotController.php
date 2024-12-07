@@ -16,7 +16,7 @@ class RapotController extends Controller
     public function nilai()
     {
         return view('rapot.nilai', [
-            'siswa' =>  Siswa::orderBy('nama')->get(),
+            'siswa' =>  Siswa::with('tahun_ajaran')->orderBy('nama')->where('tahuna_ajaran', '=', '2024/2025')->where('semester', '=', 'Ganjil')->get(),
             'title' => 'Nilai',
         ]);
     }
