@@ -42,7 +42,7 @@ class GuruController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:100',
-            'mata_pelajaran_id' => 'required|exists:tb_mata_pelajaran,id_mata_pelajaran',
+            'mata_pelajaran_id' => 'nullable|exists:tb_mata_pelajaran,id_mata_pelajaran',
             'nip' => 'nullable|string|max:50',
             'nrg' => 'nullable|string|max:50',
             'jk' => 'required|string|max:10',

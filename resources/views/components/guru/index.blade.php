@@ -63,7 +63,7 @@
                             <td>{{ $guru->nama }}</td>
                             <td>{{ $guru->nip }}</td>
                             <td>{{ $guru->nrg }}</td>
-                            <td>{{ $guru->mata_pelajaran->nama_mata_pelajaran }}</td>
+                            <td>{{ $guru->mata_pelajaran->nama_mata_pelajaran??'-' }}</td>
                             <td>
                                 <form action="{{ route('update-status', $guru->id_guru) }}" method="POST">
                                     @csrf
