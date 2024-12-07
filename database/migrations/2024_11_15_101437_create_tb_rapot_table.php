@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id_rapot');
             $table->unsignedBigInteger('id_siswa');
             $table->unsignedBigInteger('id_kelas');
+            $table->string('ttd_tempat_tanggal_rapot',50);
             $table->enum('semester',['1','2']);
             $table->integer('sakit');
             $table->integer('izin');
