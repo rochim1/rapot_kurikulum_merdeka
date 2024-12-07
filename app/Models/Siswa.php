@@ -14,8 +14,17 @@ class Siswa extends Model
     protected $primaryKey = 'id_siswa';
     protected $guarded = ['id_siswa'];
 
+<<<<<<< HEAD
     public function Rapot()
     {
         return $this->hasMany(Rapot::class, 'id_siswa', 'id_siswa');
     }
+=======
+    public function kelas()
+    {
+        return $this->belongsToMany(Kelas::class, 'tb_ambil_kelas', 'id_siswa', 'id_kelas')
+                    ->withTimestamps();
+    }
+
+>>>>>>> be28cd80851abf75b46053831481c5177801f097
 }

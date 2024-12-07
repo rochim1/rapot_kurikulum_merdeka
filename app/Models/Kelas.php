@@ -14,6 +14,7 @@ class Kelas extends Model
     protected $primaryKey = 'id_kelas';
     protected $guarded = ['id_kelas'];
 
+<<<<<<< HEAD
      public function Guru()
      {
          return $this->belongsTo(Guru::class, 'id_guru');
@@ -28,4 +29,12 @@ class Kelas extends Model
      {
          return $this->hasMany(Rapot::class, 'id_kelas', 'id_kelas');
      }
+=======
+    public function siswa()
+    {
+        return $this->belongsToMany(Siswa::class, 'tb_ambil_kelas', 'id_kelas', 'id_siswa')
+                    ->withTimestamps();
+    }
+
+>>>>>>> be28cd80851abf75b46053831481c5177801f097
 }
