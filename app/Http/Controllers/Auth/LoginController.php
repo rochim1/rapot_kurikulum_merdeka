@@ -80,7 +80,7 @@ class LoginController extends Controller
             }
 
         // Periksa status pengguna wali kelas
-            if ($user->guru->status === 'Wali Kelas') {
+            if ($user->guru->is_wali_kelas == true) {
                 return redirect()->intended(route('home', absolute: false));
             }
             Auth::logout();

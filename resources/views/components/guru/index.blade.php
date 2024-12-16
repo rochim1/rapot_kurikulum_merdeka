@@ -71,7 +71,6 @@
                                     <select name="status" class="form-select" style="width: 150px;" onchange="this.form.submit()">
                                         <option value="Aktif" {{ $guru->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
                                         <option value="Non-Aktif" {{ $guru->status == 'Non-Aktif' ? 'selected' : '' }}>Non-Aktif</option>
-                                        <option value="Wali Kelas" {{ $guru->status == 'Wali Kelas' ? 'selected' : '' }}>Wali Kelas</option>
                                         <option value="Mutasi" {{ $guru->status == 'Mutasi' ? 'selected' : '' }}>Mutasi</option>
                                         <option value="Pensiun" {{ $guru->status == 'Pensiun' ? 'selected' : '' }}>Pensiun</option>
                                     </select>
