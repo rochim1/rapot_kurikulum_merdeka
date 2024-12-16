@@ -247,4 +247,14 @@ class GuruController extends Controller
         Alert::success('success', 'Status guru berhasil diperbarui.');
         return redirect()->back();
     }
+
+    public function updateWaliKelas(Request $request, $id_guru)
+    {
+        $guru = Guru::findOrFail($id_guru);
+        $guru->is_wali_kelas = $request->has('is_wali_kelas'); // Simpan `true` jika checkbox aktif
+        $guru->save();
+
+        return redirect()->back()->with('success', 'Status wali kelas berhasil diperbarui.');
+    }
+
 }

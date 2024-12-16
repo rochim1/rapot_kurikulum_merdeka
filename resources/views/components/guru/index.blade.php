@@ -52,6 +52,7 @@
                         <th>NRG</th>
                         <th>Mata Pelajaran</th>
                         <th>Status</th>
+                        <th>Wali Kelas</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -76,6 +77,20 @@
                                     </select>
                                 </form>
                             </td>
+                            <td>
+                                <form action="{{ route('guru.update_wali_kelas', $guru->id_guru) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <div class="form-check form-switch mb-2">
+                                        <input 
+                                            class="form-check-input" 
+                                            type="checkbox" 
+                                            id="flexSwitchCheckChecked-{{ $guru->id }}" 
+                                            name="is_wali_kelas" 
+                                            onchange="this.form.submit()" 
+                                            {{ $guru->is_wali_kelas ? 'checked' : '' }}>
+                                    </div>
+                                </form>
+                            </td>                            
                             <td>
                                 <a href="{{ route('show-guru', $guru->id_guru) }}" class="btn btn-outline-info btn-sm" title="Lihat Profil">
                                     <i class="bi bi-eye"></i>

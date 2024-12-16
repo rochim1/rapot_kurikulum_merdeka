@@ -44,6 +44,8 @@ Route::middleware(['role:admin|walas'])->group(function () {
         Route::get('/detile/{id_guru}', [GuruController::class, 'show'])->name('show-guru');
         Route::post('/import-guru', [GuruController::class, 'import'])->name('import-guru');
         Route::post('/guru/{id_guru}/update-status', [GuruController::class, 'updateStatus'])->name('update-status');
+        Route::post('/guru/{id_guru}/update-wali-kelas', [GuruController::class, 'updateWaliKelas'])->name('guru.update_wali_kelas');
+
 
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
