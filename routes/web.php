@@ -89,13 +89,4 @@ Route::middleware(['auth'],['role:admin'])->group(function () {
 
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-    // Route::resource('/siswa', SiswaController::class);
-    // Route::resource('/mata_pelajaran', MataPelajaranController::class);
-    // Route::resource('/kelas', KelasController::class);
-    // Route::resource('/tahun_ajaran', TahunAjaranController::class);
-    // Route::resource('/rapor', RaporController::class);
-
-    
-    // Route::get('/home', [HomeController::class, 'index'])->name('home');
 });

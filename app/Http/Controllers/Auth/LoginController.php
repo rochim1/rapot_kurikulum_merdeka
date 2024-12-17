@@ -6,6 +6,7 @@ use App\Models\Guru;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -50,7 +51,8 @@ class LoginController extends Controller
      */
     public function login()
     {
-        return view('auth.login');
+        $tahunAjaran=TahunAjaran::all();
+        return view('auth.login', compact('tahunAjaran'));
     }
 
     /**
@@ -80,7 +82,7 @@ class LoginController extends Controller
             }
 
         // Periksa status pengguna wali kelas
-            if ($user->guru->is_wali_kelas == true) {
+            if ($user->guru->status == true) {
                 return redirect()->intended(route('home', absolute: false));
             }
             Auth::logout();

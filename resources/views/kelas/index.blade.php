@@ -3,7 +3,6 @@
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">{{ $title }}</h4>
-<<<<<<< HEAD
 
     <div class="d-flex gap-3">
         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import"><i class="bi bi-folder-plus"></i>
@@ -13,12 +12,6 @@
             <span class="text"><i class="bi bi-plus"></i></i> Tambah</span>
         </a>
     </div>
-=======
-    
-    <a href="{{ route('kelas.create') }}" class="btn btn-primary btn-icon-split">
-        <span class="text"><i class="bi bi-plus"></i> Tambah</span>
-    </a>
->>>>>>> be28cd80851abf75b46053831481c5177801f097
 </div>
 
 <div class="card shadow mb-4">
@@ -39,7 +32,6 @@
                 <tbody>
                     @forelse ($kelas as $item_kelas)
                         <tr>
-<<<<<<< HEAD
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item_kelas->nama_kelas }}</td>
                             <td>{{ $item_kelas->guru->nama }}</td>
@@ -91,7 +83,6 @@
                     </div>
                 </form>
             </div>
-=======
                             <th>No</th>
                             <th>Nama Kelas</th>
                             {{-- <th>Guru</th> --}}
@@ -160,10 +151,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            @else
-                <h6 class="text-center">Data {{ $title }} Belum Ada!</h6>
-            @endif
->>>>>>> be28cd80851abf75b46053831481c5177801f097
         </div>
     </div>
 </div>

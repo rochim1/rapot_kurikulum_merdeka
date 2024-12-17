@@ -18,7 +18,6 @@
                     </span>
                 @enderror
             </div>  
-
             <div class="mb-3">
                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password" required placeholder="Masukan Password...">
                 @error('password')
@@ -28,7 +27,21 @@
                 @enderror
                 <input type="checkbox" class="m-2 mt-3" onclick="pass_eyes()">Show Password
             </div>
+            {{-- <div class="mb-3">
+                <select id="tahun_ajaran" name="tahun_ajaran" 
+                        class="form-select @error('tahun_ajaran') is-invalid @enderror">
+                    <option value="" disabled selected>Pilih Tahun Ajaran...</option>
+                    @foreach ($tahunAjaran as $tahun)
+                        <option value="{{ $tahun->id }}">{{ $tahun->nama_tahun_ajaran }}</option>
+                    @endforeach
+                </select>
             
+                @error('tahun_ajaran')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div> --}}
             <div class="container text-center">
                 <div class="row justify-content-around align-items-center">
                     <div class="col-md">
@@ -45,5 +58,6 @@
                     </div>
                 </div>
             </div>
+                        
         </form>
 @endsection
