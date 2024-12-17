@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-    @if (auth()->user()->hasRole('walas'))
+    {{-- @if (auth()->user()->hasRole('walas')) --}}
         <div class="row">
             <!-- Card untuk Jumlah Siswa -->
             <div class="col-md-6 mt-3">
@@ -52,6 +52,6 @@
                 </div>
             </div>
         </div>
-    @endif
+    {{-- @endif --}}
 </div>
 @endsection

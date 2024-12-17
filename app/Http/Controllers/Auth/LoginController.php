@@ -71,6 +71,7 @@ class LoginController extends Controller
         ], [
             'email.required' => 'Email tidak boleh kosong.',
             'email.email' => 'Email harus berupa format email yang valid.',
+            'password.required' => 'Password tidak boleh kosong.',
             'nama_tahun_ajaran.exists' => 'Tahun ajaran tidak valid.',
         ]);
     
