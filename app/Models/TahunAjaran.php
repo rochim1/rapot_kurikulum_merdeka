@@ -18,4 +18,9 @@ class TahunAjaran extends Model
     {
         return $this->hasMany(Kelas::class);
     }
+
+    public function siswa()
+    {
+        return $this->belongsToMany(Siswa::class, 'tb_siswa_tahun_ajaran', 'id_siswa', 'id_tahun_ajaran');
+    }
 }

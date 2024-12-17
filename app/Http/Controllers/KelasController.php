@@ -64,10 +64,11 @@ class KelasController extends Controller
             'tingkat' => $validateData['tingkat'],
             'fase' => $validateData['fase'],
         ]);
-
         // Tambahkan siswa ke kelas melalui relasi many-to-many
         $kelas->siswa()->attach($validateData['id_siswa']);
-
+        // Tambahkan siswa ke tahun ajaran melalui relasi many-to-many
+        $tahunAjaran = TahunAjaran::find($validateData['id_tahun_ajaran']);
+        $tahunAjaran->siswa()->attach($validateData['id_siswa']);
         // Tampilkan notifikasi sukses
         Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
         return redirect()->route('kelas.index');

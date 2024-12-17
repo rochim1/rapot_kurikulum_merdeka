@@ -71,7 +71,6 @@ class LoginController extends Controller
         ], [
             'email.required' => 'Email tidak boleh kosong.',
             'email.email' => 'Email harus berupa format email yang valid.',
-            'password.required' => 'Password tidak boleh kosong.',
             'nama_tahun_ajaran.exists' => 'Tahun ajaran tidak valid.',
         ]);
     
@@ -84,16 +83,11 @@ class LoginController extends Controller
             if ($user->hasRole('admin')) {
                 return redirect()->intended(route('home', absolute: false));
             }
-            // Periksa apakah pengguna adalah wali kelas
             if ($user->hasRole('walas') && $user->guru->is_wali_kelas == true) {
-                // Simpan tahun ajaran ke dalam sesi
                 session(['nama_tahun_ajaran' => $request->nama_tahun_ajaran]);
-    
-                // Redirect ke halaman home
+
                 return redirect()->route('home')->with('success', 'Login berhasil!');
             }
-    
-            // Jika bukan wali kelas, logout dan berikan pesan kesalahan
             Auth::logout();
             Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda bukan wali kelas. Hubungi admin jika membutuhkan akses masuk');
             return redirect()->route('login');

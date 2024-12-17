@@ -24,4 +24,9 @@ class Siswa extends Model
         return $this->belongsToMany(Kelas::class, 'tb_ambil_kelas', 'id_siswa', 'id_kelas')
                     ->withTimestamps();
     }
+
+    public function tahunAjaran()
+    {
+        return $this->belongsToMany(TahunAjaran::class, 'tb_siswa_tahun_ajaran', 'id_siswa', 'id_tahun_ajaran');
+    }
 }

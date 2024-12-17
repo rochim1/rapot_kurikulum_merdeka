@@ -37,30 +37,21 @@
                 </div>
             </div>
         </div>
-
-        {{-- <!-- Card untuk Jumlah Siswa -->
-        <div class="col-md-6 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Jumlah Siswa</h5>
-                    <p class="card-text">
-                        <strong>{{ $jumlahSiswa }}</strong> siswa terdaftar pada tahun ajaran {{ session('nama_tahun_ajaran') }}.
-                    </p>
+    </div>
+    @if (auth()->user()->hasRole('walas'))
+        <div class="row">
+            <!-- Card untuk Jumlah Siswa -->
+            <div class="col-md-6 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Jumlah Siswa</h5>
+                        <p class="card-text">
+                            <strong>{{ $jumlahSiswa }}</strong>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Card untuk Jumlah Wali Kelas -->
-        <div class="col-md-6 mt-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Jumlah Wali Kelas</h5>
-                    <p class="card-text">
-                        <strong>{{ $jumlahWaliKelas }}</strong> wali kelas aktif pada tahun ajaran {{ session('nama_tahun_ajaran') }}.
-                    </p>
-                </div>
-            </div>
-        </div> --}}
-    </div>
+    @endif
 </div>
 @endsection
