@@ -40,14 +40,14 @@
     <!-- Select Tahun Ajaran -->
     <div class="mb-3 position-relative">
         <i class="bi bi-calendar position-absolute top-50 translate-middle-y ms-2 text-muted"></i>
-        <select id="tahun_ajaran" name="tahun_ajaran" 
-                class="form-select ps-5 @error('tahun_ajaran') is-invalid @enderror">
+        <select id="nama_tahun_ajaran" name="nama_tahun_ajaran" 
+                class="form-select ps-5 @error('nama_tahun_ajaran') is-invalid @enderror">
             <option value="" disabled selected>Pilih Tahun Ajaran...</option>
             @foreach ($tahunAjaran as $tahun)
-                <option value="{{ $tahun->id }}">{{ $tahun->nama_tahun_ajaran }}</option>
+                <option value="{{ $tahun->id_tahun_ajaran }}">{{ $tahun->nama_tahun_ajaran }}</option>
             @endforeach
         </select>
-        @error('tahun_ajaran')
+        @error('nama_tahun_ajaran')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
         </span>

@@ -7,6 +7,13 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        @if (session('nama_tahun_ajaran'))
+                        <h3><strong>Tahun Ajaran: </strong> 
+                            {{ \App\Models\TahunAjaran::find(session('nama_tahun_ajaran'))->nama_tahun_ajaran }} - {{ \App\Models\TahunAjaran::find(session('nama_tahun_ajaran'))->semester }}
+                        </h3>
+                    @else
+                        <p><strong>Tahun Ajaran: </strong> Tidak tersedia.</p>
+                    @endif
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow mt-sm-n5 mt-md-n5 mt-lg-n5 mt-xl-0 mt-xxl-0"

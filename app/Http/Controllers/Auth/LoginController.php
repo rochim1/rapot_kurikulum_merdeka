@@ -63,33 +63,44 @@ class LoginController extends Controller
      */
     public function authenticate(Request $request)
     {
+        // Validasi input
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'nama_tahun_ajaran' => 'exists:tb_tahun_ajaran,id_tahun_ajaran',
         ], [
             'email.required' => 'Email tidak boleh kosong.',
             'email.email' => 'Email harus berupa format email yang valid.',
             'password.required' => 'Password tidak boleh kosong.',
+            'nama_tahun_ajaran.exists' => 'Tahun ajaran tidak valid.',
         ]);
     
+        // Ambil input email dan password untuk proses login
         $credentials = $request->only('email', 'password');
     
+        // Proses login
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-
             if ($user->hasRole('admin')) {
                 return redirect()->intended(route('home', absolute: false));
             }
-
-        // Periksa status pengguna wali kelas
-            if ($user->guru->status == true) {
-                return redirect()->intended(route('home', absolute: false));
+            // Periksa apakah pengguna adalah wali kelas
+            if ($user->hasRole('walas') && $user->guru->is_wali_kelas == true) {
+                // Simpan tahun ajaran ke dalam sesi
+                session(['nama_tahun_ajaran' => $request->nama_tahun_ajaran]);
+    
+                // Redirect ke halaman home
+                return redirect()->route('home')->with('success', 'Login berhasil!');
             }
+    
+            // Jika bukan wali kelas, logout dan berikan pesan kesalahan
             Auth::logout();
-            Alert::error('Terjadi kesalahan!',' Mohon maaf, Anda bukan wali kelas. Hubungi admin jika membutuhkan akses masuk');
+            Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda bukan wali kelas. Hubungi admin jika membutuhkan akses masuk');
             return redirect()->route('login');
         }
-        return redirect()->route('login')->with('error',' Email atau password salah.');
+    
+        // Jika kredensial salah, kembalikan ke halaman login dengan pesan kesalahan
+        return redirect()->route('login')->with('error', 'Email atau password salah.');
     }
 
 
