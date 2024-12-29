@@ -22,6 +22,8 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Tahun Ajaran</th>
+                        <th>Semester</th>
+                        <th>Status Aktif</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -29,7 +31,26 @@
                     @forelse ($tahunAjaran as $item_tahun_ajaran)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item_tahun_ajaran->nama_tahun_ajaran }}</td>
+                            <td>{{ $item_tahun_ajaran->tahun_ajaran_awal }}/{{ $item_tahun_ajaran->tahun_ajaran_akhir }}</td>
+                            <td>{{ $item_tahun_ajaran->semester }}</td>
+                            <td>
+                                <form action="{{ route('tahun_ajaran_is_active', $item_tahun_ajaran->id_tahun_ajaran) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="form-check form-switch mb-2">
+                                        <input 
+                                            class="form-check-input" 
+                                            type="checkbox" 
+                                            id="flexSwitchCheckChecked-{{ $item_tahun_ajaran->id_tahun_ajaran }}" 
+                                            name="is_active" 
+                                            onchange="this.form.submit()" 
+                                            {{ $item_tahun_ajaran->is_active ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="flexSwitchCheckChecked-{{ $item_tahun_ajaran->id_tahun_ajaran }}">
+                                            {{ $item_tahun_ajaran->is_active ? 'Aktif' : 'Nonaktif' }}
+                                        </label>
+                                    </div>
+                                </form>                                
+                            </td>
                             <td class="d-flex gap-2">
                                 <a href="{{ route('tahun_ajaran.edit', $item_tahun_ajaran->id_tahun_ajaran) }}" class="btn btn-outline-success">
                                     <i class="bi bi-pencil-square"></i>

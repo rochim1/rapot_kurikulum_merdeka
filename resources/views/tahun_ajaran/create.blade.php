@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h4 class="mb-md-0">Tambah {{ $title }}</h4>
+    <h4 class="mb-md-0">{{ $title }}</h4>
     <a href="{{ route('tahun_ajaran.index') }}" class="btn btn-danger btn-icon-split">
         <span class="text"><i class="bi bi-arrow-left-short"></i> Kembali</span>
     </a>
@@ -10,14 +10,37 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
+        <span class="fst-italic">Tekahir Input: {{ $tahunAjaranTerakhir?->tahun_ajaran_awal }}/{{ $tahunAjaranTerakhir?->tahun_ajaran_akhir }} - {{ $tahunAjaranTerakhir?->semester }}</span>
+
         <form action="{{ route('tahun_ajaran.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            
-            <!-- Nama Tahun Ajaran Field -->
+            <!-- Tahun Ajaran Awal Field -->
             <div class="mb-3">
-                <label for="nama_tahun_ajaran" class="form-label">Nama Tahun Ajaran</label>
-                <input type="text" class="form-control @error('nama_tahun_ajaran') is-invalid @enderror" id="nama_tahun_ajaran" name="nama_tahun_ajaran" maxlength="50" value="{{ old('nama_tahun_ajaran') }}" required>
-                @error('nama_tahun_ajaran')
+                <label for="tahun_ajaran_awal" class="form-label">Tahun Ajaran Awal<span class="text-danger fs-5">*</span></label>
+                <input type="number" class="form-control @error('tahun_ajaran_awal') is-invalid @enderror" id="tahun_ajaran_awal" name="tahun_ajaran_awal" maxlength="50" value="{{ old('tahun_ajaran_awal') }}" required>
+                @error('tahun_ajaran_awal')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Tahun Ajaran Akhir Field -->
+            <div class="mb-3">
+                <label for="tahun_ajaran_akhir" class="form-label">Tahun Ajaran Akhir<span class="text-danger fs-5">*</span></label>
+                <input type="number" class="form-control @error('tahun_ajaran_akhir') is-invalid @enderror" id="tahun_ajaran_akhir" name="tahun_ajaran_akhir" maxlength="50" value="{{ old('tahun_ajaran_akhir') }}" required>
+                @error('tahun_ajaran_akhir')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Semester Field -->
+            <div class="mb-3">
+                <label for="semester" class="form-label">Semester<span class="text-danger fs-5">*</span></label>
+                <select class="form-control @error('semester') is-invalid @enderror" id="semester" name="semester" required>
+                    <option value="" disabled selected>Pilih Semester</option>
+                    <option value="Ganjil" {{ old('semester') == 'Ganjil' ? 'selected' : '' }}>Ganjil</option>
+                    <option value="Genap" {{ old('semester') == 'Genap' ? 'selected' : '' }}>Genap</option>
+                </select>
+                @error('semester')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

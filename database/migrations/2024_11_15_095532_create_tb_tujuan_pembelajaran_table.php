@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_capaian_kompetensi', function (Blueprint $table) {
-            $table->bigIncrements('id_capaian_kompetensi');
+        Schema::create('tb_tujuan_pembelajaran', function (Blueprint $table) {
+            $table->bigIncrements('id_tujuan_pembelajaran');
             $table->unsignedBigInteger('id_mata_pelajaran');
             $table->unsignedBigInteger('id_kelas');
-            $table->text('target_capaian');
+            $table->text('tujuan_pembelajaran');
+            $table->text('tujuan_pembelajaran_tercapai');
+            $table->text('tujuan_pembelajaran_tidak_tercapai');
             $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('tb_mata_pelajaran')->onDelete('cascade');
             $table->foreign('id_kelas')->references('id_kelas')->on('tb_kelas')->onDelete('cascade');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_capaian_kompetensi');
+        Schema::dropIfExists('tb_tujuan_pembelajaran');
     }
 };

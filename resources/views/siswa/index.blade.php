@@ -32,7 +32,7 @@
                 </thead>
                 <tbody>
                     @forelse ($siswa as $item_siswa)
-                        <tr>
+                        <tr class="align-top">
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if($item_siswa->foto)
@@ -56,20 +56,24 @@
                                     <span class="badge bg-secondary">Lulus</span>
                                 @endif
                             </td>
-                            <td class="d-flex gap-2">
-                                <a href="{{ route('siswa.show', $item_siswa->id_siswa) }}" class="btn btn-outline-info">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <a href="{{ route('siswa.edit', $item_siswa->id_siswa) }}" class="btn btn-outline-success">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <form id="myForm" action="{{ route('siswa.destroy', $item_siswa->id_siswa) }}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-outline-danger" id="btn_delete">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </form>
+                            <td>                                   
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('siswa.show', $item_siswa->id_siswa) }}" class="btn btn-outline-info" title="Detail">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+
+                                    <a href="{{ route('siswa.edit', $item_siswa->id_siswa) }}" class="btn btn-outline-success" title="Edit">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+
+                                    <form id="myForm" action="{{ route('siswa.destroy', $item_siswa->id_siswa) }}" method="POST" title="Hapus">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger" id="btn_delete">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

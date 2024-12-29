@@ -20,9 +20,8 @@
                         <th>#</th>
                         <th>Nama Siswa</th>
                         <th>NISN</th>
-                        <th>Sakit</th>
-                        <th>Izin</th>
-                        <th>Alpa</th>
+                        <th>Nama Eskul</th>
+                        <th>Nilai</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,11 +32,12 @@
                         <td>{{ $item_siswa->nisn }}</td>
                         <td>
                             <input type="text" class="form-control" name="" />
-                        </td>
-                        <td>
+                            <input type="text" class="form-control" name="" />
                             <input type="text" class="form-control" name="" />
                         </td>
                         <td>
+                            <input type="text" class="form-control" name="" />
+                            <input type="text" class="form-control" name="" />
                             <input type="text" class="form-control" name="" />
                         </td>
                     </tr>

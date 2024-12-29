@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('tb_tahun_ajaran', function (Blueprint $table) {
             $table->bigIncrements('id_tahun_ajaran');
-            $table->string('nama_tahun_ajaran',50);
+            $table->integer('tahun_ajaran_awal');
+            $table->integer('tahun_ajaran_akhir');
+            $table->enum('semester', ['Ganjil','Genap']);
             $table->boolean('is_active')->default(false);
-            $table->enum('semester',['Ganjil','Genap']);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -14,15 +14,23 @@ class UserRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin =User::create([
-            'name'=>'Administrator',
-            'email'=>'firmansyah@unisayogya.ac.id',
-            'password'=>bcrypt('password')
+        $admin = User::create([
+            'name' => 'Administrator',
+            'email' => 'firmansyah@unisayogya.ac.id',
+            'password' => bcrypt('password')
         ]);
-        $roleAdmin =Role::create(['name'=>'admin']);
-        $roleWalas =Role::create(['name'=>'walas']);
+
+        $roleAdmin = Role::create(['name' => 'admin']);
+        $roleWalas = Role::create(['name' => 'walas']);
 
         $admin->assignRole($roleAdmin);
 
+        $rian = User::create([
+            'name' => 'Rian Purnomo',
+            'email' => 'rianpurnomo341@gmail.com',
+            'password' => bcrypt('12341234')
+        ]);
+
+        $rian->assignRole($roleAdmin);
     }
 }

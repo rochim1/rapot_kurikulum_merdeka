@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_kelas', function (Blueprint $table) {
-            $table->bigIncrements('id_kelas');
+        Schema::create('tb_kelola_kelas', function (Blueprint $table) {
+            $table->bigIncrements('id_kelola_kelas');
             $table->unsignedBigInteger('id_guru');
             $table->unsignedBigInteger('id_tahun_ajaran');
-            $table->string('nama_kelas',50);
+            $table->string('nama_kelola_kelas',50);
             $table->enum('tingkat',['1','2','3','4','5','6']);
             $table->enum('fase',['A','B','C']);
             $table->enum('is_active',[1,2])->default(1);
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_kelas');
+        Schema::dropIfExists('tb_kelola_kelas');
     }
 };

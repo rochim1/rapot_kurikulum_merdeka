@@ -20,7 +20,7 @@
         <form action="{{ route('update-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" method="POST">
             @csrf
             <div class="mb-3">
-                <label for="nama_ekstrakulikuler" class="form-label">Nama Ekstrakulikuler</label>
+                <label for="nama_ekstrakulikuler" class="form-label">Nama Ekstrakulikuler<span class="text-danger fs-5">*</span></label>
                 <input type="text" class="form-control @error('nama_ekstrakulikuler') is-invalid @enderror" name="nama_ekstrakulikuler" value="{{ old('nama_ekstrakulikuler', $ekskul->nama_ekstrakulikuler) }}">
                 @error('nama_ekstrakulikuler')
                     <div class="invalid-feedback">{{ $message }}</div>

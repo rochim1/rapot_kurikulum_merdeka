@@ -13,7 +13,7 @@
             @endphp
             @if ($tahunAjaran)
                 <h3><strong>Tahun Ajaran: </strong> 
-                    {{ $tahunAjaran->nama_tahun_ajaran }} - {{ $tahunAjaran->semester }}
+                    {{ $tahunAjaran->nama_tahun_ajaran }}
                 </h3>
             @else
                 <p><strong>Tahun Ajaran: </strong> Data tidak ditemukan.</p>

@@ -20,7 +20,7 @@
         <form action="{{ route('store-ekstrakulikuler') }}" method="POST">
             @csrf
             <div class="mb-3">
-                <label for="nama_ekstrakulikuler" class="form-label">Nama Ekstrakurikuler</label>
+                <label for="nama_ekstrakulikuler" class="form-label">Nama Ekstrakurikuler<span class="text-danger fs-5">*</span></label>
                 <input type="text" 
                         class="form-control @error('nama_ekstrakulikuler') is-invalid @enderror" 
                         name="nama_ekstrakulikuler" 

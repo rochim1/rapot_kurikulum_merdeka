@@ -23,6 +23,21 @@
             <div data-i18n="Analytics">Siswa</div>
         </a>
     </li>
+
+    <li class="menu-item {{ Request::is('mata_pelajaran*') ? 'active' : '' }}">
+        <a href="{{ route('mata_pelajaran.index') }}" class="menu-link">
+            <i class="menu-icon bi bi-building"></i>
+            <div data-i18n="Analytics">Mata Pelajaran</div>
+        </a>
+    </li>
+
+    <li class="menu-item {{ Request::is('kelas*') ? 'active' : '' }}">
+        <a href="{{ route('kelas.index') }}" class="menu-link">
+            <i class="menu-icon bi bi-building"></i>
+            <div data-i18n="Analytics">Kelas</div>
+        </a>
+    </li>
+
     <li class="menu-item {{ Request::is('data-ekstrakulikuler*') ? 'active' : '' }}">
         <a href="{{ route('data-ekstrakulikuler') }}" class="menu-link">
             <i class="menu-icon bi bi-building"></i>
@@ -43,10 +58,10 @@
         </a>
     </li>
 
-    <li class="menu-item {{ Request::is('kelas*') ? 'active' : '' }}">
-        <a href="{{ route('kelas.index') }}" class="menu-link">
+    <li class="menu-item {{ Request::is('kelola_kelas*') ? 'active' : '' }}">
+        <a href="{{ route('kelola_kelas.index') }}" class="menu-link">
             <i class="menu-icon bi bi-building"></i>
-            <div data-i18n="Analytics">Kelas</div>
+            <div data-i18n="Analytics">Kelola Kelas</div>
         </a>
     </li>
 
