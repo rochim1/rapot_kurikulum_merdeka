@@ -15,11 +15,19 @@ class RapotController extends Controller
      */
     public function nilai()
     {
-        // return Siswa::with('tahun_ajaran')->orderBy('nama')->where('nama_tahun_ajaran', '=', session('nama_tahun_ajaran'))->get();
-        // return Siswa::with('tahun_ajaran')->orderBy('nama')->where('nama_tahun_ajaran', '=', session('nama_tahun_ajaran'))->get();
+        $id_kelas = 1;
+        $id_tahun_ajaran = 1;
+        return $siswa = Siswa::join('tb_ambil_kelas', 'tb_siswa.id_siswa', '=', 'tb_ambil_kelas.id_siswa')
+            ->join('tb_siswa_tahun_ajaran', 'tb_siswa.id_siswa', '=', 'tb_siswa_tahun_ajaran.id_siswa')
+            ->where('tb_ambil_kelas.id_kelas', $id_kelas)
+            ->where('tb_siswa_tahun_ajaran.id_tahun_ajaran', $id_tahun_ajaran)
+            ->select('tb_siswa.id_siswa', 'tb_siswa.nama', 'tb_siswa.nis', 'tb_siswa.nisn')
+            // ->orderBy('tb_siswa.nama', 'ASC')
+            ->get();
+        
         return view('rapot.nilai', [
             // 'siswa' =>  Siswa::all(),
-            'siswa' =>  Siswa::orderBy('nama')->get(),
+            'siswa' =>  $siswa,
             'title' => 'Nilai',
         ]);
     }

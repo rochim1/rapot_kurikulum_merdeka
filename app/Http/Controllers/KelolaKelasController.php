@@ -79,7 +79,7 @@ class KelolaKelasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Kelas $kela)
+    public function show(KelolaKelas $kela)
     {
         // 
     }
@@ -87,7 +87,7 @@ class KelolaKelasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kelas $kela)
+    public function edit(KelolaKelas $kela)
     {
         $guru = Guru::all();
         $siswa = Siswa::all();
@@ -149,7 +149,7 @@ class KelolaKelasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kelas $kela)
+    public function destroy(KelolaKelas $kela)
     {
         $kela->delete();
         Alert::success('Kerja bagus', 'Kelas berhasil dihapus!');

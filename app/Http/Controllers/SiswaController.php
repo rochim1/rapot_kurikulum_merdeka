@@ -153,4 +153,23 @@ class SiswaController extends Controller
             return redirect()->route('siswa.index');
         }
     }
+
+    // Wali Kelas
+    public function wali_kelas_tampil_siswa()
+    {
+
+        $id_kelas = 1;
+        $id_tahun_ajaran = 1;
+        $siswa = Siswa::join('tb_ambil_kelas', 'tb_siswa.id_siswa', '=', 'tb_ambil_kelas.id_siswa')
+            ->join('tb_siswa_tahun_ajaran', 'tb_siswa.id_siswa', '=', 'tb_siswa_tahun_ajaran.id_siswa')
+            ->where('tb_ambil_kelas.id_kelas', $id_kelas)
+            ->where('tb_siswa_tahun_ajaran.id_tahun_ajaran', $id_tahun_ajaran)
+            ->select('tb_siswa.id_siswa', 'tb_siswa.nama', 'tb_siswa.nis', 'tb_siswa.nisn')
+            ->get();
+
+        return view('rapot.nilai', [
+            'title' => 'Siswa',
+            'siswa' => $siswa,
+        ]);
+    }
 }

@@ -6,6 +6,7 @@ use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\SiswaTahunAjaran;
 
 class HomeController extends Controller
 {
@@ -34,15 +35,15 @@ class HomeController extends Controller
 
         // If the user is not an admin, proceed with the 'tahun_ajaran' logic
         if (!$isAdmin) {
-            $tahunAjaranId = session('nama_tahun_ajaran');
-            if (!$tahunAjaranId) {
+            $id_tahun_ajaran = session('id_tahun_ajaran');
+            if (!$id_tahun_ajaran) {
                 return redirect()->route('login')->with('error', 'Tahun ajaran tidak ditemukan.');
             }
-            $tahunAjaran = TahunAjaran::find($tahunAjaranId);
+            $tahunAjaran = TahunAjaran::find($id_tahun_ajaran);
             if (!$tahunAjaran) {
                 return redirect()->route('login')->with('error', 'Tahun ajaran tidak ditemukan.');
             }
-            $jumlahSiswa = $tahunAjaran->siswa->count();
+            $jumlahSiswa = SiswaTahunAjaran::where('id_tahun_ajaran', $id_tahun_ajaran)->count('id_siswa');
         } else {
             // If the user is an admin, display all students regardless of 'tahun ajaran'
             $jumlahSiswa = Siswa::count(); // Assuming you have a Siswa model for students

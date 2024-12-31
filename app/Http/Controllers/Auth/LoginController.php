@@ -67,12 +67,12 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'nama_tahun_ajaran' => 'exists:tb_tahun_ajaran,id_tahun_ajaran',
+            'id_tahun_ajaran' => 'exists:tb_tahun_ajaran,id_tahun_ajaran',
         ], [
             'email.required' => 'Email tidak boleh kosong.',
             'email.email' => 'Email harus berupa format email yang valid.',
             'password.required' => 'Password tidak boleh kosong.',
-            'nama_tahun_ajaran.exists' => 'Tahun ajaran tidak valid.',
+            'id_tahun_ajaran.exists' => 'Tahun ajaran tidak valid.',
         ]);
     
         // Ambil input email dan password untuk proses login
@@ -85,7 +85,7 @@ class LoginController extends Controller
                 return redirect()->intended(route('home', absolute: false));
             }
             if ($user->hasRole('walas') && $user->guru->is_wali_kelas == true) {
-                session(['nama_tahun_ajaran' => $request->nama_tahun_ajaran]);
+                session(['id_tahun_ajaran' => $request->id_tahun_ajaran]);
 
                 return redirect()->route('home')->with('success', 'Login berhasil!');
             }
