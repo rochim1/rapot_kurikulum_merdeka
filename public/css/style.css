@@ -1,0 +1,7 @@
+.card {
+    color: #000000;
+}
+
+.table:not(.table-dark) th {
+    color: #000000!important;
+}
