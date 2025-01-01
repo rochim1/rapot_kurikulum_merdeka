@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Imports\SiswaImport;
+use App\Models\KelolaKelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -16,10 +18,20 @@ class SiswaController extends Controller
      */
     public function index()
     {
+        $kelola_kelas = KelolaKelas::with('kelas','guru')
+            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+            ->where('id_guru', auth()->user()->id)
+            ->first();
+            
+        $query = DB::table('tb_siswa');
+        if($kelola_kelas?->guru?->is_wali_kelas) {
+            $query->whereIn('id_siswa', $kelola_kelas->daftar_id_siswa);
+        }
+
         return view('siswa.index', [
-            'siswa' => Siswa::all(), 
-            'title' => 'Siswa']
-        );
+            'siswa' => $query->get(), 
+            'title' => 'Siswa'
+        ]);
     }
 
     /**

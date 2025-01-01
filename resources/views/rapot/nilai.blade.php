@@ -33,42 +33,41 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($siswa as $item_siswa)
-                    <tr class="align-top">
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item_siswa->nama }}</td>
-                        <td>
-                            {{ $item_siswa->nis }} / 
-                            @if ( $item_siswa->nisn)
-                                {{ $item_siswa->nisn }}
-                            @else
-                                -
-                            @endif
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="" />
-                        </td>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="" />
-                                <label class="form-check-label" for="">Mampu Menjelaskan PHP</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="" />
-                                <label class="form-check-label" for=""> Peseserta Didik Mampu Menjelaskan PHP </label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="" />
-                                <label class="form-check-label" for="">Tidak Menjelaskan PHP</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="" />
-                                <label class="form-check-label" for=""> Peseserta Didik Tidak Mampu Menjelaskan PHP</label>
-                            </div>
-                        </td>
-                    </tr>
+                    @forelse($kelola_kelas as $kelola)
+                        @foreach($kelola->siswa as $siswa)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $siswa->nama }}</td>
+                                <td>
+                                    {{ $siswa->nis }} / 
+                                    @if ($siswa->nisn)
+                                        {{ $siswa->nisn }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="" />
+                                        <label class="form-check-label" for="">Mampu Menjelaskan PHP</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="" />
+                                        <label class="form-check-label" for=""> Peseserta Didik Mampu Menjelaskan PHP </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="" />
+                                        <label class="form-check-label" for="">Tidak Menjelaskan PHP</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="" />
+                                        <label class="form-check-label" for=""> Peseserta Didik Tidak Mampu Menjelaskan PHP</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     @empty
                         <tr>
                             <td colspan="8" class="text-center text-danger fw-bold py-3">Data {{ $title }} belum tersedia.</td>

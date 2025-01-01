@@ -7,9 +7,9 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        @if (session('nama_tahun_ajaran'))
+        @if (session('id_tahun_ajaran'))
             @php
-                $tahunAjaran = \App\Models\TahunAjaran::find(session('nama_tahun_ajaran'));
+                $tahunAjaran = \App\Models\TahunAjaran::find(session('id_tahun_ajaran'));
             @endphp
             @if ($tahunAjaran)
                 <h3><strong>Tahun Ajaran: </strong> 

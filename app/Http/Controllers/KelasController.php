@@ -12,9 +12,9 @@ class KelasController extends Controller
     public function index()
     {
         $kelas = Kelas::orderBy('kelas_tingkatan', 'asc') 
-        ->orderBy('fase', 'asc')
-        ->orderBy('kelas_abjad', 'asc')
-        ->get();
+            ->orderBy('fase', 'asc')
+            ->orderBy('kelas_abjad', 'asc')
+            ->get();
 
         return view('kelas.index', [
             'kelas' => $kelas,

@@ -89,5 +89,10 @@ Route::middleware(['role:admin|walas'])->group(function () {
         Route::resource('rapot_nilai', RapotNilaiController::class);
         Route::resource('rapot_kehadiran', RapotKehadiranController::class);
         Route::resource('rapot_ekstrakulikuler', RapotEkstrakulikulerController::class);
-        Route::resource('rapot_catatan_wali_kelas', RapotCatatanWaliKelasController::class);
+
+        Route::get('/rapot_kehadiran', [RapotKehadiranController::class, 'index'])->name('rapot_kehadiran.index');
+        Route::post('/rapot_kehadiran/storeOrUpdate', [RapotKehadiranController::class, 'storeOrUpdate'])->name('rapot_kehadiran.storeOrUpdate');
+
+        Route::get('/rapot_catatan_wali_kelas', [RapotCatatanWaliKelasController::class, 'index'])->name('rapot_catatan_wali_kelas.index');
+        Route::post('/rapot_catatan_wali_kelas/storeOrUpdate', [RapotCatatanWaliKelasController::class, 'storeOrUpdate'])->name('rapot_catatan_wali_kelas.storeOrUpdate');
 });

@@ -23,6 +23,7 @@
                         <th>Fase</th>
                         <th>Wali Kelas</th>
                         <th>Tahun Ajaran</th>
+                        <th>Active</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -34,6 +35,13 @@
                             <td>{{ $item_kelola_kelas->kelas->fase }}</td>
                             <td>{{ $item_kelola_kelas->guru->nama }}</td>
                             <td>{{ $item_kelola_kelas->tahunAjaran->tahun_ajaran_awal }}/{{ $item_kelola_kelas->tahunAjaran->tahun_ajaran_akhir }} - {{ $item_kelola_kelas->tahunAjaran->semester }}</td>
+                            <td>
+                                @if ($item_kelola_kelas->tahunAjaran->is_active)
+                                    <span class="badge rounded-pill text-bg-success">Active</span>
+                                @else
+                                    <span class="badge rounded-pill text-bg-danger">Non Active</span>
+                                @endif
+                            </td>
                             <td class="d-flex gap-2">
                                 <a href="{{ route('kelola_kelas.edit', $item_kelola_kelas->id_kelola_kelas) }}" class="btn btn-outline-success">
                                     <i class="bi bi-pencil-square"></i>

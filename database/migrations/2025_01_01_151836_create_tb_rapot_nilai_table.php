@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_rapot_catatan_wali_kelas', function (Blueprint $table) {
-            $table->bigIncrements('id_rapot_catatan_wali_kelas');
+        Schema::create('tb_rapot_nilai', function (Blueprint $table) {
+            $table->bigIncrements('id_rapot_nilai');
             $table->unsignedBigInteger('id_rapot');
-            $table->text('catatan_wali_kelas');
+            $table->unsignedBigInteger('id_mata_pelajaran');
+            $table->float('nilai_akhir');
+            $table->json('tujuan_pembelajaran_mampu');
+            $table->json('tujuan_pembelajaran_tidak_mampu');
             $table->foreign('id_rapot')->references('id_rapot')->on('tb_rapot')->onDelete('cascade');
+            $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('tb_mata_pelajaran')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_rapot_catatan_wali_kelas');
+        Schema::dropIfExists('tb_rapot_nilai');
     }
 };

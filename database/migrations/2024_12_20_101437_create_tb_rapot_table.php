@@ -16,12 +16,20 @@ return new class extends Migration
             $table->unsignedBigInteger('id_kelas');
             $table->unsignedBigInteger('id_tahun_ajaran');
             $table->unsignedBigInteger('id_siswa');
-            $table->tinyInteger('ket_naik_kelas');
-            $table->string('ttd_tempat_tanggal_rapot',50);
-            $table->string('nama_wali_kelas');
-            $table->bigInteger('nip_wali_kelas');
-            $table->string('nama_kepsek');
-            $table->bigInteger('nip_kepsek');
+
+            $table->integer('sakit')->nullable();
+            $table->integer('izin')->nullable();
+            $table->integer('tanpa_keterangan')->nullable();
+
+            $table->text('catatan_wali_kelas')->nullable();
+
+            $table->tinyInteger('ket_naik_kelas')->nullable();
+            $table->string('ttd_tempat_tanggal_rapot',50)->nullable();
+            $table->string('nama_wali_kelas')->nullable();
+            $table->string('nip_wali_kelas')->nullable();
+            $table->string('nama_kepsek')->nullable();
+            $table->string('nip_kepsek')->nullable();
+            
             $table->foreign('id_kelas')->references('id_kelas')->on('tb_kelas')->onDelete('cascade');
             $table->foreign('id_tahun_ajaran')->references('id_tahun_ajaran')->on('tb_tahun_ajaran')->onDelete('cascade');
             $table->foreign('id_siswa')->references('id_siswa')->on('tb_siswa')->onDelete('cascade');

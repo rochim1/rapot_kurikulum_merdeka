@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('nama_kepsek');
             $table->string('nip_kepsek');
             $table->string('pangkat_golongan_kepsek');
+            $table->string('ttd_tempat_tanggal_rapot');
             $table->timestamps();
             $table->softDeletes();
         });

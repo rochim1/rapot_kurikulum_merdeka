@@ -30,7 +30,14 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $siswa->nama }}</td>
-                                <td>{{ $siswa->nis }} / {{ $siswa->nisn }}</td>
+                                <td>
+                                    {{ $siswa->nis }} / 
+                                    @if ($siswa->nisn)
+                                        {{ $siswa->nisn }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td>
                                     <input type="text" class="form-control" name="" />
                                     <input type="text" class="form-control" name="" />

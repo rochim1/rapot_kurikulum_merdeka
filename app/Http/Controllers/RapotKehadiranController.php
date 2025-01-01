@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Models\KelolaKelas;
+use App\Models\ProfilSekolah;
 use App\Models\Rapot;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class RapotKehadiranController extends Controller
@@ -16,136 +18,65 @@ class RapotKehadiranController extends Controller
      */
     public function index()
     { 
-        $kelola_kelas = KelolaKelas::with('kelas')
-            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', auth()->user()->id)
-            ->get();
+        $kelola_kelas = KelolaKelas::with('kelas', 'TahunAjaran')
+        ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+        ->where('id_guru', auth()->user()->id)
+        ->get();
 
         $kelola_kelas->each(function ($kelola) {
-            $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->get();
+            $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->where('status', 'active')->get();
+        
+            $kelola->siswa->each(function ($siswa) use ($kelola) {
+                $siswa->rapot = DB::table('tb_rapot')
+                    ->where('id_kelas', $kelola->id_kelas)
+                    ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+                    ->where('id_siswa', $siswa->id_siswa)
+                    ->first();
+            });
         });
 
         $title = 'Rapot';
         return view('rapot.kehadiran', compact('kelola_kelas', 'title'));
     }
-    
-    public function kehadiran()
-    {
-        return view('rapot.kehadiran', [
-            'siswa' =>  Siswa::orderBy('nama')->get(),
-            'title' => 'Kehadiran',
-        ]);
-    }
-
-    public function ekstrakulikuler()
-    {
-        return view('rapot.ekstrakulikuler', [
-            'siswa' =>  Siswa::orderBy('nama')->get(),
-            'title' => 'Ekstrakulikuler',
-        ]);
-    }
-
-    public function catatan_wali_kelas()
-    {
-        return view('rapot.catatan_wali_kelas', [
-            'siswa' =>  Siswa::orderBy('nama')->get(),
-            'title' => 'Catatan Wali Kelas',
-        ]);
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('rapot.create', [
-            'siswa' => Siswa::all(),
-            'kelas' => Kelas::all(),
-            'title' => 'Rapot',
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+ 
+    public function storeOrUpdate(Request $request)
     {
         $validatedData = $request->validate([
-            'id_siswa' => 'required|exists:tb_siswa,id_siswa',
-            'id_kelas' => 'required|exists:tb_kelas,id_kelas',
-            'semester' => 'required|in:1,2',
-            'sakit' => 'required|integer',
-            'izin' => 'required|integer',
-            'tanpa_keterangan' => 'required|integer',
-            'catatan_wali_kelas' => 'nullable|string',
-            'nama_wali_kelas' => 'required|string',
-            'nip_wali_kelas' => 'required|numeric',
-            'nama_kepsek' => 'required|string',
-            'nip_kepsek' => 'required|numeric',
-            'status' => 'required|in:draf,submited',
+            'id_siswa' => 'required|array',
+            'sakit' => 'required|array',
+            'izin' => 'required|array',
+            'tanpa_keterangan' => 'required|array',
         ]);
 
-        Rapot::create($validatedData);
-        Alert::success('Sukses', 'Rapot berhasil disimpan!');
-        return redirect()->route('rapot.index');
-    }
+        $kelola_kelas = KelolaKelas::with('kelas','guru','tahunAjaran')
+            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+            ->where('id_guru', auth()->user()->id)
+            ->first();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Rapot $rapot)
-    {
-        return view('rapot.show', [
-            'Rapot' =>  Rapot::with(['Siswa', 'Kelas'])->get(),
-            'rapot' => $rapot,
-            'title' => 'Rapot',
-        ]);
-    }
+        $profilSekolah = ProfilSekolah::find(1);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Rapot $rapot)
-    {
-        return view('rapot.edit', [
-            'siswa' => Siswa::all(),
-            'kelas' => Kelas::all(),
-            'rapot' => $rapot,
-            'title' => 'Rapot',
-        ]);
-    }
+        foreach ($validatedData['id_siswa'] as $siswa_id) {
+            Rapot::updateOrCreate(
+                [
+                    'id_kelas' => $kelola_kelas->id_kelas,
+                    'id_tahun_ajaran' => $kelola_kelas->id_tahun_ajaran,
+                    'id_siswa' => $siswa_id,
+                    'ket_naik_kelas' => $kelola_kelas->tahunAjaran->semester == 'Ganjil' ? false : true,
+                    'nama_wali_kelas' => $kelola_kelas->guru->nama,
+                    'nip_wali_kelas' => $kelola_kelas->guru->nip,
+                    'nama_kepsek' => $profilSekolah->nama_kepsek,
+                    'nip_kepsek' => $profilSekolah->nip_kepsek,
+                    'ttd_tempat_tanggal_rapot' => $profilSekolah->ttd_tempat_tanggal_rapot,
+                ],
+                [
+                    'sakit' => $validatedData['sakit'][$siswa_id] ?? null,
+                    'izin' => $validatedData['izin'][$siswa_id] ?? null,
+                    'tanpa_keterangan' => $validatedData['tanpa_keterangan'][$siswa_id] ?? null,
+                ]
+            );
+        }        
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Rapot $rapot)
-    {
-        $validatedData = $request->validate([
-            'id_siswa' => 'required|exists:tb_siswa,id_siswa',
-            'id_kelas' => 'required|exists:tb_kelas,id_kelas',
-            'semester' => 'required|in:1,2',
-            'sakit' => 'required|integer',
-            'izin' => 'required|integer',
-            'tanpa_keterangan' => 'required|integer',
-            'catatan_wali_kelas' => 'nullable|string',
-            'nama_wali_kelas' => 'required|string',
-            'nip_wali_kelas' => 'required|numeric',
-            'nama_kepsek' => 'required|string',
-            'nip_kepsek' => 'required|numeric',
-            'status' => 'required|in:draf,submited',
-        ]);
-
-        $rapot->update($validatedData);
-        Alert::success('Sukses', 'Rapot berhasil diperbarui!');
-        return redirect()->route('rapot.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Rapot $rapot)
-    {
-        $rapot->delete();
-        Alert::success('Sukses', 'Rapot berhasil dihapus!');
-        return redirect()->route('rapot.index');
+        Alert::success('Success', 'Data berhasil disimpan!');
+        return redirect()->route('rapot_kehadiran.index');
     }
 }

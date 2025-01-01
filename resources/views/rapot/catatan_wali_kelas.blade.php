@@ -13,7 +13,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
-        <form action="{{ route('rapot_catatan_wali_kelas.store') }}" method="POST">
+        <form action="{{ route('rapot_catatan_wali_kelas.storeOrUpdate') }}" method="POST">
             @csrf
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -25,20 +25,28 @@
                             <th>Catatan Wali Kelas</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="align-top">
                         @forelse($kelola_kelas as $kelola)
-                        <input type="text" name="id_kelas" value="{{ $kelola->id_kelola_kelas }}">
-                        <input type="text" name="id_tahun_ajaran" value="{{ $kelola->id_tahun_ajaran }}">
-                        <input type="text" name="semester" value="{{ $kelola->tahunAjaran->semester }}">
                             @foreach($kelola->siswa as $siswa)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $siswa->nama }}</td>
-                                    <td>{{ $siswa->nis }} / {{ $siswa->nisn }}</td>
-
-                                    <td><input type="text" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}"></td>
                                     <td>
-                                        <textarea class="form-control" name="catatan[{{ $siswa->id_siswa }}]" rows="3"></textarea>
+                                        {{ $siswa->nis }} / 
+                                        @if ($siswa->nisn)
+                                            {{ $siswa->nisn }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                        <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}">
+                                    <td>
+                                        <input type="text" class="form-control" name="catatan[{{ $siswa->id_siswa }}]" rows="3"
+                                            @if($siswa->rapot && is_object($siswa->rapot) && isset($siswa->rapot->catatan_wali_kelas))
+                                                value="{{ $siswa->rapot->catatan_wali_kelas }}"
+                                            @endif
+                                        >
+                                        </input>                                        
                                     </td>
                                 </tr>
                             @endforeach

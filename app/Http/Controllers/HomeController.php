@@ -6,6 +6,7 @@ use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\KelolaKelas;
 use App\Models\SiswaTahunAjaran;
 
 class HomeController extends Controller
@@ -44,7 +45,20 @@ class HomeController extends Controller
             if (!$tahunAjaran) {
                 return redirect()->route('login')->with('error', 'Tahun ajaran tidak ditemukan.');
             }
-            $jumlahSiswa = SiswaTahunAjaran::where('id_tahun_ajaran', $id_tahun_ajaran)->count('id_siswa');
+
+            $kelola_kelas = KelolaKelas::with('kelas')
+                ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+                ->where('id_guru', auth()->user()->id)
+                ->get();
+
+            $total_siswa = 0;
+
+            $kelola_kelas->each(function ($kelola) use (&$total_siswa) {
+                $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->get();
+                $total_siswa += $kelola->siswa->count();
+            });
+
+            $jumlahSiswa = $total_siswa;
         } else {
             // If the user is an admin, display all students regardless of 'tahun ajaran'
             $jumlahSiswa = Siswa::count(); // Assuming you have a Siswa model for students

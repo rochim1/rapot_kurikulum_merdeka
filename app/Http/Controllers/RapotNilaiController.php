@@ -14,22 +14,19 @@ class RapotNilaiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
-    { 
+    {
         $kelola_kelas = KelolaKelas::with('kelas')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_guru', auth()->user()->id)
             ->get();
 
         $kelola_kelas->each(function ($kelola) {
-            $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->get();
+            $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->where('status', 'active')->get();
         });
 
         $title = 'Rapot';
-        return view('rapot.catatan_wali_kelas', compact('kelola_kelas', 'title'));
+        return view('rapot.nilai', compact('kelola_kelas', 'title'));
     }
     
     public function kehadiran()
