@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('tb_rapot_nilai', function (Blueprint $table) {
             $table->bigIncrements('id_rapot_nilai');
-            $table->unsignedBigInteger('id_rapot');
-            $table->unsignedBigInteger('id_mata_pelajaran');
-            $table->float('nilai_akhir');
-            $table->json('tujuan_pembelajaran_mampu');
-            $table->json('tujuan_pembelajaran_tidak_mampu');
+            $table->unsignedBigInteger('id_rapot')->nullable();
+            $table->unsignedBigInteger('id_mata_pelajaran')->nullable();
+            $table->float('nilai_akhir')->nullable();
+            $table->json('tujuan_pembelajaran_mampu')->nullable();
+            $table->json('tujuan_pembelajaran_tidak_mampu')->nullable();
             $table->foreign('id_rapot')->references('id_rapot')->on('tb_rapot')->onDelete('cascade');
             $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('tb_mata_pelajaran')->onDelete('cascade');
             $table->timestamps();

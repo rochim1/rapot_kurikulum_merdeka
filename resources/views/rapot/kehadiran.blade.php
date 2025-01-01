@@ -15,7 +15,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Siswa</th>
-                            <th>NISN</th>
+                            <th>NIS/NISN</th>
                             <th>Sakit</th>
                             <th>Izin</th>
                             <th>Tanpa Keterangan</th>

@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('tb_rapot_ekstrakulikuler', function (Blueprint $table) {
             $table->bigIncrements('id_rapot_ekstrakulikuler');
-            $table->unsignedBigInteger('id_rapot');
-            $table->json('id_predikat_catatan_ekstrakulikuler');
+            $table->unsignedBigInteger('id_rapot')->nullable();
+            $table->unsignedBigInteger('id_ekstrakulikuler')->nullable();
+            $table->string('predikat_ekstrakulikuler')->nullable();
+            $table->text('catatan_ekstrakulikuler')->nullable();
+            $table->foreign('id_ekstrakulikuler')->references('id_ekstrakulikuler')->on('tb_ekstrakulikuler')->onDelete('cascade');
             $table->foreign('id_rapot')->references('id_rapot')->on('tb_rapot')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

@@ -21,7 +21,7 @@
                         <tr>
                             <th>#</th>
                             <th>Nama Siswa</th>
-                            <th>NISN</th>
+                            <th>NIS/NISN</th>
                             <th>Catatan Wali Kelas</th>
                         </tr>
                     </thead>

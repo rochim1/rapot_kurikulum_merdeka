@@ -26,7 +26,7 @@
                     <tr>
                         <th>#</th>
                         <th>Nama Siswa</th>
-                        <th>NISN</th>
+                        <th>NIS/NISN</th>
                         <th>Nilai</th>
                         <th>Tercapai</th>
                         <th>Tidak Tercapai</th>

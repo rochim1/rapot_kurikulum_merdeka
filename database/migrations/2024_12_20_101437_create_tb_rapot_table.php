@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('tb_rapot', function (Blueprint $table) {
             $table->bigIncrements('id_rapot');
-            $table->unsignedBigInteger('id_kelas');
-            $table->unsignedBigInteger('id_tahun_ajaran');
-            $table->unsignedBigInteger('id_siswa');
+            $table->unsignedBigInteger('id_kelas')->nullable();
+            $table->unsignedBigInteger('id_tahun_ajaran')->nullable();
+            $table->unsignedBigInteger('id_siswa')->nullable();
 
             $table->integer('sakit')->nullable();
             $table->integer('izin')->nullable();

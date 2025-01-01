@@ -23,4 +23,10 @@ class Rapot extends Model
     {
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
     }
+
+    public function ekstrakulikuler()
+    {
+        return $this->belongsToMany(Ekstrakulikuler::class, 'tb_rapot_ekstrakulikuler', 'id_rapot', 'id_ekstrakulikuler')
+                    ->withPivot('predikat_ekstrakulikuler', 'catatan_ekstrakulikuler');
+    }
 }

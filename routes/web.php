@@ -88,7 +88,9 @@ Route::middleware(['role:admin|walas'])->group(function () {
 
         Route::resource('rapot_nilai', RapotNilaiController::class);
         Route::resource('rapot_kehadiran', RapotKehadiranController::class);
-        Route::resource('rapot_ekstrakulikuler', RapotEkstrakulikulerController::class);
+
+        Route::get('/rapot_ekstrakulikuler', [RapotEkstrakulikulerController::class, 'index'])->name('rapot_ekstrakulikuler.index');
+        Route::post('/rapot_ekstrakulikuler/storeOrUpdate', [RapotEkstrakulikulerController::class, 'storeOrUpdate'])->name('rapot_ekstrakulikuler.storeOrUpdate');
 
         Route::get('/rapot_kehadiran', [RapotKehadiranController::class, 'index'])->name('rapot_kehadiran.index');
         Route::post('/rapot_kehadiran/storeOrUpdate', [RapotKehadiranController::class, 'storeOrUpdate'])->name('rapot_kehadiran.storeOrUpdate');
