@@ -1,5 +1,6 @@
 .card {
     color: #000000;
+    content: '';
 }
 
 .table:not(.table-dark) th {
