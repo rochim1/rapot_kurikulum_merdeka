@@ -24,17 +24,17 @@
         </a>
     </li>
 
-    <li class="menu-item {{ Request::is('mata_pelajaran*') ? 'active' : '' }}">
-        <a href="{{ route('mata_pelajaran.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
-            <div data-i18n="Analytics">Mata Pelajaran</div>
-        </a>
-    </li>
-
     <li class="menu-item {{ Request::is('kelas*') ? 'active' : '' }}">
         <a href="{{ route('kelas.index') }}" class="menu-link">
             <i class="menu-icon bi bi-building"></i>
             <div data-i18n="Analytics">Kelas</div>
+        </a>
+    </li>
+
+    <li class="menu-item {{ Request::is('mata_pelajaran*') ? 'active' : '' }}">
+        <a href="{{ route('mata_pelajaran.index') }}" class="menu-link">
+            <i class="menu-icon bi bi-building"></i>
+            <div data-i18n="Analytics">Mata Pelajaran</div>
         </a>
     </li>
 
@@ -51,12 +51,6 @@
             <div data-i18n="Analytics">Guru</div>
         </a>
     </li>
-    <li class="menu-item {{ Request::is('mata_pelajaran*') ? 'active' : '' }}">
-        <a href="{{ route('mata_pelajaran.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
-            <div data-i18n="Analytics">Mata Pelajaran</div>
-        </a>
-    </li>
 
     <li class="menu-item {{ Request::is('kelola_kelas*') ? 'active' : '' }}">
         <a href="{{ route('kelola_kelas.index') }}" class="menu-link">
@@ -68,6 +62,13 @@
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Wali Kelas</span>
     </li>
+    <li class="menu-item {{ Request::is('tujuan_pembelajaran*') ? 'active' : '' }}">
+        <a href="{{ route('tujuan_pembelajaran.index') }}" class="menu-link">
+            <i class="menu-icon bi bi-building"></i>
+            <div data-i18n="Analytics">Tujuan Pembelajaran</div>
+        </a>
+    </li>
+
     <li class="menu-item 
         @php
             if(Request::is('rapot*')) {
@@ -81,22 +82,22 @@
         </a>
         <ul class="menu-sub">
             <li class="menu-item {{ Request::is('rapot_nilai') ? 'active' : '' }}">
-                <a href="{{ route('rapot.nilai') }}" class="menu-link">
+                <a href="{{ route('rapot_nilai.index') }}" class="menu-link">
                     <div data-i18n="Account">Nilai</div>
                 </a>
             </li>
             <li class="menu-item {{ Request::is('rapot_kehadiran') ? 'active' : '' }}">
-                <a href="{{ route('rapot.kehadiran') }}" class="menu-link">
+                <a href="{{ route('rapot_kehadiran.index') }}" class="menu-link">
                     <div data-i18n="Notifications">Kehadiran</div>
                 </a>
             </li>
             <li class="menu-item {{ Request::is('rapot_ekstrakulikuler*') ? 'active' : '' }}">
-                <a href="{{ route('rapot.ekstrakulikuler') }}" class="menu-link">
+                <a href="{{ route('rapot_ekstrakulikuler.index') }}" class="menu-link">
                     <div data-i18n="Connections">Ekstrakulikuler</div>
                 </a>
             </li>
             <li class="menu-item {{ Request::is('rapot_catatan_wali_kelas*') ? 'active' : '' }}">
-                <a href="{{ route('rapot.catatan_wali_kelas') }}" class="menu-link">
+                <a href="{{ route('rapot_catatan_wali_kelas.index') }}" class="menu-link">
                     <div data-i18n="Connections">Catatan Wali Kelas</div>
                 </a>
             </li>

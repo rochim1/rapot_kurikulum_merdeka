@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_detail_rapot_ekstrakulikuler', function (Blueprint $table) {
-            $table->bigIncrements('id_detail_ekstrakulikuler');
-            $table->unsignedBigInteger('id_rapot');
-            $table->unsignedBigInteger('id_ekstrakulikuler');
-            $table->string('predikat',15);
-            $table->longText('keterangan');
-            $table->foreign('id_rapot')->references('id_rapot')->on('tb_rapot')->onDelete('cascade');
-            $table->foreign('id_ekstrakulikuler')->references('id_ekstrakulikuler')->on('tb_ekstrakulikuler')->onDelete('cascade');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Schema::create('tb_detail_rapot_ekstrakulikuler', function (Blueprint $table) {
+        //     $table->bigIncrements('id_detail_ekstrakulikuler');
+        //     $table->unsignedBigInteger('id_rapot');
+        //     $table->unsignedBigInteger('id_ekstrakulikuler');
+        //     $table->string('predikat',15);
+        //     $table->longText('keterangan');
+        //     $table->foreign('id_rapot')->references('id_rapot')->on('tb_rapot')->onDelete('cascade');
+        //     $table->foreign('id_ekstrakulikuler')->references('id_ekstrakulikuler')->on('tb_ekstrakulikuler')->onDelete('cascade');
+        //     $table->timestamps();
+        //     $table->softDeletes();
+        // });
     }
     
 

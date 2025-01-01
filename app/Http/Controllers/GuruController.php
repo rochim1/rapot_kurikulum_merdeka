@@ -22,7 +22,8 @@ class GuruController extends Controller
     public function index()
     {
         $gurus = Guru::with('mata_pelajaran')->get();
-        return view('components.guru.index', compact('gurus'));
+        $title = 'Guru';
+        return view('components.guru.index', compact('gurus', 'title'));
     }
 
     /**
@@ -31,10 +32,11 @@ class GuruController extends Controller
     public function create()
     {
         // Mengambil semua mata pelajaran dari database
-        $mataPelajarans = MataPelajaran::all();
+        $mataPelajarans = MataPelajaran::orderBy('kelompok', 'ASC')->orderBy('nama_mata_pelajaran', 'ASC')->get();
+        $title = 'Guru';
 
         // Mengembalikan view dengan membawa data mata pelajaran
-        return view('components.guru.create', compact('mataPelajarans'));
+        return view('components.guru.create', compact('mataPelajarans', 'title'));
     }
 
     // Menyimpan data guru
@@ -126,9 +128,10 @@ class GuruController extends Controller
      */
     public function show($id_guru)
     {
+        $title = 'Guru';
         $guru = Guru::findOrFail($id_guru);
         Guru::with('mata_pelajaran')->get();
-        return view('components.guru.show', compact('guru'));
+        return view('components.guru.show', compact('guru', 'title'));
     }
 
     /**
@@ -136,16 +139,17 @@ class GuruController extends Controller
      */
     public function edit($id_guru)
     {
+        $title = 'Guru';
         $guru = Guru::findOrFail($id_guru);
-        $mataPelajarans = MataPelajaran::all();
-        return view('components.guru.edit', compact('guru', 'mataPelajarans'));
+        $mataPelajarans =  MataPelajaran::orderBy('kelompok', 'ASC')->orderBy('nama_mata_pelajaran', 'ASC')->get();
+        return view('components.guru.edit', compact('guru', 'mataPelajarans','title'));
     }
 
     public function update(Request $request, $id_guru)
     {
         $request->validate([
             'nama' => 'required|string|max:100',
-            'mata_pelajaran_id' => 'required|exists:tb_mata_pelajaran,id_mata_pelajaran',
+            'mata_pelajaran_id' => 'nullable|exists:tb_mata_pelajaran,id_mata_pelajaran',
             'nip' => 'nullable|string|max:50',
             'nrg' => 'nullable|string|max:50',
             'jk' => 'required|string|max:10',

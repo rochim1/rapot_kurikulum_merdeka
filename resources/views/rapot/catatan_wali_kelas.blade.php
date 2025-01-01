@@ -13,39 +13,45 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nama Siswa</th>
-                        <th>NISN</th>
-                        <th>Sakit</th>
-                        <th>Izin</th>
-                        <th>Alpa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($siswa as $item_siswa)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item_siswa->nama }}</td>
-                        <td>{{ $item_siswa->nisn }}</td>
-                        <td>
-                            <label for="" class="form-label"></label>
-                            <textarea class="form-control" name="" id="" rows="3"></textarea>
-                        </td>
-                    </tr>
-                    @empty
+        <form action="{{ route('rapot_catatan_wali_kelas.store') }}" method="POST">
+            @csrf
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
                         <tr>
-                            <td colspan="8" class="text-center text-danger fw-bold py-3">Data {{ $title }} belum tersedia.</td>
+                            <th>#</th>
+                            <th>Nama Siswa</th>
+                            <th>NISN</th>
+                            <th>Catatan Wali Kelas</th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @forelse($kelola_kelas as $kelola)
+                        <input type="text" name="id_kelas" value="{{ $kelola->id_kelola_kelas }}">
+                        <input type="text" name="id_tahun_ajaran" value="{{ $kelola->id_tahun_ajaran }}">
+                        <input type="text" name="semester" value="{{ $kelola->tahunAjaran->semester }}">
+                            @foreach($kelola->siswa as $siswa)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $siswa->nama }}</td>
+                                    <td>{{ $siswa->nis }} / {{ $siswa->nisn }}</td>
+
+                                    <td><input type="text" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}"></td>
+                                    <td>
+                                        <textarea class="form-control" name="catatan[{{ $siswa->id_siswa }}]" rows="3"></textarea>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center text-danger fw-bold py-3">Data {{ $title }} belum tersedia.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+        </form>
     </div>
 </div>
-
-<button type="submit" class="btn btn-primary">Simpan</button>
 @endsection

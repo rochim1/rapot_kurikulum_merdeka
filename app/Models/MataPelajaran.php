@@ -14,7 +14,7 @@ class MataPelajaran extends Model
     protected $primaryKey = 'id_mata_pelajaran';
     protected $guarded = ['id_mata_pelajaran'];
 
-    public function gurus()
+    public function guru()
     {
         return $this->hasMany(Guru::class, 'mata_pelajaran_id');
     }

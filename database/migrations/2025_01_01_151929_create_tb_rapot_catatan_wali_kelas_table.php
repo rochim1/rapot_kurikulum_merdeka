@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_kelas', function (Blueprint $table) {
-            $table->bigIncrements('id_kelas');
-            $table->enum('kelas_tingkatan', ['I','II','III','IV','V','VI']);
-            $table->enum('kelas_abjad', ['A','B','C','D','E','F']);
-            $table->enum('fase',['A','B','C']);
+        Schema::create('tb_rapot_catatan_wali_kelas', function (Blueprint $table) {
+            $table->bigIncrements('id_rapot_catatan_wali_kelas');
+            $table->unsignedBigInteger('id_rapot');
+            $table->text('catatan_wali_kelas');
+            $table->foreign('id_rapot')->references('id_rapot')->on('tb_rapot')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tb_kelas');
+        Schema::dropIfExists('tb_rapot_catatan_wali_kelas');
     }
 };

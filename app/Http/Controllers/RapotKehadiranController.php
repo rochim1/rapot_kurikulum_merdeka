@@ -3,33 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\KelolaKelas;
 use App\Models\Rapot;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class RapotController extends Controller
+class RapotKehadiranController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function nilai()
-    {
-        $id_kelas = 1;
-        $id_tahun_ajaran = 1;
-        return $siswa = Siswa::join('tb_ambil_kelas', 'tb_siswa.id_siswa', '=', 'tb_ambil_kelas.id_siswa')
-            ->join('tb_siswa_tahun_ajaran', 'tb_siswa.id_siswa', '=', 'tb_siswa_tahun_ajaran.id_siswa')
-            ->where('tb_ambil_kelas.id_kelas', $id_kelas)
-            ->where('tb_siswa_tahun_ajaran.id_tahun_ajaran', $id_tahun_ajaran)
-            ->select('tb_siswa.id_siswa', 'tb_siswa.nama', 'tb_siswa.nis', 'tb_siswa.nisn')
-            // ->orderBy('tb_siswa.nama', 'ASC')
+    public function index()
+    { 
+        $kelola_kelas = KelolaKelas::with('kelas')
+            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+            ->where('id_guru', auth()->user()->id)
             ->get();
-        
-        return view('rapot.nilai', [
-            // 'siswa' =>  Siswa::all(),
-            'siswa' =>  $siswa,
-            'title' => 'Nilai',
-        ]);
+
+        $kelola_kelas->each(function ($kelola) {
+            $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->get();
+        });
+
+        $title = 'Rapot';
+        return view('rapot.kehadiran', compact('kelola_kelas', 'title'));
     }
     
     public function kehadiran()

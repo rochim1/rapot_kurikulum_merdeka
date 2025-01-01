@@ -28,7 +28,7 @@
                     <!-- Mata Pelajaran -->
                     <div class="form-group mt-2">
                         <label for="mata_pelajaran_id">Mata Pelajaran</label>
-                        <select class="form-control @error('mata_pelajaran_id') is-invalid @enderror" id="mata_pelajaran_id" name="mata_pelajaran_id" required>
+                        <select class="form-control @error('mata_pelajaran_id') is-invalid @enderror" id="mata_pelajaran_id" name="mata_pelajaran_id">
                             <option value="">Pilih Mata Pelajaran</option>
                             @foreach ($mataPelajarans as $mataPelajaran)
                                 <option value="{{ $mataPelajaran->id_mata_pelajaran }}" 

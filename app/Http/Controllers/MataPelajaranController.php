@@ -16,7 +16,7 @@ class MataPelajaranController extends Controller
     public function index()
     {
         return view('mata_pelajaran.index', [
-            'mataPelajaran' => MataPelajaran::all(),
+            'mataPelajaran' => MataPelajaran::orderBy('kelompok', 'ASC')->orderBy('nama_mata_pelajaran', 'ASC')->get(),
             'title' => 'Mata Pelajaran'
         ]);
     }
@@ -90,7 +90,7 @@ class MataPelajaranController extends Controller
         return redirect()->route('mata_pelajaran.index');
     }
 
-    public function import(Request $request)
+    public function import_mata_pelajaran(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,csv,ods'

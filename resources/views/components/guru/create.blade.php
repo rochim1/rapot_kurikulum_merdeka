@@ -28,12 +28,12 @@
                     <!-- Mata Pelajaran -->
                     <div class="form-group mt-2">
                         <label for="mata_pelajaran_id">Mata Pelajaran</label>
-                        <select class="form-control @error('mata_pelajaran_id') is-invalid @enderror" id="mata_pelajaran_id" name="mata_pelajaran_id">
+                        <select class="form-control select2 @error('mata_pelajaran_id') is-invalid @enderror" id="mata_pelajaran_id" name="mata_pelajaran_id">
                             <option value="">Pilih Mata Pelajaran</option>
                             <!-- Anda bisa mengganti dengan data mata pelajaran yang ada di database -->
                             @foreach ($mataPelajarans as $mataPelajaran)
                                 <option value="{{ $mataPelajaran->id_mata_pelajaran }}" {{ old('mata_pelajaran_id') == $mataPelajaran->id_mata_pelajaran ? 'selected' : '' }}>
-                                    {{ $mataPelajaran->nama_mata_pelajaran }}
+                                    {{ $mataPelajaran->kelompok }} - {{ $mataPelajaran->nama_mata_pelajaran }}
                                 </option>
                             @endforeach
                         </select>

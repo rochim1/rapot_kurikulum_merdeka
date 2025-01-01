@@ -15,11 +15,9 @@ class KelasImport implements ToModel
     public function model(array $row)
     {
         return new Kelas([
-            'id_guru' => $row[0],
-            'id_tahun_ajaran' => $row[1],
-            'nama_kelas' => $row[2],
-            'tingkat' => $row[3],
-            'fase' => $row[4],
+            'kelas_tingkatan' => $row[0],
+            'kelas_abjad' => $row[1],
+            'fase' => $row[2],
         ]);
     }
 }

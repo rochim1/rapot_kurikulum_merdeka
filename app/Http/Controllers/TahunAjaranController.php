@@ -94,7 +94,7 @@ class TahunAjaranController extends Controller
     /**
      * Import data tahun ajaran from a file.
      */
-    public function import(Request $request)
+    public function import_tahun_ajaran(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,csv,ods'

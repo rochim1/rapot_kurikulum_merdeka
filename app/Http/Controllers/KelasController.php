@@ -1,28 +1,23 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Imports\KelasImport;
 use App\Models\Kelas;
-use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KelasController extends Controller
 {
     public function index()
     {
-        $kelas = Kelas::with('TahunAjaran')
-        ->orderByDesc('kelas_tingkatan')  // Sorting by kelas_tingkatan in descending order
-        ->orderByDesc('kelas_abjad')      // Sorting by kelas_abjad in descending order
+        $kelas = Kelas::orderBy('kelas_tingkatan', 'asc') 
+        ->orderBy('fase', 'asc')
+        ->orderBy('kelas_abjad', 'asc')
         ->get();
-
-        $tahunAjaran = TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')
-            ->orderBy('tahun_ajaran_akhir', 'desc')
-            ->orderBy('semester', 'desc')
-            ->get();
 
         return view('kelas.index', [
             'kelas' => $kelas,
-            'tahunAjaran' => $tahunAjaran,
             'title' => 'Kelas'
         ]);
     }
@@ -31,10 +26,6 @@ class KelasController extends Controller
     {
         return view('kelas.create', [
             'title' => 'Tambah Kelas',
-            'tahunAjaran' => TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')
-                ->orderBy('tahun_ajaran_akhir', 'desc')
-                ->orderBy('semester', 'desc')
-                ->get(),
         ]);
     }
 
@@ -42,7 +33,6 @@ class KelasController extends Controller
     {
         // Validasi inputan
         $validateData = $request->validate([
-            'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
             'kelas_tingkatan' => 'required|in:I,II,III,IV,V,VI',
             'kelas_abjad' => 'required|in:A,B,C,D,E,F',
             'fase' => 'required|in:A,B,C',
@@ -65,10 +55,6 @@ class KelasController extends Controller
         return view('kelas.edit', [
             'title' => 'Edit Kelas',
             'kelas' => $kela,
-            'tahunAjaran' => TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')
-                ->orderBy('tahun_ajaran_akhir', 'desc')
-                ->orderBy('semester', 'desc')
-                ->get(),
         ]);
     }
 
@@ -76,7 +62,6 @@ class KelasController extends Controller
     {
         // Validasi inputan
         $validateData = $request->validate([
-            'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
             'kelas_tingkatan' => 'required|in:I,II,III,IV,V,VI',
             'kelas_abjad' => 'required|in:A,B,C,D,E,F',
             'fase' => 'required|in:A,B,C',
@@ -95,5 +80,21 @@ class KelasController extends Controller
         $kela->delete();
         Alert::success('Kerja bagus', 'Kelas berhasil dihapus!');
         return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil dihapus.');
+    }
+
+    public function import_kelas(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,ods'
+        ]); 
+    
+        try {
+            Excel::import(new KelasImport, $request->file('file'));
+            Alert::success('Kerja bagus', 'Data berhasil diimport!');
+            return redirect()->route('kelas.index');
+        } catch (\Exception $e) {
+            Alert::error('Terjadi kesalahan saat mengimport data', $e->getMessage());
+            return redirect()->route('kelas.index');
+        }
     }
 }

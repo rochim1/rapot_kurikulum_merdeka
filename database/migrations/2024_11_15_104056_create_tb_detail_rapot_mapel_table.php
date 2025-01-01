@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_detail_rapot_mapel', function (Blueprint $table) {
-            $table->bigIncrements('id_detail_rapot_mapel');
-            $table->unsignedBigInteger('id_rapot');
-            $table->unsignedBigInteger('id_mata_pelajaran');
-            $table->float('nilai_akhir');
-            $table->longText('capaian_kompetensi_dicapat');
-            $table->longText('capaian_kompetensi_tidak_dicapat');
-            $table->foreign('id_rapot')->references('id_rapot')->on('tb_rapot')->onDelete('cascade');
-            $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('tb_mata_pelajaran')->onDelete('cascade');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Schema::create('tb_detail_rapot_mapel', function (Blueprint $table) {
+        //     $table->bigIncrements('id_detail_rapot_mapel');
+        //     $table->unsignedBigInteger('id_rapot');
+        //     $table->unsignedBigInteger('id_mata_pelajaran');
+        //     $table->float('nilai_akhir');
+        //     $table->longText('capaian_kompetensi_dicapat');
+        //     $table->longText('capaian_kompetensi_tidak_dicapat');
+        //     $table->foreign('id_rapot')->references('id_rapot')->on('tb_rapot')->onDelete('cascade');
+        //     $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('tb_mata_pelajaran')->onDelete('cascade');
+        //     $table->timestamps();
+        //     $table->softDeletes();
+        // });
     }
 
     /**

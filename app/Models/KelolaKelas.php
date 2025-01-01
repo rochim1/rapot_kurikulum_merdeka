@@ -22,7 +22,8 @@ class KelolaKelas extends Model
  
      public function TahunAjaran()
      {
-         return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
+        //  return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
+         return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran', 'id_tahun_ajaran');
      }
 
      public function Rapot()
@@ -30,10 +31,31 @@ class KelolaKelas extends Model
          return $this->hasMany(Rapot::class, 'id_kelola_kelas', 'id_kelola_kelas');
      }
      
-    public function siswa()
+    // public function siswa()
+    // {
+    //     return $this->belongsToMany(Siswa::class, 'tb_ambil_kelas', 'id_kelola_kelas', 'id_siswa')
+    //                 ->withTimestamps();
+    // }
+
+
+    protected $casts = [
+        'daftar_id_siswa' => 'array', // Ubah menjadi array
+    ];
+    
+    public function Kelas()
     {
-        return $this->belongsToMany(Siswa::class, 'tb_ambil_kelas', 'id_kelola_kelas', 'id_siswa')
-                    ->withTimestamps();
+        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
     }
 
+    // Relasi ke model Siswa
+    public function siswa()
+    {
+        return $this->hasManyThrough(Siswa::class, KelolaKelas::class, 'id_kelola_kelas', 'id_siswa', 'id_kelola_kelas', 'id_siswa');
+    }
+
+    // Mendapatkan siswa berdasarkan daftar_id_siswa
+    public function getSiswa()
+    {
+        return Siswa::whereIn('id_siswa', $this->daftar_id_siswa)->get();
+    }
 }

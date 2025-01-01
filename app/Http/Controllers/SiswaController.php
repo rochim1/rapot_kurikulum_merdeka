@@ -138,7 +138,7 @@ class SiswaController extends Controller
         return redirect()->route('siswa.index');
     }
 
-    public function import(Request $request)
+    public function import_siswa(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,csv,ods'

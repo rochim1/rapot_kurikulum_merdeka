@@ -13,21 +13,6 @@
         <form action="{{ route('kelas.store') }}" method="POST">
             @csrf
             <div class="mb-3">
-                <label for="id_tahun_ajaran" class="form-label">Tahun Ajaran<span class="text-danger fs-5">*</span></label>
-                <select class="form-select @error('id_tahun_ajaran') is-invalid @enderror" id="id_tahun_ajaran" name="id_tahun_ajaran" required>
-                    <option value="">Pilih Tahun Ajaran</option>
-                    @foreach($tahunAjaran as $item_tahun_ajaran)
-                        <option value="{{ $item_tahun_ajaran->id_tahun_ajaran }}" {{ old('id_tahun_ajaran') == $item_tahun_ajaran->id_tahun_ajaran ? 'selected' : '' }}>
-                            {{ $item_tahun_ajaran->tahun_ajaran_awal }}/{{ $item_tahun_ajaran->tahun_ajaran_akhir }} - {{ $item_tahun_ajaran->semester }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_tahun_ajaran')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
                 <label for="kelas_tingkatan" class="form-label">Tingkat<span class="text-danger fs-5">*</span></label>
                 <select class="form-select @error('kelas_tingkatan') is-invalid @enderror" id="kelas_tingkatan" name="kelas_tingkatan" required>
                     <option value="">Pilih Tingkat</option>

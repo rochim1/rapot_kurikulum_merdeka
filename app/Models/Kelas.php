@@ -13,11 +13,6 @@ class Kelas extends Model
     protected $table = 'tb_kelas';
     protected $primaryKey = 'id_kelas';
     protected $guarded = ['id_kelas'];
- 
-     public function TahunAjaran()
-     {
-         return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
-     }
 
      public function Rapot()
      {

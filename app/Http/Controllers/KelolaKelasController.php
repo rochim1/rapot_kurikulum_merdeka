@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\KelasImport;
 use App\Models\Guru;
+use App\Models\Kelas;
 use App\Models\KelolaKelas;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
@@ -19,59 +20,70 @@ class KelolaKelasController extends Controller
     public function index()
     {
         return view('kelola_kelas.index', [
-            'kelolakelas' => KelolaKelas::with(['Guru','TahunAjaran'])->get(),
+            'kelolakelas' => KelolaKelas::with(['guru', 'tahunAjaran', 'kelas'])->get(),
             'title' => 'Kelola Kelas'
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(Request $request)
     {
-        $guru = Guru::all();
-        $siswa = Siswa::all(); // Mengambil semua siswa
-        $tahunAjaran = TahunAjaran::all();
-        return view('kelola_kelas.create', [
-            'title' => 'Tambah Kelas',
-            'guru' => $guru,
-            'tahunAjaran' => $tahunAjaran,
-            'siswa'=>$siswa
-        ]);
+        // Mengambil data guru, kelas, dan tahun ajaran
+        $guru = Guru::orderBy('nama', 'asc')->get();
+        $kelas = Kelas::orderBy('kelas_tingkatan', 'asc')->orderBy('kelas_abjad', 'asc')->get();
+        $tahunAjaran = TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')->get();
+        $title = 'Kelola Kelas';
+
+        // Mendapatkan siswa yang belum terdaftar di kelas yang dipilih
+        $siswa = [];
+        if ($request->has('id_kelas')) {
+            $id_kelas = $request->input('id_kelas');
+            if ($id_kelas === 'not_registered') {
+                // Ambil siswa yang belum terdaftar di kelas manapun
+                $siswaTerdaftarIds = KelolaKelas::select('daftar_id_siswa')
+                    ->get()
+                    ->flatMap(function ($item) {
+                        return json_decode($item->daftar_id_siswa);
+                    })
+                    ->unique();
+
+                $siswa = Siswa::whereNotIn('id_siswa', $siswaTerdaftarIds)->get();
+            } else {
+                // Ambil siswa yang sudah terdaftar di kelas
+                $kelolaKelas = KelolaKelas::where('id_kelas', $id_kelas)->first();
+                if ($kelolaKelas) {
+                    $siswaIds = json_decode($kelolaKelas->daftar_id_siswa);
+                    $siswa = Siswa::whereIn('id_siswa', $siswaIds)->get();
+                }
+            }
+        }
+
+        return view('kelola_kelas.create', compact('guru', 'kelas', 'tahunAjaran', 'siswa', 'title'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // Validasi data yang dikirim dari form
-        $validateData = $request->validate([
-            'id_guru' => 'required|exists:tb_guru,id_guru',
+    { 
+        return $request;
+        // Validasi input form
+        $request->validate([
             'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
-            'nama_kelas' => 'required|max:50',
-            'tingkat' => 'required|in:1,2,3,4,5,6',
-            'fase' => 'required|in:A,B,C',
-            'id_siswa' => 'required',
-            'id_siswa.*' => 'exists:tb_siswa,id_siswa', 
+            'id_guru' => 'required|exists:tb_guru,id_guru',
+            'id_kelas' => 'required|exists:tb_kelas,id_kelas',
+            'id_siswa' => 'required|array',
+            'id_siswa.*' => 'exists:tb_siswa,id_siswa',
         ]);
 
-        // Buat data kelas baru
-        $kelas = KelolaKelas::create([
-            'id_guru' => $validateData['id_guru'],
-            'id_tahun_ajaran' => $validateData['id_tahun_ajaran'],
-            'nama_kelas' => $validateData['nama_kelas'],
-            'tingkat' => $validateData['tingkat'],
-            'fase' => $validateData['fase'],
-        ]);
+        // Menyimpan data kelas yang baru
+        $kelolaKelas = new KelolaKelas();
+        $kelolaKelas->id_tahun_ajaran = $request->id_tahun_ajaran;
+        $kelolaKelas->id_guru = $request->id_guru;
+        $kelolaKelas->id_kelas = $request->id_kelas;
+        $kelolaKelas->daftar_id_siswa = json_encode($request->id_siswa); // Menyimpan siswa yang terdaftar dalam format JSON
+        $kelolaKelas->save();
 
-        // Tambahkan siswa ke kelas melalui relasi many-to-many
-        $kelas->siswa()->attach($validateData['id_siswa']);
-
-        // Tambahkan siswa ke tahun ajaran melalui relasi many-to-many
-        $tahunAjaran = TahunAjaran::find($validateData['id_tahun_ajaran']);
-        $tahunAjaran->siswa()->attach($validateData['id_siswa']);
-        // Tampilkan notifikasi sukses
+        // Menampilkan pesan sukses
         Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
         return redirect()->route('kelola_kelas.index');
     }
@@ -87,17 +99,18 @@ class KelolaKelasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(KelolaKelas $kela)
+    public function edit(KelolaKelas $kelola_kela)
     {
         $guru = Guru::all();
-        $siswa = Siswa::all();
         $tahunAjaran = TahunAjaran::all();
-        $selectSiswa=$kela->siswa->pluck('id_siswa')->toArray();
+        $kelas = Kelas::all();
+
+        $selectSiswa=$kelola_kela->siswa->pluck('id_siswa')->toArray();
         return view('kelola_kelas.edit', [
             'title' => 'Edit Kelas',
-            'kelolakelas' => $kela,
+            'kelolakelas' => $kelola_kela,
             'guru' => $guru,
-            'siswa' => $siswa,
+            'kelas' => $kelas,
             'tahunAjaran' => $tahunAjaran,
             'selectSiswa' => $selectSiswa,
         ]);
@@ -107,51 +120,51 @@ class KelolaKelasController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id_kelas)
-{
-    // Ambil data kelas berdasarkan ID kelas
-    $kelas = KelolaKelas::findOrFail($id_kelas); // Mengambil kelas berdasarkan ID kelas
+    {
+        // Ambil data kelas berdasarkan ID kelas
+        $kelas = KelolaKelas::findOrFail($id_kelas); // Mengambil kelas berdasarkan ID kelas
 
-    // Validasi data yang dikirim dari form
-    $validateData = $request->validate([
-        'id_guru' => 'required|exists:tb_guru,id_guru',
-        'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
-        'nama_kelas' => 'required|max:50',
-        'tingkat' => 'required|in:1,2,3,4,5,6',
-        'fase' => 'required|in:A,B,C',
-        'id_siswa' => 'required|array',
-        'id_siswa.*' => 'exists:tb_siswa,id_siswa', 
-    ]);
+        // Validasi data yang dikirim dari form
+        $validateData = $request->validate([
+            'id_guru' => 'required|exists:tb_guru,id_guru',
+            'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
+            'nama_kelas' => 'required|max:50',
+            'tingkat' => 'required|in:1,2,3,4,5,6',
+            'fase' => 'required|in:A,B,C',
+            'id_siswa' => 'required|array',
+            'id_siswa.*' => 'exists:tb_siswa,id_siswa', 
+        ]);
 
-    // Update data kelas
-    $kelas->update([
-        'id_guru' => $validateData['id_guru'],
-        'id_tahun_ajaran' => $validateData['id_tahun_ajaran'],
-        'nama_kelas' => $validateData['nama_kelas'],
-        'tingkat' => $validateData['tingkat'],
-        'fase' => $validateData['fase'],
-    ]);
+        // Update data kelas
+        $kelas->update([
+            'id_guru' => $validateData['id_guru'],
+            'id_tahun_ajaran' => $validateData['id_tahun_ajaran'],
+            'nama_kelas' => $validateData['nama_kelas'],
+            'tingkat' => $validateData['tingkat'],
+            'fase' => $validateData['fase'],
+        ]);
 
-    // Detach siswa yang sudah ada sebelumnya
-    $kelas->siswa()->detach();
+        // Detach siswa yang sudah ada sebelumnya
+        $kelas->siswa()->detach();
 
-    // Menambahkan siswa baru ke kelas menggunakan attach
-    if (isset($validateData['id_siswa']) && is_array($validateData['id_siswa'])) {
-        $kelas->siswa()->attach($validateData['id_siswa'], ['is_active' => true]);
+        // Menambahkan siswa baru ke kelas menggunakan attach
+        if (isset($validateData['id_siswa']) && is_array($validateData['id_siswa'])) {
+            $kelas->siswa()->attach($validateData['id_siswa'], ['is_active' => true]);
+        }
+
+        // Tampilkan notifikasi sukses
+        Alert::success('Kerja bagus', 'Kelas berhasil diperbarui!');
+
+        // Redirect ke halaman kelas
+        return redirect()->route('kelola_kelas.index');
     }
-
-    // Tampilkan notifikasi sukses
-    Alert::success('Kerja bagus', 'Kelas berhasil diperbarui!');
-
-    // Redirect ke halaman kelas
-    return redirect()->route('kelola_kelas.index');
-}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(KelolaKelas $kela)
+    public function destroy(KelolaKelas $kelola_kela)
     {
-        $kela->delete();
+        $kelola_kela->delete();
         Alert::success('Kerja bagus', 'Kelas berhasil dihapus!');
         return redirect()->route('kelola_kelas.index');
     }

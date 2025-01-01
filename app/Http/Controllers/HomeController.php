@@ -32,6 +32,7 @@ class HomeController extends Controller
 
         // Initialize $tahunAjaran to null for admins
         $tahunAjaran = null;
+        $title = 'Home';
 
         // If the user is not an admin, proceed with the 'tahun_ajaran' logic
         if (!$isAdmin) {
@@ -48,6 +49,6 @@ class HomeController extends Controller
             // If the user is an admin, display all students regardless of 'tahun ajaran'
             $jumlahSiswa = Siswa::count(); // Assuming you have a Siswa model for students
         }
-        return view('home', compact('jumlahSiswa', 'tahunAjaran'));
+        return view('home', compact('jumlahSiswa', 'tahunAjaran', 'title'));
     }
 }

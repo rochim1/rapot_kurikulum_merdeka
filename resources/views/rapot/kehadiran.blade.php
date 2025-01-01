@@ -26,21 +26,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($siswa as $item_siswa)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item_siswa->nama }}</td>
-                        <td>{{ $item_siswa->nisn }}</td>
-                        <td>
-                            <input type="text" class="form-control" name="" />
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="" />
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="" />
-                        </td>
-                    </tr>
+                    @forelse($kelola_kelas as $kelola)
+                        @foreach($kelola->siswa as $siswa)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $siswa->nama }}</td>
+                                <td>{{ $siswa->nis }} / {{ $siswa->nisn }}</td>
+                                <td>
+                                    <input type="number" class="form-control" name="" />
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" name="" />
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" name="" />
+                                </td>
+                            </tr>
+                        @endforeach
                     @empty
                         <tr>
                             <td colspan="8" class="text-center text-danger fw-bold py-3">Data {{ $title }} belum tersedia.</td>
