@@ -14,6 +14,7 @@
 
     <!-- template -->
     <link rel="stylesheet" href="{{ asset('css/template-admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/template-admin-theme-default.css') }}">
 
     <!-- scrollbar -->
