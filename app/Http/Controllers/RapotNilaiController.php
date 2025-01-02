@@ -7,6 +7,7 @@ use App\Models\KelolaKelas;
 use App\Models\MataPelajaran;
 use App\Models\ProfilSekolah;
 use App\Models\Rapot;
+use App\Models\RapotNilai;
 use App\Models\Siswa;
 use App\Models\TujuanPembelajaran;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class RapotNilaiController extends Controller
      */
     public function index(Request $request)
     {
+
         $kelola_kelas = KelolaKelas::with('kelas')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_guru', auth()->user()->id)
@@ -45,8 +47,6 @@ class RapotNilaiController extends Controller
             $tujuan_pembelajaran = TujuanPembelajaran::where('id_mata_pelajaran', $request->id_mata_pelajaran)
                 ->where('is_active', true)
                 ->get();
-
-            
 
             if($tujuan_pembelajaran->isEmpty()) {
                 Alert::error('Kerja Buruk', 'Data Belum di inputkan pada Tujuan Pembelajaran!');
@@ -122,4 +122,18 @@ class RapotNilaiController extends Controller
         return redirect()->route('rapot_nilai.index');
     }   
 
+
+    public function edit(Request $request)
+    {
+        // id_tahun_ajaran, id_tahun_ajaran, id_mata_pelajaran
+        $rapot = Rapot::with(['rapotNilai' => function ($query) use ($request) {
+            $query->where('id_mata_pelajaran', $request->id_mata_pelajaran);
+        }, 'siswa'])
+        ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+        ->get();
+
+
+        // return $rapot_nilai;
+        return $rapot;
+    }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\TahunAjaranController;
 use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\EkstrakulikulerController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\ProfilSekolahController;
 use App\Http\Controllers\RapotCatatanWaliKelasController;
 use App\Http\Controllers\RapotEkstrakulikulerController;
 use App\Http\Controllers\RapotKehadiranController;
@@ -77,7 +78,8 @@ Route::middleware(['role:admin|walas'])->group(function () {
         Route::resource('/tahun_ajaran', TahunAjaranController::class);
         Route::post('/import_tahun_ajaran', [TahunAjaranController::class, 'import_tahun_ajaran'])->name('import_tahun_ajaran');
         Route::put('/tahun_ajaran_is_active/{tahunAjaran}', [TahunAjaranController::class, 'tahun_ajaran_is_active'])->name('tahun_ajaran_is_active');
-
+        
+        Route::resource('/profil_sekolah', ProfilSekolahController::class);
 
 
          // Wali Kelas

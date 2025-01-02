@@ -10,6 +10,13 @@
         <span class="menu-header-text">Master</span>
     </li>
 
+    <li class="menu-item {{ Request::is('profil_sekolah*') ? 'active' : '' }}">
+        <a href="{{ route('profil_sekolah.index') }}" class="menu-link">
+            <i class="menu-icon bi bi-building"></i>
+            <div data-i18n="Analytics">Data Sekolah</div>
+        </a>
+    </li>
+
     <li class="menu-item {{ Request::is('tahun_ajaran*') ? 'active' : '' }}">
         <a href="{{ route('tahun_ajaran.index') }}" class="menu-link">
             <i class="menu-icon bi bi-building"></i>

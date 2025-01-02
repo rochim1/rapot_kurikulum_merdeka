@@ -29,4 +29,14 @@ class Rapot extends Model
         return $this->belongsToMany(Ekstrakulikuler::class, 'tb_rapot_ekstrakulikuler', 'id_rapot', 'id_ekstrakulikuler')
                     ->withPivot('predikat_ekstrakulikuler', 'catatan_ekstrakulikuler');
     }
+
+    public function tahunAjaran()
+    {
+        return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran', 'id_tahun_ajaran');
+    }
+
+    public function rapotNilai()
+    {
+        return $this->hasMany(RapotNilai::class, 'id_rapot', 'id_rapot');
+    }
 }
