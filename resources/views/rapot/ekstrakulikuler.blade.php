@@ -27,46 +27,44 @@
                         </tr>
                     </thead>
                     <tbody class="align-top">
-                        @forelse($kelola_kelas as $kelola)
+                        @foreach($kelola_kelas as $kelola)
                             @foreach($kelola->siswa as $siswa)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $siswa->nama }}</td>
-                                    <td>
-                                        {{ $siswa->nis }} / 
-                                        {{ $siswa->nisn ?? '-' }}
-                                    </td>
+                                    <td>{{ $siswa->nis }} / {{ $siswa->nisn ?? '-' }}</td>
                                     <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}">
                                     <td>
-                                        @foreach($siswa->ekstrakulikuler as $ekskul)
-                                            <select class="form-control mb-1" name="id_ekstrakulikuler[{{ $siswa->id_siswa }}][{{ $ekskul->id_ekstrakulikuler }}]">
-                                                <option value="{{ $ekskul->id_ekstrakulikuler }}" selected>{{ $ekskul->nama_ekstrakulikuler }}</option>
-                                            </select>
+                                        @foreach($ekstrakulikuler as $ekskul)
+                                            <input type="text" class="form-control mb-1 bg-white" 
+                                                name="id_ekstrakulikuler[{{ $siswa->id_siswa }}][{{ $ekskul->id_ekstrakulikuler }}]" 
+                                                value="{{ $ekskul->nama_ekstrakulikuler }}" readonly>
                                         @endforeach
                                     </td>
                                     <td>
-                                        @foreach($siswa->ekstrakulikuler as $ekskul)
+                                        @foreach($ekstrakulikuler as $ekskul)
+                                            @php
+                                                $predikat = optional($siswa->ekstrakulikuler->firstWhere('id_ekstrakulikuler', $ekskul->id_ekstrakulikuler))->predikat_ekstrakulikuler;
+                                            @endphp
                                             <select class="form-control mb-1" name="predikat_ekstrakulikuler[{{ $siswa->id_siswa }}][{{ $ekskul->id_ekstrakulikuler }}]">
                                                 <option value="" class="text-center">-Pilih Predikat-</option>
-                                                <option value="Amat Baik" {{ $ekskul->pivot->predikat_ekstrakulikuler == 'Amat Baik' ? 'selected' : '' }}>Amat Baik</option>
-                                                <option value="Baik" {{ $ekskul->pivot->predikat_ekstrakulikuler == 'Baik' ? 'selected' : '' }}>Baik</option>
-                                                <option value="Cukup" {{ $ekskul->pivot->predikat_ekstrakulikuler == 'Cukup' ? 'selected' : '' }}>Cukup</option>
-                                                <option value="Sedang" {{ $ekskul->pivot->predikat_ekstrakulikuler == 'Sedang' ? 'selected' : '' }}>Sedang</option>
+                                                <option value="Amat Baik" {{ $predikat === 'Amat Baik' ? 'selected' : '' }}>Amat Baik</option>
+                                                <option value="Baik" {{ $predikat === 'Baik' ? 'selected' : '' }}>Baik</option>
+                                                <option value="Cukup" {{ $predikat === 'Cukup' ? 'selected' : '' }}>Cukup</option>
+                                                <option value="Sedang" {{ $predikat === 'Sedang' ? 'selected' : '' }}>Sedang</option>
                                             </select>
                                         @endforeach
                                     </td>
                                     <td>
-                                        @foreach($siswa->ekstrakulikuler as $ekskul)
-                                            <input type="text" class="form-control mb-1" name="catatan_ekstrakulikuler[{{ $siswa->id_siswa }}][{{ $ekskul->id_ekstrakulikuler }}]" value="{{ $ekskul->pivot->catatan_ekstrakulikuler }}" />
+                                        @foreach($ekstrakulikuler as $ekskul)
+                                            <input type="text" class="form-control mb-1" 
+                                                name="catatan_ekstrakulikuler[{{ $siswa->id_siswa }}][{{ $ekskul->id_ekstrakulikuler }}]" 
+                                                value="{{ optional($siswa->ekstrakulikuler->firstWhere('id_ekstrakulikuler', $ekskul->id_ekstrakulikuler))->catatan_ekstrakulikuler }}" />
                                         @endforeach
                                     </td>
                                 </tr>
                             @endforeach
-                        @empty
-                            <tr>
-                                <td colspan="8" class="text-center text-danger fw-bold py-3">Data {{ $title }} belum tersedia.</td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>

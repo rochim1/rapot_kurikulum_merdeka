@@ -30,14 +30,10 @@ class Siswa extends Model
         return $this->belongsToMany(TahunAjaran::class, 'tb_siswa_tahun_ajaran', 'id_siswa', 'id_tahun_ajaran');
     }
 
-    // wali kelas
-    public function ambilKelas()
+    public function ekstrakulikuler()
     {
-        return $this->hasMany(AmbilKelas::class, 'id_siswa');
-    }
+        return $this->belongsToMany(Ekstrakulikuler::class, 'tb_rapot_ekstrakulikuler', 'id_ekstrakulikuler', 'id_ekstrakulikuler')
+                    ->withPivot('predikat_ekstrakulikuler', 'catatan_ekstrakulikuler');
+    }   
 
-    public function siswaTahunAjaran()
-    {
-        return $this->hasMany(SiswaTahunAjaran::class, 'id_siswa');
-    }
 }

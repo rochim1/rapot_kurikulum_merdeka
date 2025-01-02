@@ -18,38 +18,35 @@ class RapotEkstrakulikulerController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $kelola_kelas = KelolaKelas::with('kelas', 'TahunAjaran')
+    {
+        $kelola_kelas = KelolaKelas::with('kelas', 'TahunAjaran')
         ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
         ->where('id_guru', auth()->user()->id)
         ->get();
 
-    $ekstrakulikuler = Ekstrakulikuler::all(); // Fetch all extracurricular activities
+        $ekstrakulikuler = Ekstrakulikuler::all();
 
-    // Iterate through each 'kelola_kelas' to fetch 'siswa' and their 'rapot'
-    $kelola_kelas->each(function ($kelola) {
-        $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)
-            ->where('status', 'active')
-            ->get();
+        $kelola_kelas->each(function ($kelola) {
+            $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->where('status', 'active')->get();
 
-        // Fetch 'rapot' and related 'ekstrakulikuler' for each 'siswa'
-        $kelola->siswa->each(function ($siswa) use ($kelola) {
-            $siswa->rapot = Rapot::where('id_kelas', $kelola->id_kelas)
-                ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-                ->where('id_siswa', $siswa->id_siswa)
-                ->first();
+            $kelola->siswa->each(function ($siswa) use ($kelola) {
+                $siswa->rapot = DB::table('tb_rapot')
+                    ->where('id_kelas', $kelola->id_kelas)
+                    ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+                    ->where('id_siswa', $siswa->id_siswa)
+                    ->first();
 
-            // Retrieve related extracurricular activities through pivot table
-            if ($siswa->rapot) {
-                $siswa->ekstrakulikuler = $siswa->rapot->ekstrakulikuler;
-            }
+                if ($siswa->rapot) {
+                    $siswa->ekstrakulikuler = DB::table('tb_rapot_ekstrakulikuler')
+                        ->where('id_rapot', $siswa->rapot->id_rapot)
+                        ->get();
+                }
+            });
         });
-    });
 
-    $title = 'Rapot';
-    return view('rapot.ekstrakulikuler', compact('kelola_kelas', 'title', 'ekstrakulikuler')); // Pass 'ekstrakulikuler' to the view
-}
-
+        $title = 'Rapot';
+        return view('rapot.ekstrakulikuler', compact('kelola_kelas', 'title', 'ekstrakulikuler'));
+    }
     
     
     public function storeOrUpdate(Request $request)
