@@ -33,8 +33,8 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $siswa->nama }}</td>
                                     <td>{{ $siswa->nis }} / {{ $siswa->nisn ?? '-' }}</td>
-                                    <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}">
                                     <td>
+                                        <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}">
                                         @foreach($ekstrakulikuler as $ekskul)
                                             <input type="text" class="form-control mb-1 bg-white" 
                                                 name="id_ekstrakulikuler[{{ $siswa->id_siswa }}][{{ $ekskul->id_ekstrakulikuler }}]" 

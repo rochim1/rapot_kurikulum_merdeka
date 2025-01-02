@@ -39,8 +39,8 @@
                                             -
                                         @endif
                                     </td>
-                                        <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}">
                                     <td>
+                                        <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}">
                                         <input type="text" class="form-control" name="catatan[{{ $siswa->id_siswa }}]" rows="3"
                                             @if($siswa->rapot && is_object($siswa->rapot) && isset($siswa->rapot->catatan_wali_kelas))
                                                 value="{{ $siswa->rapot->catatan_wali_kelas }}"

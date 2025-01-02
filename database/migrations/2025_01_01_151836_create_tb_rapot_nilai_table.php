@@ -15,9 +15,9 @@ return new class extends Migration
             $table->bigIncrements('id_rapot_nilai');
             $table->unsignedBigInteger('id_rapot')->nullable();
             $table->unsignedBigInteger('id_mata_pelajaran')->nullable();
-            $table->float('nilai_akhir')->nullable();
-            $table->json('tujuan_pembelajaran_mampu')->nullable();
-            $table->json('tujuan_pembelajaran_tidak_mampu')->nullable();
+            $table->integer('nilai_akhir')->nullable();
+            $table->json('tujuan_pembelajaran_tercapai')->nullable();
+            $table->json('tujuan_pembelajaran_tidak_tercapai')->nullable();
             $table->foreign('id_rapot')->references('id_rapot')->on('tb_rapot')->onDelete('cascade');
             $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('tb_mata_pelajaran')->onDelete('cascade');
             $table->timestamps();

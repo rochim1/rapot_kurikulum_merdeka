@@ -86,8 +86,10 @@ Route::middleware(['role:admin|walas'])->group(function () {
         Route::resource('tujuan_pembelajaran', TujuanPembelajaranController::class);
         Route::put('/tujuan_pembelajaran_is_active/{tujuanPembelajaran}', [TujuanPembelajaranController::class, 'tujuan_pembelajaran_is_active'])->name('tujuan_pembelajaran_is_active');
 
-        Route::resource('rapot_nilai', RapotNilaiController::class);
-        Route::resource('rapot_kehadiran', RapotKehadiranController::class);
+        // Route::resource('rapot_nilai', RapotNilaiController::class);
+        Route::get('rapot_nilai', [RapotNilaiController::class, 'index'])->name('rapot_nilai.index');
+        Route::get('/rapot_nilai/editOrCreate', [RapotNilaiController::class, 'editOrCreate'])->name('rapot_nilai.editOrCreate');
+        Route::post('/rapot_nilai/storeOrUpdate', [RapotNilaiController::class, 'storeOrUpdate'])->name('rapot_nilai.storeOrUpdate');
 
         Route::get('/rapot_ekstrakulikuler', [RapotEkstrakulikulerController::class, 'index'])->name('rapot_ekstrakulikuler.index');
         Route::post('/rapot_ekstrakulikuler/storeOrUpdate', [RapotEkstrakulikulerController::class, 'storeOrUpdate'])->name('rapot_ekstrakulikuler.storeOrUpdate');

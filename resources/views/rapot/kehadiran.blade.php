@@ -35,8 +35,8 @@
                                             -
                                         @endif
                                     </td>
-                                    <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}">
                                     <td>
+                                        <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}">
                                         <input type="number" class="form-control" name="sakit[{{ $siswa->id_siswa }}]" value="{{ $siswa->rapot->sakit ?? '' }}" />
                                     </td>
                                     <td>

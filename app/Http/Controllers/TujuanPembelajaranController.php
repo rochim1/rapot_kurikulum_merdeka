@@ -58,8 +58,8 @@ class TujuanPembelajaranController extends Controller
         ]);
 
         $validateData['id_kelas'] = KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))->where('id_guru', auth()->user()->id)->value('id_kelas');
-        $validateData['tujuan_pembelajaran_tercapai'] = 'Peserta Didik Mampu' . $request->tujuan_pembelajaran;
-        $validateData['tujuan_pembelajaran_tidak_tercapai'] = 'Peserta Didik Tidak Mampu' . $request->tujuan_pembelajaran;
+        $validateData['tujuan_pembelajaran_tercapai'] = 'Peserta Didik Mampu ' . $request->tujuan_pembelajaran;
+        $validateData['tujuan_pembelajaran_tidak_tercapai'] = 'Peserta Didik Tidak Mampu ' . $request->tujuan_pembelajaran;
 
         TujuanPembelajaran::create($validateData);
         Alert::success('Kerja bagus', 'Tujuan Pembelajaran berhasil disimpan!');
@@ -104,8 +104,8 @@ class TujuanPembelajaranController extends Controller
         ]);
         
         $validateData['id_kelas'] = KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))->where('id_guru', auth()->user()->id)->value('id_kelas');
-        $validateData['tujuan_pembelajaran_tercapai'] = 'Peserta Didik Mampu' . $request->tujuan_pembelajaran;
-        $validateData['tujuan_pembelajaran_tidak_tercapai'] = 'Peserta Didik Tidak Mampu' . $request->tujuan_pembelajaran;
+        $validateData['tujuan_pembelajaran_tercapai'] = 'Peserta Didik Mampu ' . $request->tujuan_pembelajaran;
+        $validateData['tujuan_pembelajaran_tidak_tercapai'] = 'Peserta Didik Tidak Mampu ' . $request->tujuan_pembelajaran;
         
         $tujuanPembelajaran->update($validateData);
         Alert::success('Kerja bagus', 'Tujuan Pembelajaran berhasil diperbarui!');
