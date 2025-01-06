@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,20 +26,24 @@
     <link rel="stylesheet" href="{{ asset('search_optionselect/select2.min.css') }}">
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
 
 </head>
+
 <body>
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="row justify-content-center py-4">
-                    <a class="sidebar-brand d-flex align-items-center justify-content-center text-center my-n1 text-decoration-none text-muted" href="{{ url('admin/dashboard') }}">
-                    <img src="{{ asset('media/logo pendidikan.png') }}" alt class="w-px-50 h-auto rounded-circle me-3">
-                    <div class="">RAPOR KM <br> SDN 2 AIR DERAS</div>
-                </a>
-                
+                    <a class="sidebar-brand d-flex align-items-center justify-content-center text-center my-n1 text-decoration-none text-muted"
+                        href="{{ url('admin/dashboard') }}">
+                        <img src="{{ asset('media/logo pendidikan.png') }}" alt
+                            class="w-px-50 h-auto rounded-circle me-3">
+                        <div class="text-dark fw-bolder">RAPOR KM <br> SDN 2 AIR DERAS</div>
+                    </a>
+
                 </div>
                 <hr class="mt-n2">
 
@@ -116,23 +121,23 @@
 
         // confirmasi logout
         $(document).on('click', '#btn_logout', function(e) {
-        e.preventDefault(); // Mencegah form untuk submit secara default
+            e.preventDefault(); // Mencegah form untuk submit secara default
 
-        Swal.fire({
-            title: 'Yakin anda yakin?',
-            text: 'Anda akan keluar dari sistem ini',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Keluar!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Jika dikonfirmasi, submit form
-                $('#btn_logout_form').submit();
-            }
+            Swal.fire({
+                title: 'Yakin anda yakin?',
+                text: 'Anda akan keluar dari sistem ini',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Keluar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika dikonfirmasi, submit form
+                    $('#btn_logout_form').submit();
+                }
+            });
         });
-    });
     </script>
 
     <!-- Select2 JS -->
@@ -146,4 +151,5 @@
     {{-- script js --}}
     @stack('script')
 </body>
+
 </html>

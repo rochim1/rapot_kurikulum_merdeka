@@ -741,16 +741,16 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item .menu-lin
 .layout-menu-hover.layout-menu-collapsed .bg-menu-theme .menu-inner .menu-item .menu-link:not(.active):hover {
   background-color: rgba(67, 89, 113, 0.04);
 }
-.bg-menu-theme .menu-inner .menu-sub > .menu-item.active > .menu-link.menu-toggle {
+/* .bg-menu-theme .menu-inner .menu-sub > .menu-item.active > .menu-link.menu-toggle {
   background-color: rgba(67, 89, 113, 0.04);
-}
+} */
 .bg-menu-theme .menu-inner .menu-sub > .menu-item.active .menu-icon {
   color: #009B4C;
 }
-.bg-menu-theme .menu-inner > .menu-item.active > .menu-link {
+/* .bg-menu-theme .menu-inner > .menu-item.active > .menu-link {
   color: #009B4C;
   background-color: rgba(174,213,129,0.5) !important;
-}
+} */
 /* .bg-menu-theme .menu-inner > .menu-item.active:before {
   background: #009B4C;
 } */
