@@ -17,60 +17,73 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="nama_sekolah" class="form-label">Nama Sekolah<span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('nama_sekolah') is-invalid @enderror"
-                                name="nama_sekolah" value="{{ old('nama_sekolah', $profilSekolah->nama_sekolah) }}"
-                                required>
-                            @error('nama_sekolah')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            </title>
+
                             <div class="mb-3">
-                                <label for="akreditas" class="form-label">Akreditasi<span
+                                <label for="nama_sekolah" class="form-label">Nama Sekolah<span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('akreditas') is-invalid @enderror"
-                                    name="akreditas" value="{{ old('akreditas', $profilSekolah->akreditas) }}" required>
-                                @error('akreditas')
+                                <input type="text" class="form-control @error('nama_sekolah') is-invalid @enderror"
+                                    name="nama_sekolah" value="{{ old('nama_sekolah', $profilSekolah->nama_sekolah) }}"
+                                    required>
+                                @error('nama_sekolah')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                                </title>
                             </div>
-                            <div class="mb-3">
-                                <label for="npsn" class="form-label">NPSN<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('npsn') is-invalid @enderror"
-                                    name="npsn" value="{{ old('npsn', $profilSekolah->npsn) }}" required>
-                                @error('npsn')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+
+                            <div class="row">
+                                <div class="col-md-2 mb-3">
+                                    <label for="akreditas" class="form-label">Akreditasi<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('akreditas') is-invalid @enderror"
+                                        name="akreditas" value="{{ old('akreditas', $profilSekolah->akreditas) }}" required>
+                                    @error('akreditas')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-md-10 mb-3">
+                                    <label for="npsn" class="form-label">NPSN<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('npsn') is-invalid @enderror"
+                                        name="npsn" value="{{ old('npsn', $profilSekolah->npsn) }}" required>
+                                    @error('npsn')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="alamat" class="form-label">Alamat<span class="text-danger">*</span></label>
-                                <textarea class="form-control @error('alamat') is-invalid @enderror" name="alamat" required>{{ old('alamat', $profilSekolah->alamat) }}</textarea>
-                                @error('alamat')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="kode_pos" class="form-label">Kode Pos<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('kode_pos') is-invalid @enderror"
+                                        name="kode_pos" value="{{ old('kode_pos', $profilSekolah->kode_pos) }}" required>
+                                    @error('kode_pos')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+    
+                                <div class="col-md-8 mb-3">
+                                    <label for="telepon" class="form-label">No Telepon<span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('telepon') is-invalid @enderror"
+                                        name="telepon" value="{{ old('telepon', $profilSekolah->telepon) }}" required>
+                                    @error('telepon')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="kode_pos" class="form-label">Kode Pos<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('kode_pos') is-invalid @enderror"
-                                    name="kode_pos" value="{{ old('kode_pos', $profilSekolah->kode_pos) }}" required>
-                                @error('kode_pos')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label for="telepon" class="form-label">No Telepon<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control @error('telepon') is-invalid @enderror"
-                                    name="telepon" value="{{ old('telepon', $profilSekolah->telepon) }}" required>
-                                @error('telepon')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email', $profilSekolah->email) }}" required>
                                 @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="alamat" class="form-label">Alamat<span class="text-danger">*</span></label>
+                                <textarea class="form-control @error('alamat') is-invalid @enderror" name="alamat" required>{{ old('alamat', $profilSekolah->alamat) }}</textarea>
+                                @error('alamat')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -92,7 +105,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="nip_kepsek" class="form-label">NIP Kepala Sekolah<span class="text-danger">*</span></label>
+                            <label for="nip_kepsek" class="form-label">NIP Kepala Sekolah<span
+                                    class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('nip_kepsek') is-invalid @enderror"
                                 name="nip_kepsek" value="{{ old('nip_kepsek', $profilSekolah->nip_kepsek) }}" required>
                             @error('nip_kepsek')
@@ -111,6 +125,8 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <hr>
                         <div class="mb-3">
                             <label for="ttd_tempat_tanggal_rapot" class="form-label">Tanggal Rapot<span
                                     class="text-danger">*</span></label>
