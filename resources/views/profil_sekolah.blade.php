@@ -143,6 +143,6 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-2"></i> Update</button>
     </form>
 @endsection

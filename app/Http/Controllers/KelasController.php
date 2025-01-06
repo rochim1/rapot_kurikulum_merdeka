@@ -14,7 +14,7 @@ class KelasController extends Controller
         $kelas = Kelas::orderBy('kelas_tingkatan', 'asc') 
             ->orderBy('fase', 'asc')
             ->orderBy('kelas_abjad', 'asc')
-            ->get();
+            ->paginate(10);
 
         return view('kelas.index', [
             'kelas' => $kelas,

@@ -106,6 +106,31 @@
                 </tbody>
             </table>
         </div>
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <!-- Pagination Info -->
+            <div>
+                <p class="mb-0">
+                    Menampilkan
+                    <strong>{{ $gurus->firstItem() }}</strong>
+                    sampai
+                    <strong>{{ $gurus->lastItem() }}</strong>
+                    dari total
+                    <strong>{{ $gurus->total() }}</strong>
+                    data.
+                </p>
+                <p class="mb-0">
+                    Halaman
+                    <strong>{{ $gurus->currentPage() }}</strong>
+                    dari
+                    <strong>{{ $gurus->lastPage() }}</strong>.
+                </p>
+            </div>
+
+            <!-- Pagination Links -->
+            <div>
+                {{ $gurus->links() }}
+            </div>
+        </div>
     </div>
 </div>
 @endsection

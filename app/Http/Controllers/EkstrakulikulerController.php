@@ -11,7 +11,7 @@ class EkstrakulikulerController extends Controller
 {
     public function index()
     {
-        $ekskuls = Ekstrakulikuler::all();
+        $ekskuls = Ekstrakulikuler::paginate(10);
         $title = 'Ekstrakulikuler';
         return view('ekstrakulikuler.index', compact('ekskuls', 'title'));
     }

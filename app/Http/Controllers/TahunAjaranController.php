@@ -19,7 +19,7 @@ class TahunAjaranController extends Controller
             'tahunAjaran' => TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')
                 ->orderBy('tahun_ajaran_akhir', 'desc')
                 ->orderBy('semester', 'desc')
-                ->get(),
+                ->paginate(10),
             'title' => 'Tahun Ajaran'
         ]);
     }
