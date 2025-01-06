@@ -12,9 +12,9 @@
     <form action="{{ route('profil_sekolah.update', $profilSekolah->id_profil_sekolah) }}" method="POST">
         @csrf
         @method('PUT') <!-- Method for updating -->
-        <div class="row">
-            <div class="col-md">
-                <div class="card shadow mb-4">
+        <div class="row d-flex">
+            <div class="col-md col-stretch">
+                <div class="card shadow mb-4 w-100">
                     <div class="card-body">
                         <div class="mb-3">
 
@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-2 mb-3">
+                                <div class="col-md mb-3">
                                     <label for="akreditas" class="form-label">Akreditasi<span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('akreditas') is-invalid @enderror"
@@ -40,7 +40,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-md-10 mb-3">
+                                <div class="col-md mb-3">
                                     <label for="npsn" class="form-label">NPSN<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('npsn') is-invalid @enderror"
                                         name="npsn" value="{{ old('npsn', $profilSekolah->npsn) }}" required>
@@ -92,8 +92,8 @@
                 </div>
             </div>
 
-            <div class="col-md">
-                <div class="card shadow mb-4">
+            <div class="col-md col-stretch">
+                <div class="card shadow mb-4 w-100">
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="nama_kepsek" class="form-label">Nama Kepala Sekolah<span

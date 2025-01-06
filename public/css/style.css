@@ -5,3 +5,10 @@
 .table:not(.table-dark) th {
     color: #000000!important;
 }
+
+.row > .col-stretch {
+  display: flex;
+  align-items: stretch; /* Ensures all items stretch to match the tallest column */
+}
+
+  
