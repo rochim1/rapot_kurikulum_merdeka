@@ -41,7 +41,7 @@
                         href="{{ url('admin/dashboard') }}">
                         <img src="{{ asset('media/logo pendidikan.png') }}" alt
                             class="w-px-50 h-auto rounded-circle me-3">
-                        <div class="text-dark fw-bolder">RAPOR KM <br> SDN 2 AIR DERAS</div>
+                        <div class="text-dark fw-bolder">RAPOR KM <br> {{ session('data_sekolah')->nama_sekolah }}</div>
                     </a>
 
                 </div>

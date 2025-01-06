@@ -26,7 +26,7 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow mt-sm-n5 mt-md-n5 mt-lg-n5 mt-xl-0 mt-xxl-0"
                     href="#" data-bs-toggle="dropdown">
-                    <span class="mr-2 d-lg-inline text-gray-600 small">
+                    <span class="mr-2 d-lg-inline text-gray-600 small fw-bold">
                         {{ auth()->user()->name }}      
                         <i class="bi bi-chevron-down mt-n1"></i>
                     </span>

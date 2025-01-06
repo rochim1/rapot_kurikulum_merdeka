@@ -13,7 +13,7 @@ class ProfilSekolahController extends Controller
      */
     public function index()
     {
-        $profilSekolah = ProfilSekolah::find(1);
+        $profilSekolah = ProfilSekolah::first();
         $title = 'Profil Sekolah';
         return view('profil_sekolah', compact('profilSekolah', 'title'));  
     }
@@ -70,8 +70,8 @@ class ProfilSekolahController extends Controller
         ]);
     
         $profilSekolah->update($validated);
-    
         Alert::success('Kerja Bagus', 'Data berhasil disimpan!');
+        session(['data_sekolah' => (object) $validated]);
         return redirect()->route('profil_sekolah.index');
     }
     
