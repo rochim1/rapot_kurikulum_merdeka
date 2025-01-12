@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use App\Models\KelolaKelas;
+use App\Models\ProfilSekolah;
 use App\Models\Rapot;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
@@ -17,13 +18,14 @@ class RapotCetakController extends Controller
      */
     public function index()
     {       
-            return $rapot = Rapot::with('kelas', 'TahunAjaran', 'siswa', 'guru')
+            $rapot = Rapot::with('kelas', 'TahunAjaran', 'siswa', 'guru', 'rapotEkstrakulikuler.ekstrakulikuler')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_guru', auth()->user()->id)
             ->get();
-    
+
+            $profilSekolah = ProfilSekolah::find(1);
             $title = 'Rapot';
-            $siswa =  Siswa::all();
-            return view('rapot.cetak', compact('kelola_kelas', 'title', 'siswa'));
+            $siswa = Siswa::all();
+            return view('rapot.cetak', compact('siswa','title', 'rapot', 'profilSekolah'));
     }
 }

@@ -18,4 +18,9 @@ class Ekstrakulikuler extends Model
         return $this->belongsToMany(Rapot::class, 'tb_rapot_ekstrakulikuler', 'id_ekstrakulikuler', 'id_rapot')
                     ->withPivot('predikat_ekstrakulikuler', 'catatan_ekstrakulikuler');
     }
+
+    public function rapotEkstrakulikuler()
+    {
+        return $this->hasMany(RapotEkstrakulikuler::class, 'id_ekstrakulikuler');
+    }
 }

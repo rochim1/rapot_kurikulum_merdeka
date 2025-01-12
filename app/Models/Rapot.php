@@ -44,4 +44,9 @@ class Rapot extends Model
     {
         return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
     }
+
+    public function rapotEkstrakulikuler()
+    {
+        return $this->hasMany(rapotEkstrakulikuler::class, 'id_rapot', 'id_rapot');
+    }
 }
