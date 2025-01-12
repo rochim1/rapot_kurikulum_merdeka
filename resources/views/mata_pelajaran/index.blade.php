@@ -53,6 +53,32 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <!-- Pagination Info -->
+            <div>
+                <p class="mb-0">
+                    Menampilkan
+                    <strong>{{ $mataPelajaran->firstItem() }}</strong>
+                    sampai
+                    <strong>{{ $mataPelajaran->lastItem() }}</strong>
+                    dari total
+                    <strong>{{ $mataPelajaran->total() }}</strong>
+                    data.
+                </p>
+                <p class="mb-0">
+                    Halaman
+                    <strong>{{ $mataPelajaran->currentPage() }}</strong>
+                    dari
+                    <strong>{{ $mataPelajaran->lastPage() }}</strong>.
+                </p>
+            </div>
+
+            <!-- Pagination Links -->
+            <div>
+                {{ $mataPelajaran->links() }}
+            </div>
+        </div>
     </div>
 </div>
 

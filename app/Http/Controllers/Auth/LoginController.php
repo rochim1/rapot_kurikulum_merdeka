@@ -10,6 +10,7 @@ use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\ProfilSekolah;
 
 class LoginController extends Controller
 {
@@ -51,7 +52,9 @@ class LoginController extends Controller
      */
     public function login()
     {
-        $tahunAjaran=TahunAjaran::all();
+        $sekolah = ProfilSekolah::first();
+        session(['data_sekolah' => $sekolah]);
+        $tahunAjaran = TahunAjaran::all();
         return view('auth.login', compact('tahunAjaran'));
     }
 
@@ -74,13 +77,14 @@ class LoginController extends Controller
             'password.required' => 'Password tidak boleh kosong.',
             'id_tahun_ajaran.exists' => 'Tahun ajaran tidak valid.',
         ]);
-    
+
         // Ambil input email dan password untuk proses login
         $credentials = $request->only('email', 'password');
-    
+
         // Proses login
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            
             if ($user->hasRole('admin')) {
                 return redirect()->intended(route('home', absolute: false));
             }
@@ -93,7 +97,7 @@ class LoginController extends Controller
             Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda bukan wali kelas. Hubungi admin jika membutuhkan akses masuk');
             return redirect()->route('login');
         }
-    
+
         // Jika kredensial salah, kembalikan ke halaman login dengan pesan kesalahan
         return redirect()->route('login')->with('error', 'Email atau password salah.');
     }

@@ -21,7 +21,7 @@ class GuruController extends Controller
      */
     public function index()
     {
-        $gurus = Guru::with('mata_pelajaran')->get();
+        $gurus = Guru::with('mata_pelajaran')->paginate(10);
         $title = 'Guru';
         return view('components.guru.index', compact('gurus', 'title'));
     }

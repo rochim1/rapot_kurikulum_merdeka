@@ -15,8 +15,12 @@ class MataPelajaranController extends Controller
      */
     public function index()
     {
+        $matapelajaran = MataPelajaran::orderBy('kelompok', 'ASC')
+        ->orderBy('nama_mata_pelajaran', 'ASC')
+        ->paginate(10);
+        
         return view('mata_pelajaran.index', [
-            'mataPelajaran' => MataPelajaran::orderBy('kelompok', 'ASC')->orderBy('nama_mata_pelajaran', 'ASC')->get(),
+            'mataPelajaran' => $matapelajaran,
             'title' => 'Mata Pelajaran'
         ]);
     }

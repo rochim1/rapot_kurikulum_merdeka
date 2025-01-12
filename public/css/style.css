@@ -1,0 +1,29 @@
+.card {
+    color: #000000;
+}
+
+.table:not(.table-dark) th {
+    color: #000000!important;
+}
+
+.row > .col-stretch {
+  display: flex;
+  align-items: stretch; /* Ensures all items stretch to match the tallest column */
+}
+
+.bg-menu-theme .menu-inner > .menu-item > .menu-link {
+  color: #000!important;
+  
+}
+
+.bg-menu-theme .menu-inner > .menu-item.active > .menu-link {
+  background-color: rgb(36,124,192) !important;
+  color: #fff!important;
+}
+
+.bg-menu-theme .menu-inner > .menu-item > .menu-link > .menu-icon {
+  font-weight: 100;
+}
+.bg-menu-theme .menu-inner > .menu-item.active > .menu-link > .menu-icon {
+  color: #fff!important;
+}

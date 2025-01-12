@@ -37,6 +37,7 @@
         </span>
         @enderror
     </div>
+    
     <!-- Select Tahun Ajaran -->
     <div class="mb-3 position-relative">
         <i class="bi bi-calendar position-absolute top-50 translate-middle-y ms-2 text-muted"></i>
@@ -44,7 +45,9 @@
                 class="form-select ps-5 @error('id_tahun_ajaran') is-invalid @enderror">
             <option value="" disabled selected>Pilih Tahun Ajaran...</option>
             @foreach ($tahunAjaran as $item_tahun_ajaran)
-                <option value="{{ $item_tahun_ajaran->id_tahun_ajaran }}">{{ $item_tahun_ajaran->tahun_ajaran_awal }}/{{ $item_tahun_ajaran->tahun_ajaran_akhir }} - {{ $item_tahun_ajaran->semester }}</option>
+                <option value="{{ $item_tahun_ajaran->id_tahun_ajaran }}">{{ $item_tahun_ajaran->tahun_ajaran_awal }}/{{ $item_tahun_ajaran->tahun_ajaran_akhir }} - {{ $item_tahun_ajaran->semester }} @if ($item_tahun_ajaran->is_active)
+                    (aktif)
+                @endif</option>
             @endforeach
         </select>
         @error('id_tahun_ajaran')

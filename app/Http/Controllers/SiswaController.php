@@ -29,7 +29,7 @@ class SiswaController extends Controller
         }
 
         return view('siswa.index', [
-            'siswa' => $query->get(), 
+            'siswa' => $query->paginate(10), 
             'title' => 'Siswa'
         ]);
     }

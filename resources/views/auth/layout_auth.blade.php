@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auth - E-Rapot Kurikulum Merdeka</title>
-    <title>Auth - SDN 2 Air Deras</title>
+    <title>Auth - {{ session('data_sekolah')->nama_sekolah }} </title>
     <link rel="icon" href="{{ asset('media-sistem/logoSMK.png') }}">
 
     {{-- Bootstrap 5 dan Bootstrap Icon --}}

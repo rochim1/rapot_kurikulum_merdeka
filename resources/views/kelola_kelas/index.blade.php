@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($kelolakelas as $item_kelola_kelas)
+                    @foreach ($kelolaKelas as $item_kelola_kelas)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item_kelola_kelas->kelas->kelas_tingkatan }}.{{ $item_kelola_kelas->kelas->kelas_abjad }}</td>
@@ -59,6 +59,32 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <!-- Pagination Info -->
+            <div>
+                <p class="mb-0">
+                    Menampilkan
+                    <strong>{{ $kelolaKelas->firstItem() }}</strong>
+                    sampai
+                    <strong>{{ $kelolaKelas->lastItem() }}</strong>
+                    dari total
+                    <strong>{{ $kelolaKelas->total() }}</strong>
+                    data.
+                </p>
+                <p class="mb-0">
+                    Halaman
+                    <strong>{{ $kelolaKelas->currentPage() }}</strong>
+                    dari
+                    <strong>{{ $kelolaKelas->lastPage() }}</strong>.
+                </p>
+            </div>
+
+            <!-- Pagination Links -->
+            <div>
+                {{ $kelolaKelas->links() }}
+            </div>
         </div>
     </div>
 </div>

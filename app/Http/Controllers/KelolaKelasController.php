@@ -19,8 +19,9 @@ class KelolaKelasController extends Controller
      */
     public function index()
     {
+        $kelolaKelas = KelolaKelas::with(['guru', 'tahunAjaran', 'kelas'])->paginate(10);
         return view('kelola_kelas.index', [
-            'kelolakelas' => KelolaKelas::with(['guru', 'tahunAjaran', 'kelas'])->get(),
+            'kelolaKelas' => $kelolaKelas,
             'title' => 'Kelola Kelas'
         ]);
     }

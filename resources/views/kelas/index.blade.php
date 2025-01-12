@@ -57,6 +57,32 @@
                 <h6 class="text-center">Data {{ $title }} Belum Ada!</h6>
             @endif
         </div>
+
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <!-- Pagination Info -->
+            <div>
+                <p class="mb-0">
+                    Menampilkan
+                    <strong>{{ $kelas->firstItem() }}</strong>
+                    sampai
+                    <strong>{{ $kelas->lastItem() }}</strong>
+                    dari total
+                    <strong>{{ $kelas->total() }}</strong>
+                    data.
+                </p>
+                <p class="mb-0">
+                    Halaman
+                    <strong>{{ $kelas->currentPage() }}</strong>
+                    dari
+                    <strong>{{ $kelas->lastPage() }}</strong>.
+                </p>
+            </div>
+
+            <!-- Pagination Links -->
+            <div>
+                {{ $kelas->links() }}
+            </div>
+        </div>
     </div>
 </div>
 

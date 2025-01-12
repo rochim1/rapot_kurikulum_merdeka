@@ -34,6 +34,32 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <!-- Pagination Info -->
+            <div>
+                <p class="mb-0">
+                    Menampilkan
+                    <strong>{{ $ekskuls->firstItem() }}</strong>
+                    sampai
+                    <strong>{{ $ekskuls->lastItem() }}</strong>
+                    dari total
+                    <strong>{{ $ekskuls->total() }}</strong>
+                    data.
+                </p>
+                <p class="mb-0">
+                    Halaman
+                    <strong>{{ $ekskuls->currentPage() }}</strong>
+                    dari
+                    <strong>{{ $ekskuls->lastPage() }}</strong>.
+                </p>
+            </div>
+
+            <!-- Pagination Links -->
+            <div>
+                {{ $ekskuls->links() }}
+            </div>
+        </div>
     </div>
 </div>
 @endsection

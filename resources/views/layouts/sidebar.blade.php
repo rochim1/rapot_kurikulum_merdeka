@@ -1,77 +1,77 @@
 <ul class="menu-inner py-1">
     <li class="menu-item {{ Request::is('home') ? 'active' : '' }}">
         <a href="{{ route('home') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-dashboard-line"></i>
             <div data-i18n="Analytics">Dashboard</div>
         </a>
     </li>
 
-    <li class="menu-header small text-uppercase">
+    <li class="menu-header small text-uppercase fw-bold">
         <span class="menu-header-text">Master</span>
     </li>
 
     <li class="menu-item {{ Request::is('profil_sekolah*') ? 'active' : '' }}">
         <a href="{{ route('profil_sekolah.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-school-line"></i>
             <div data-i18n="Analytics">Data Sekolah</div>
         </a>
     </li>
 
     <li class="menu-item {{ Request::is('tahun_ajaran*') ? 'active' : '' }}">
         <a href="{{ route('tahun_ajaran.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-calendar-2-line"></i>
             <div data-i18n="Analytics">Tahun Ajaran</div>
         </a>
     </li>
    
     <li class="menu-item {{ Request::is('siswa*') ? 'active' : '' }}">
         <a href="{{ route('siswa.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-graduation-cap-line"></i>
             <div data-i18n="Analytics">Siswa</div>
         </a>
     </li>
 
     <li class="menu-item {{ Request::is('kelas*') ? 'active' : '' }}">
         <a href="{{ route('kelas.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-list-indefinite"></i>
             <div data-i18n="Analytics">Kelas</div>
         </a>
     </li>
 
     <li class="menu-item {{ Request::is('mata_pelajaran*') ? 'active' : '' }}">
         <a href="{{ route('mata_pelajaran.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-book-shelf-line"></i>
             <div data-i18n="Analytics">Mata Pelajaran</div>
         </a>
     </li>
 
     <li class="menu-item {{ Request::is('data-ekstrakulikuler*') ? 'active' : '' }}">
         <a href="{{ route('data-ekstrakulikuler') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-list-indefinite"></i>
             <div data-i18n="Analytics">Ekstrakulikuler</div>
         </a>
     </li>
 
     <li class="menu-item {{ Request::is('data-guru*') ? 'active' : '' }}">
         <a href="{{ route('data-guru') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-presentation-line"></i>
             <div data-i18n="Analytics">Guru</div>
         </a>
     </li>
 
     <li class="menu-item {{ Request::is('kelola_kelas*') ? 'active' : '' }}">
         <a href="{{ route('kelola_kelas.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-list-settings-line"></i>
             <div data-i18n="Analytics">Kelola Kelas</div>
         </a>
     </li>
 
-    <li class="menu-header small text-uppercase">
+    <li class="menu-header small text-uppercase fw-bold">
         <span class="menu-header-text">Wali Kelas</span>
     </li>
     <li class="menu-item {{ Request::is('tujuan_pembelajaran*') ? 'active' : '' }}">
         <a href="{{ route('tujuan_pembelajaran.index') }}" class="menu-link">
-            <i class="menu-icon bi bi-building"></i>
+            <i class="menu-icon ri-trophy-line"></i>
             <div data-i18n="Analytics">Tujuan Pembelajaran</div>
         </a>
     </li>

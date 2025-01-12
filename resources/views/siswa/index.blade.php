@@ -84,6 +84,31 @@
                 </tbody>
             </table>
         </div>
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <!-- Pagination Info -->
+            <div>
+                <p class="mb-0">
+                    Menampilkan
+                    <strong>{{ $siswa->firstItem() }}</strong>
+                    sampai
+                    <strong>{{ $siswa->lastItem() }}</strong>
+                    dari total
+                    <strong>{{ $siswa->total() }}</strong>
+                    data.
+                </p>
+                <p class="mb-0">
+                    Halaman
+                    <strong>{{ $siswa->currentPage() }}</strong>
+                    dari
+                    <strong>{{ $siswa->lastPage() }}</strong>.
+                </p>
+            </div>
+
+            <!-- Pagination Links -->
+            <div>
+                {{ $siswa->links() }}
+            </div>
+        </div>
     </div>
 </div>
 
