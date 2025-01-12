@@ -88,6 +88,11 @@
             <div data-i18n="Account Settings">Rapot</div>
         </a>
         <ul class="menu-sub">
+            <li class="menu-item {{ Request::is('rapot_cetak') ? 'active' : '' }}">
+                <a href="{{ route('rapot_cetak.index') }}" class="menu-link">
+                    <div data-i18n="Account">Cetak</div>
+                </a>
+            </li>
             <li class="menu-item {{ Request::is('rapot_nilai') ? 'active' : '' }}">
                 <a href="{{ route('rapot_nilai.index') }}" class="menu-link">
                     <div data-i18n="Account">Nilai</div>

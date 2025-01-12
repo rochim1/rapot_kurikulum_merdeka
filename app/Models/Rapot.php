@@ -39,4 +39,9 @@ class Rapot extends Model
     {
         return $this->hasMany(RapotNilai::class, 'id_rapot', 'id_rapot');
     }
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
+    }
 }

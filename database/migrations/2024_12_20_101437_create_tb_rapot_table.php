@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_kelas')->nullable();
             $table->unsignedBigInteger('id_tahun_ajaran')->nullable();
             $table->unsignedBigInteger('id_siswa')->nullable();
+            $table->unsignedBigInteger('id_guru')->nullable();
 
             $table->integer('sakit')->nullable();
             $table->integer('izin')->nullable();
@@ -25,14 +26,13 @@ return new class extends Migration
 
             $table->tinyInteger('ket_naik_kelas')->nullable();
             $table->string('ttd_tempat_tanggal_rapot',50)->nullable();
-            $table->string('nama_wali_kelas')->nullable();
-            $table->string('nip_wali_kelas')->nullable();
             $table->string('nama_kepsek')->nullable();
             $table->string('nip_kepsek')->nullable();
             
             $table->foreign('id_kelas')->references('id_kelas')->on('tb_kelas')->onDelete('cascade');
             $table->foreign('id_tahun_ajaran')->references('id_tahun_ajaran')->on('tb_tahun_ajaran')->onDelete('cascade');
             $table->foreign('id_siswa')->references('id_siswa')->on('tb_siswa')->onDelete('cascade');
+            $table->foreign('id_guru')->references('id_guru')->on('tb_guru')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

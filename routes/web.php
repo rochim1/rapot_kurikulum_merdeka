@@ -14,6 +14,7 @@ use App\Http\Controllers\EkstrakulikulerController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\ProfilSekolahController;
 use App\Http\Controllers\RapotCatatanWaliKelasController;
+use App\Http\Controllers\RapotCetakController;
 use App\Http\Controllers\RapotEkstrakulikulerController;
 use App\Http\Controllers\RapotKehadiranController;
 use App\Http\Controllers\RapotNilaiController;
@@ -101,4 +102,7 @@ Route::middleware(['role:admin|walas'])->group(function () {
 
         Route::get('/rapot_catatan_wali_kelas', [RapotCatatanWaliKelasController::class, 'index'])->name('rapot_catatan_wali_kelas.index');
         Route::post('/rapot_catatan_wali_kelas/storeOrUpdate', [RapotCatatanWaliKelasController::class, 'storeOrUpdate'])->name('rapot_catatan_wali_kelas.storeOrUpdate');
+
+        Route::get('/rapot_cetak', [RapotCetakController::class, 'index'])->name('rapot_cetak.index');
+        // Route::post('/rapot_cetak/storeOrUpdate', [RapotCetakController::class, 'storeOrUpdate'])->name('rapot_cetak.storeOrUpdate');
 });
