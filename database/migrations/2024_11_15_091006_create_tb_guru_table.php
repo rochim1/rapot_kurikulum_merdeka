@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('agama', 50)->nullable();
             $table->text('alamat')->nullable();
             $table->string('no_hp', 20)->nullable();
+            $table->string('email', 30)->unique();
             $table->string('jabatan', 50)->nullable();
             $table->string('golongan', 50)->nullable();
             $table->date('tmt_awal')->nullable();

@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                     <th>Mata Pelajaran</th>
-                    <td>{{ $guru->mata_pelajaran->nama_mata_pelajaran }}</td>
+                    <td>{{ $guru->mata_pelajaran->nama_mata_pelajaran??'-' }}</td>
                 </tr>
                 <tr>
                     <th>Tempat Lahir</th>

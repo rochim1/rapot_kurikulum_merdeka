@@ -23,7 +23,7 @@ class GuruController extends Controller
     {
         $gurus = Guru::with('mata_pelajaran')->paginate(10);
         $title = 'Guru';
-        return view('components.guru.index', compact('gurus', 'title'));
+        return view('guru.index', compact('gurus', 'title'));
     }
 
     /**
@@ -36,7 +36,7 @@ class GuruController extends Controller
         $title = 'Guru';
 
         // Mengembalikan view dengan membawa data mata pelajaran
-        return view('components.guru.create', compact('mataPelajarans', 'title'));
+        return view('guru.create', compact('mataPelajarans', 'title'));
     }
 
     // Menyimpan data guru
@@ -53,6 +53,7 @@ class GuruController extends Controller
             'agama' => 'nullable|string|max:50',
             'alamat' => 'nullable|string',
             'no_hp' => 'nullable|string|max:20',
+            'email' => 'required',
             'jabatan' => 'nullable|string|max:50',
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
@@ -83,6 +84,7 @@ class GuruController extends Controller
             'alamat.string' => 'Alamat harus berupa teks.',
             'no_hp.string' => 'Nomor HP harus berupa teks.',
             'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
+            'email.required' => 'Email haru diisi.',
             'jabatan.string' => 'Jabatan harus berupa teks.',
             'jabatan.max' => 'Jabatan maksimal 50 karakter.',
             'golongan.string' => 'Golongan harus berupa teks.',
@@ -109,7 +111,7 @@ class GuruController extends Controller
         // Membuat data user
         $user = User::create([
             'name' => $request->nama,
-            'email' => $request->nip ? $request->nip . '@gmail.com' : strtolower(str_replace(' ', '.', $request->nama)) . '@gmail.com',
+            'email' => $request->email,
             'password' => Hash::make('guru'), // Password default
             'is_wali_kelas' => $request->status,
         ]);
@@ -131,7 +133,7 @@ class GuruController extends Controller
         $title = 'Guru';
         $guru = Guru::findOrFail($id_guru);
         Guru::with('mata_pelajaran')->get();
-        return view('components.guru.show', compact('guru', 'title'));
+        return view('guru.show', compact('guru', 'title'));
     }
 
     /**
@@ -158,19 +160,50 @@ class GuruController extends Controller
             'agama' => 'nullable|string|max:50',
             'alamat' => 'nullable|string',
             'no_hp' => 'nullable|string|max:20',
+            'email' => 'required',
             'jabatan' => 'nullable|string|max:50',
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
             'pendidikan_terakhir' => 'nullable|string|max:50',
-            'status' => 'nullable|string|in:Aktif,Tidak Aktif,Wali Kelas,Cuti,Mutasi,Pensiun',
-            // 'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'status' => 'nullable|string|in:Aktif,Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'status' => 'nullable|string|max:50',
         ], [
             'nama.required' => 'Nama wajib diisi.',
+            'nama.string' => 'Nama harus berupa teks.',
+            'status.required' => 'Status wajib diisi.',
+            'status.string' => 'Status harus berupa teks.',
+            'nama.max' => 'Nama maksimal 100 karakter.',
             'mata_pelajaran_id.required' => 'Mata pelajaran wajib dipilih.',
             'mata_pelajaran_id.exists' => 'Mata pelajaran tidak valid.',
-            // 'foto.image' => 'File foto harus berupa gambar.',
-            // 'foto.mimes' => 'Format file foto harus jpg, jpeg, atau png.',
-            // 'foto.max' => 'Ukuran file foto maksimal 2 MB.',
+            'nip.string' => 'NIP harus berupa teks.',
+            'nip.max' => 'NIP maksimal 50 karakter.',
+            'nrg.string' => 'NRG harus berupa teks.',
+            'nrg.max' => 'NRG maksimal 50 karakter.',
+            'jk.required' => 'Jenis kelamin wajib dipilih.',
+            'jk.string' => 'Jenis kelamin harus berupa teks.',
+            'jk.max' => 'Jenis kelamin maksimal 10 karakter.',
+            'tempat_lahir.string' => 'Tempat lahir harus berupa teks.',
+            'tempat_lahir.max' => 'Tempat lahir maksimal 50 karakter.',
+            'tgl_lahir.date' => 'Tanggal lahir harus berupa format tanggal yang valid.',
+            'agama.string' => 'Agama harus berupa teks.',
+            'agama.max' => 'Agama maksimal 50 karakter.',
+            'alamat.string' => 'Alamat harus berupa teks.',
+            'no_hp.string' => 'Nomor HP harus berupa teks.',
+            'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
+            'email.required' => 'Email haru diisi.',
+            'jabatan.string' => 'Jabatan harus berupa teks.',
+            'jabatan.max' => 'Jabatan maksimal 50 karakter.',
+            'golongan.string' => 'Golongan harus berupa teks.',
+            'golongan.max' => 'Golongan maksimal 50 karakter.',
+            'tmt_awal.date' => 'TMT Awal harus berupa format tanggal yang valid.',
+            'pendidikan_terakhir.string' => 'Pendidikan terakhir harus berupa teks.',
+            'pendidikan_terakhir.max' => 'Pendidikan terakhir maksimal 50 karakter.',
+            'status.string' => 'Status harus berupa teks.',
+            'status.in' => 'Status tidak valid. Pilihan yang tersedia: Aktif, Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun.',
+            'foto.image' => 'File foto harus berupa gambar.',
+            'foto.mimes' => 'Format file foto harus jpg, jpeg, atau png.',
+            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
         ]);
 
         // Ambil data lama

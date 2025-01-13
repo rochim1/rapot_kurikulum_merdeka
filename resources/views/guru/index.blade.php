@@ -60,7 +60,14 @@
                     @forelse ($gurus as $guru)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><img src="{{ asset('storage/' . $guru->foto) }}" alt="Foto Guru" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                            <td>
+                                @if($guru->foto)
+                                    <img src="{{ asset('storage/' . $guru->foto) }}" alt="Foto Guru" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                @else
+                                    <img src="{{ asset('img/default-user.png') }}" alt="Foto Guru" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                @endif
+                            </td>
+
                             <td>{{ $guru->nama }}</td>
                             <td>{{ $guru->nip }}</td>
                             <td>{{ $guru->nrg }}</td>
