@@ -66,42 +66,45 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($kelola_kelas as $kelola)
-                                            @foreach ($kelola->siswa as $siswa)
+                                        @foreach ($rapot_nilai as $rapot)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $siswa->nama }}</td>
+                                                    <td>{{ $rapot->siswa->nama }}</td>
                                                     <td>
-                                                        {{ $siswa->nis }} /
-                                                        @if ($siswa->nisn)
-                                                            {{ $siswa->nisn }}
+                                                        {{ $rapot->siswa->nis }} /
+                                                        @if ($rapot->siswa->nisn)
+                                                            {{ $rapot->siswa->nisn }}
                                                         @else
                                                             -
                                                         @endif
                                                     </td>
                                                     <td width="12%">
-                                                        <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]"
-                                                            value="{{ $siswa->id_siswa }}">
+                                                        {{-- {{ $rapot->rapotNilai[0] }} --}}
+                                                        <input type="hidden" name="id_siswa[{{ $rapot->siswa->id_siswa }}]"
+                                                            value="{{ $rapot->siswa->id_siswa }}">
                                                         <input type="hidden"
-                                                            name="id_mata_pelajaran[{{ $siswa->id_siswa }}]"
+                                                            name="id_mata_pelajaran[{{ $rapot->siswa->id_siswa }}]"
                                                             value="{{ $id_mata_pelajaran }}">
                                                         <input min="0" max="100" type="number"
-                                                            class="form-control" name="nilai_akhir[{{ $siswa->id_siswa }}]"
-                                                            value="0" placeholder="0-100">
+                                                            class="form-control" name="nilai_akhir[{{ $rapot->siswa->id_siswa }}]"
+                                                            value="{{ $rapot->rapotNilai[0]->nilai_akhir }}" placeholder="0-100">
                                                     </td>
+
+                                                    {{-- tujuan pembelajaran tercapai --}}
                                                     <td>
                                                         <div class="form-check">
                                                             @foreach ($tujuan_pembelajaran as $tujuan)
                                                                 <input class="form-check-input tujuan-tercapai"
                                                                     type="checkbox"
-                                                                    name="tujuan_tercapai[{{ $siswa->id_siswa }}][]"
+                                                                    @checked(in_array($tujuan->id_tujuan_pembelajaran, json_decode($rapot->rapotNilai[0]->tujuan_pembelajaran_tercapai ?? '[]', true)))
+                                                                    name="tujuan_tercapai[{{ $rapot->siswa->id_siswa }}][]"
                                                                     value="{{ $tujuan->id_tujuan_pembelajaran }}"
-                                                                    id="tujuan_tercapai_{{ $siswa->id_siswa }}_{{ $tujuan->id_tujuan_pembelajaran }}"
-                                                                    data-siswa="{{ $siswa->id_siswa }}"
+                                                                    id="tujuan_tercapai_{{ $rapot->siswa->id_siswa }}_{{ $tujuan->id_tujuan_pembelajaran }}"
+                                                                    data-siswa="{{ $rapot->siswa->id_siswa }}"
                                                                     data-tujuan="{{ $tujuan->id_tujuan_pembelajaran }}"
                                                                     onchange="toggleCheckbox(this, 'tercapai')">
                                                                 <label class="form-check-label"
-                                                                    for="tujuan_tercapai_{{ $siswa->id_siswa }}_{{ $tujuan->id_tujuan_pembelajaran }}">
+                                                                    for="tujuan_tercapai_{{ $rapot->siswa->id_siswa }}_{{ $tujuan->id_tujuan_pembelajaran }}">
                                                                     {{ $tujuan->tujuan_pembelajaran_tercapai }}
                                                                 </label>
                                                                 <br>
@@ -109,19 +112,21 @@
                                                         </div>
                                                     </td>
 
+                                                    {{-- tujuan pembelajaran tidak tercapai --}}
                                                     <td>
                                                         <div class="form-check">
                                                             @foreach ($tujuan_pembelajaran as $tujuan)
                                                                 <input class="form-check-input tujuan-tidak-tercapai"
                                                                     type="checkbox"
-                                                                    name="tujuan_tidak_tercapai[{{ $siswa->id_siswa }}][]"
+                                                                    @checked(in_array($tujuan->id_tujuan_pembelajaran, json_decode($rapot->rapotNilai[0]->tujuan_pembelajaran_tidak_tercapai ?? '[]', true)))
+                                                                    name="tujuan_tidak_tercapai[{{ $rapot->siswa->id_siswa }}][]"
                                                                     value="{{ $tujuan->id_tujuan_pembelajaran }}"
-                                                                    id="tujuan_tidak_tercapai_{{ $siswa->id_siswa }}_{{ $tujuan->id_tujuan_pembelajaran }}"
-                                                                    data-siswa="{{ $siswa->id_siswa }}"
+                                                                    id="tujuan_tidak_tercapai_{{ $rapot->siswa->id_siswa }}_{{ $tujuan->id_tujuan_pembelajaran }}"
+                                                                    data-siswa="{{ $rapot->siswa->id_siswa }}"
                                                                     data-tujuan="{{ $tujuan->id_tujuan_pembelajaran }}"
                                                                     onchange="toggleCheckbox(this, 'tidak_tercapai')">
                                                                 <label class="form-check-label"
-                                                                    for="tujuan_tidak_tercapai_{{ $siswa->id_siswa }}_{{ $tujuan->id_tujuan_pembelajaran }}">
+                                                                    for="tujuan_tidak_tercapai_{{ $rapot->siswa->id_siswa }}_{{ $tujuan->id_tujuan_pembelajaran }}">
                                                                     {{ $tujuan->tujuan_pembelajaran_tidak_tercapai }}
                                                                 </label>
                                                                 <br>
@@ -129,7 +134,6 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            @endforeach
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -138,25 +142,6 @@
                     </div>
                     <!-- Tombol Simpan -->
                     <button type="submit" class="btn btn-primary">Simpan</button>
-
-                    @foreach ($rapot_nilai as $rapot)
-                        <h3>{{ $rapot->siswa->nama }}</h3>
-                        @foreach ($rapot->rapotNilai as $nilai)
-                            <p>Nilai Akhir: {{ $nilai->nilai_akhir }}</p>
-                            <p>Tujuan Pembelajaran Tercapai:</p>
-                            <ul>
-                                {{$nilai}}
-                                @if (!empty($nilai->tujuan_tercapai_detail) && is_array($nilai->tujuan_tercapai_detail))
-                                    @foreach ($nilai->tujuan_tercapai_detail as $tujuan)
-                                        <li>1{{ $tujuan }}</li>
-                                    @endforeach
-                                @else
-                                    <p>Tujuan tercapai tidak tersedia.</p>
-                                @endif
-
-                            </ul>
-                        @endforeach
-                    @endforeach
                 </form>
             @endif
 
