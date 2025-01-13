@@ -13,4 +13,14 @@ class RapotEkstrakulikuler extends Model
     protected $table = 'tb_rapot_ekstrakulikuler';
     protected $primaryKey = 'id_rapot_ekstrakulikuler';
     protected $guarded = ['id_rapot_ekstrakulikuler'];
+
+    public function Rapot()
+    {
+        return $this->hasMany(Rapot::class, 'id_siswa', 'id_siswa');
+    }
+
+    public function ekstrakulikuler()
+    {
+        return $this->belongsTo(Ekstrakulikuler::class, 'id_ekstrakulikuler');
+    }
 }
