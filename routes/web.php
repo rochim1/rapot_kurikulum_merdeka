@@ -39,7 +39,7 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['role:admin|walas'])->group(function () {
+Route::middleware(['role:admin'])->group(function () {
         Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
         Route::get('/data-guru', [GuruController::class, 'index'])->name('data-guru');
         Route::get('/create-guru', [GuruController::class, 'create'])->name('create-guru');
@@ -84,7 +84,7 @@ Route::middleware(['role:admin|walas'])->group(function () {
 
 });
 
-Route::middleware(['role:admin|walas'])->group(function () {
+Route::middleware(['role:walas'])->group(function () {
       // Wali Kelas
         Route::resource('wali_kelas_kelas', KelasController::class);
 
