@@ -58,6 +58,7 @@ class RapotNilaiController extends Controller
                 $id_mata_pelajaran = $tujuan_pembelajaran->first()->id_mata_pelajaran;
             }
 
+            dump($rapot_nilai, $tujuan_pembelajaran, $kelola_kelas);
             if ($rapot_nilai->count() > 0) {
                 $title = 'Edit Rapot';
                 return view('rapot.nilai_edit', compact(
@@ -87,6 +88,7 @@ class RapotNilaiController extends Controller
      */
     public function storeOrUpdate(Request $request)
     {
+
         $validatedData = $request->validate([
             'id_siswa' => 'required|array',
             'id_mata_pelajaran' => 'required|array',
@@ -123,9 +125,9 @@ class RapotNilaiController extends Controller
 
             DB::table('tb_rapot_nilai')->updateOrInsert(
                 [
+                    
                     'id_rapot' => $rapot->id_rapot,
                     'id_mata_pelajaran' => $validatedData['id_mata_pelajaran'][$siswa_id] ?? null,
-                    'nilai_akhir' => $validatedData['nilai_akhir'][$siswa_id] ?? null,
                 ],
                 [
                     'tujuan_pembelajaran_tercapai' => isset($validatedData['tujuan_tercapai'][$siswa_id])
@@ -134,6 +136,7 @@ class RapotNilaiController extends Controller
                     'tujuan_pembelajaran_tidak_tercapai' => isset($validatedData['tujuan_tidak_tercapai'][$siswa_id])
                         ? json_encode($validatedData['tujuan_tidak_tercapai'][$siswa_id])
                         : null,
+                    'nilai_akhir' => $validatedData['nilai_akhir'][$siswa_id] ?? null,
                 ]
             );
         }
