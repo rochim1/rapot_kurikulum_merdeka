@@ -17,7 +17,8 @@ class EkstrakulikulerController extends Controller
     }
     public function create()
     {
-        return view('ekstrakulikuler.create');
+        $title = 'Ekstrakulikuler';
+        return view('ekstrakulikuler.create', compact('title'));
     }
     public function store(Request $request)
     {
@@ -39,8 +40,9 @@ class EkstrakulikulerController extends Controller
     }
     public function edit($id)
     {
+        $title = 'Ekstrakulikuler';
         $ekskul = Ekstrakulikuler::findOrFail($id);
-        return view('ekstrakulikuler.edit', compact('ekskul'));
+        return view('ekstrakulikuler.edit', compact('ekskul','title'));
     }
     public function update(Request $request, $id)
     {

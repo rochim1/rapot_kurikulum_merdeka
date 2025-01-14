@@ -98,11 +98,11 @@
                                 </form>
                             </td>                            
                             <td>
-                                <a href="{{ route('show-guru', $guru->id_guru) }}" class="btn btn-outline-info btn-sm" title="Lihat Profil">
+                                <a href="{{ route('show-guru', $guru->id_guru) }}" class="btn btn-outline-info" title="Lihat Profil">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="{{ route('edit-guru', $guru->id_guru) }}" class="btn btn-outline-warning btn-sm" title="Edit"><i class="bi bi-pencil-square"></i></a>
-                                <a href="{{ route('delete-guru', $guru->id_guru) }}" class="btn btn-outline-danger btn-sm" title="Hapus"><i class="bi bi-trash"></i></a>
+                                <a href="{{ route('edit-guru', $guru->id_guru) }}" class="btn btn-outline-success" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ route('delete-guru', $guru->id_guru) }}" class="btn btn-outline-danger" id="btn_delete" title="Hapus"><i class="bi bi-trash"></i></a>
                             </td>
                         </tr>
                     @empty
