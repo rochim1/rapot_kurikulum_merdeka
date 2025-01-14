@@ -67,6 +67,22 @@
         </li>
     @endif
     @if (Auth::user()->hasRole('walas'))
+    <li class="menu-header small text-uppercase fw-bold">
+        <span class="menu-header-text">Master</span>
+    </li>
+    <li class="menu-item {{ Request::is('kelas*') ? 'active' : '' }}">
+        <a href="{{ route('kelas.index') }}" class="menu-link">
+            <i class="menu-icon ri-list-indefinite"></i>
+            <div data-i18n="Analytics">Kelas</div>
+        </a>
+    </li>
+
+    <li class="menu-item {{ Request::is('mata_pelajaran*') ? 'active' : '' }}">
+        <a href="{{ route('mata_pelajaran.index') }}" class="menu-link">
+            <i class="menu-icon ri-book-shelf-line"></i>
+            <div data-i18n="Analytics">Mata Pelajaran</div>
+        </a>
+    </li>
         <li class="menu-header small text-uppercase fw-bold">
             <span class="menu-header-text">Wali Kelas</span>
         </li>

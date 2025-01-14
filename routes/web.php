@@ -89,6 +89,9 @@ Route::middleware(['role:walas'])->group(function () {
       Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+        Route::resource('kelas', KelasController::class);
+        Route::resource('/mata_pelajaran', MataPelajaranController::class);
+
         Route::resource('wali_kelas_kelas', KelasController::class);
 
         Route::resource('tujuan_pembelajaran', TujuanPembelajaranController::class);
