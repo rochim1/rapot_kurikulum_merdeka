@@ -29,6 +29,16 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label for="keterangan" class="form-label">Keterangan</label>
+                <textarea type="text" 
+                        class="form-control @error('keterangan') is-invalid @enderror" 
+                        name="keterangan" 
+                        value="{{ old('keterangan') }}"></textarea>
+                @error('keterangan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
             
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-success">Simpan</button>

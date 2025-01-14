@@ -23,6 +23,11 @@ class EkstrakulikulerController extends Controller
     {
         $request->validate([
             'nama_ekstrakulikuler' => 'required|max:38',
+            'keterangan' => 'nullable|string',
+        ],[
+            'nama_ekstrakulikuler.required' => 'Nama ekstrakulikuler harus diisi',
+            'nama_ekstrakulikuler.max' => 'Nama ekstrakulikuler maksimal 38 karakter',
+            'keterangan' => 'Keterangan harus berupa text'
         ]);
         Ekstrakulikuler::create($request->all());
         Alert::success('Berhasil', 'Data berhasil ditambahkan.');
@@ -40,7 +45,12 @@ class EkstrakulikulerController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_ekstrakulikuler' => 'required|max:38',
+        'nama_ekstrakulikuler' => 'required|max:38',
+        'keterangan' => 'nullable|string',
+        ],[
+            'nama_ekstrakulikuler.required' => 'Nama ekstrakulikuler harus diisi',
+            'nama_ekstrakulikuler.max' => 'Nama ekstrakulikuler maksimal 38 karakter',
+            'keterangan' => 'Keterangan harus berupa text'
         ]);
         $ekskul = Ekstrakulikuler::findOrFail($id);
         $ekskul->update($request->all());
