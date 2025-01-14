@@ -26,6 +26,16 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label for="keterangan" class="form-label">Keterangan</label>
+                <textarea type="text" 
+                        class="form-control @error('keterangan') is-invalid @enderror" 
+                        name="keterangan" 
+                        value="{{ old('keterangan') }}">{{ olD('keterangan', $ekskul->keterangan) }}</textarea>
+                @error('keterangan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
             <button type="submit" class="btn btn-success">Update</button>
             <a href="{{ route('data-ekstrakulikuler') }}" class="btn btn-secondary">Kembali</a>
         </form>

@@ -11,7 +11,7 @@ class Ekstrakulikuler extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'tb_ekstrakulikuler';
     protected $primaryKey = 'id_ekstrakulikuler';
-    protected $fillable = ['nama_ekstrakulikuler'];
+    protected $fillable = ['nama_ekstrakulikuler','keterangan'];
 
     public function rapot()
     {
