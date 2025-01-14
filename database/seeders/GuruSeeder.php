@@ -48,7 +48,7 @@ class GuruSeeder extends Seeder
                 'agama' => 'Islam',
                 'alamat' => 'Jl. Merdeka No. 15, Jakarta',
                 'no_hp' => '081234567891',
-                'no_hp' => '081234567891@gmail.com',
+                'email' => '081234567891@gmail.com',
                 'jabatan' => 'Guru Bahasa Indonesia',
                 'golongan' => 'II/B',
                 'tmt_awal' => '2012-07-10',
