@@ -31,9 +31,9 @@ class EkstrakulikulerController extends Controller
             'keterangan' => 'Keterangan harus berupa text'
         ]);
         Ekstrakulikuler::create($request->all());
-        Alert::success('Berhasil', 'Data berhasil ditambahkan.');
+        Alert::success('Kerja Bagus', 'Data berhasil ditambahkan.');
         if ($request->has('repeat')) {
-            Alert::success('Berhasil', 'Data berhasil ditambahkan, silakan tambahkan data baru.');
+            Alert::success('Kerja Bagus', 'Data berhasil ditambahkan, silakan tambahkan data baru.');
             return back();
         }
         return redirect()->route('data-ekstrakulikuler');
