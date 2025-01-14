@@ -42,6 +42,10 @@ class KelasController extends Controller
         Kelas::create($validateData);
 
         Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
+        if ($request->has('repeat')) {
+            Alert::success('Kerja Bagus', 'Data berhasil ditambahkan, silakan tambahkan data baru.');
+            return back();
+        }
         return redirect()->route('kelas.index');
     }
 

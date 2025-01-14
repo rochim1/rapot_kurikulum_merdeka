@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             KelasSeeder::class,
             SiswaSeeder::class,
             MataPelajaranSeeder::class,
-            GuruSeeder::class,
+            // GuruSeeder::class,
             TujuanPembelajaranSeeder::class,
         ]);
     }

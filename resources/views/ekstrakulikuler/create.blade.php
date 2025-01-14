@@ -4,7 +4,7 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">Ekstrakurikuler</h4>
     <div class="d-flex gap-3">
-        <a href="{{ route('data-ekstrakulikuler') }}" class="btn btn-secondary btn-icon-split">
+        <a href="{{ route('data-ekstrakulikuler') }}" class="btn btn-danger btn-icon-split">
             <i class="bi bi-arrow-left-short"></i>
             <span class="text">Kembali</span>
         </a>
@@ -26,6 +26,16 @@
                         name="nama_ekstrakulikuler" 
                         value="{{ old('nama_ekstrakulikuler') }}">
                 @error('nama_ekstrakulikuler')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="keterangan" class="form-label">Keterangan</label>
+                <textarea type="text" 
+                        class="form-control @error('keterangan') is-invalid @enderror" 
+                        name="keterangan" 
+                        value="{{ old('keterangan') }}"></textarea>
+                @error('keterangan')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

@@ -47,6 +47,10 @@ class MataPelajaranController extends Controller
 
         MataPelajaran::create($validateData);
         Alert::success('Success', 'Data berhasil disimpan!');
+        if ($request->has('repeat')) {
+            Alert::success('Kerja Bagus', 'Data berhasil ditambahkan, silakan tambahkan data baru.');
+            return back();
+        }
         return redirect()->route('mata_pelajaran.index');
     }
 

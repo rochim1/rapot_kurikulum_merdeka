@@ -60,7 +60,14 @@
                     @forelse ($gurus as $guru)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td><img src="{{ asset('storage/' . $guru->foto) }}" alt="Foto Guru" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                            <td>
+                                @if($guru->foto)
+                                    <img src="{{ asset('storage/' . $guru->foto) }}" alt="Foto Guru" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                @else
+                                    <img src="{{ asset('img/default-user.png') }}" alt="Foto Guru" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                @endif
+                            </td>
+
                             <td>{{ $guru->nama }}</td>
                             <td>{{ $guru->nip }}</td>
                             <td>{{ $guru->nrg }}</td>
@@ -91,11 +98,11 @@
                                 </form>
                             </td>                            
                             <td>
-                                <a href="{{ route('show-guru', $guru->id_guru) }}" class="btn btn-outline-info btn-sm" title="Lihat Profil">
+                                <a href="{{ route('show-guru', $guru->id_guru) }}" class="btn btn-outline-info" title="Lihat Profil">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="{{ route('edit-guru', $guru->id_guru) }}" class="btn btn-outline-warning btn-sm" title="Edit"><i class="bi bi-pencil-square"></i></a>
-                                <a href="{{ route('delete-guru', $guru->id_guru) }}" class="btn btn-outline-danger btn-sm" title="Hapus"><i class="bi bi-trash"></i></a>
+                                <a href="{{ route('edit-guru', $guru->id_guru) }}" class="btn btn-outline-success" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ route('delete-guru', $guru->id_guru) }}" class="btn btn-outline-danger" id="btn_delete" title="Hapus"><i class="bi bi-trash"></i></a>
                             </td>
                         </tr>
                     @empty

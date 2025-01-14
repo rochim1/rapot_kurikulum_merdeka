@@ -39,7 +39,7 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['role:admin|walas'])->group(function () {
+Route::middleware(['role:admin'])->group(function () {
         Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
         Route::get('/data-guru', [GuruController::class, 'index'])->name('data-guru');
         Route::get('/create-guru', [GuruController::class, 'create'])->name('create-guru');
@@ -82,8 +82,10 @@ Route::middleware(['role:admin|walas'])->group(function () {
         
         Route::resource('/profil_sekolah', ProfilSekolahController::class);
 
+});
 
-         // Wali Kelas
+Route::middleware(['role:walas'])->group(function () {
+      // Wali Kelas
         Route::resource('wali_kelas_kelas', KelasController::class);
 
         Route::resource('tujuan_pembelajaran', TujuanPembelajaranController::class);
@@ -104,5 +106,5 @@ Route::middleware(['role:admin|walas'])->group(function () {
         Route::post('/rapot_catatan_wali_kelas/storeOrUpdate', [RapotCatatanWaliKelasController::class, 'storeOrUpdate'])->name('rapot_catatan_wali_kelas.storeOrUpdate');
 
         Route::get('/rapot_cetak', [RapotCetakController::class, 'index'])->name('rapot_cetak.index');
-        // Route::post('/rapot_cetak/storeOrUpdate', [RapotCetakController::class, 'storeOrUpdate'])->name('rapot_cetak.storeOrUpdate');
+      // Route::post('/rapot_cetak/storeOrUpdate', [RapotCetakController::class, 'storeOrUpdate'])->name('rapot_cetak.storeOrUpdate');
 });

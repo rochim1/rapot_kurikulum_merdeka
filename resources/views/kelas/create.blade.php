@@ -57,7 +57,8 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="submit" class="btn btn-success">Simpan</button>
+            <button type="submit" class="btn btn-primary" name="repeat" value="1"><i class="bi bi-arrow-counterclockwise"></i> Simpan & Buat Ulang</button>
         </form>
     </div>
 </div>

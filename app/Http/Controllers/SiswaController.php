@@ -74,6 +74,10 @@ class SiswaController extends Controller
         Siswa::create($validateData);
 
         Alert::success('kerja bagus', 'Data berhasil disimpan!');
+        if ($request->has('repeat')) {
+            Alert::success('Kerja Bagus', 'Data berhasil ditambahkan, silakan tambahkan data baru.');
+            return back();
+        }
         return redirect()->route('siswa.index');
     }
 

@@ -17,6 +17,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Ekstrakulikuler</th>
+                        <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -25,9 +26,10 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $ekskul->nama_ekstrakulikuler }}</td>
+                        <td>{{ $ekskul->keterangan }}</td>
                         <td>
-                            <a href="{{ route('edit-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" class="btn btn-outline-warning btn-sm" title="Edit"> <i class="bi bi-pencil-square"></i></a>
-                            <a href="{{ route('delete-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" class="btn btn-outline-danger btn-sm" title="Hapus"><i class="bi bi-trash"></i></a>
+                            <a href="{{ route('edit-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" class="btn btn-outline-success" title="Edit"> <i class="bi bi-pencil-square"></i></a>
+                            <a href="{{ route('delete-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" class="btn btn-outline-danger" id="btn_delete" title="Hapus"><i class="bi bi-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach

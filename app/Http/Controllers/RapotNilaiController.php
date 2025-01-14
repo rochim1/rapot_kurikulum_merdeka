@@ -125,7 +125,6 @@ class RapotNilaiController extends Controller
                 [
                     'id_rapot' => $rapot->id_rapot,
                     'id_mata_pelajaran' => $validatedData['id_mata_pelajaran'][$siswa_id] ?? null,
-                    'nilai_akhir' => $validatedData['nilai_akhir'][$siswa_id] ?? null,
                 ],
                 [
                     'tujuan_pembelajaran_tercapai' => isset($validatedData['tujuan_tercapai'][$siswa_id])
@@ -134,6 +133,7 @@ class RapotNilaiController extends Controller
                     'tujuan_pembelajaran_tidak_tercapai' => isset($validatedData['tujuan_tidak_tercapai'][$siswa_id])
                         ? json_encode($validatedData['tujuan_tidak_tercapai'][$siswa_id])
                         : null,
+                    'nilai_akhir' => $validatedData['nilai_akhir'][$siswa_id] ?? null,
                 ]
             );
         }
