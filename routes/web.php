@@ -39,8 +39,11 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::middleware(['role:admin|walas'])->group(function(){
+  Route::get('/home', [HomeController::class, 'index'])->name('home');
+});
+
 Route::middleware(['role:admin'])->group(function () {
-        Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
         Route::get('/data-guru', [GuruController::class, 'index'])->name('data-guru');
         Route::get('/create-guru', [GuruController::class, 'create'])->name('create-guru');
         Route::post('/store-guru', [GuruController::class, 'store'])->name('store-guru');
@@ -51,8 +54,6 @@ Route::middleware(['role:admin'])->group(function () {
         Route::post('/import-guru', [GuruController::class, 'import'])->name('import-guru');
         Route::post('/guru/{id_guru}/update-status', [GuruController::class, 'updateStatus'])->name('update-status');
         Route::post('/guru/{id_guru}/update-wali-kelas', [GuruController::class, 'updateWaliKelas'])->name('guru.update_wali_kelas');
-        
-        Route::get('/home', [HomeController::class, 'index'])->name('home');
 
         Route::resource('/kelola_kelas', KelolaKelasController::class);
         Route::post('/import_kelola_kelas', [KelolaKelasController::class, 'import'])->name('import_kelola_kelas');
@@ -85,9 +86,7 @@ Route::middleware(['role:admin'])->group(function () {
 });
 
 Route::middleware(['role:walas'])->group(function () {
-      // Wali Kelas
-      Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
-        Route::get('/home', [HomeController::class, 'index'])->name('home');
+      // Wali Kela
 
         Route::resource('kelas', KelasController::class);
         Route::resource('/mata_pelajaran', MataPelajaranController::class);
