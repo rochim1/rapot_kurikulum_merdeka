@@ -41,6 +41,9 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['role:admin|walas'])->group(function(){
   Route::get('/home', [HomeController::class, 'index'])->name('home');
+  Route::resource('/siswa', SiswaController::class);
+  Route::resource('kelas', KelasController::class);
+  Route::resource('/mata_pelajaran', MataPelajaranController::class);
 });
 
 Route::middleware(['role:admin'])->group(function () {
@@ -68,7 +71,7 @@ Route::middleware(['role:admin'])->group(function () {
 
 
         // user
-        Route::resource('/siswa', SiswaController::class);
+        
         Route::post('/import_siswa', [SiswaController::class, 'import_siswa'])->name('import_siswa');
 
         Route::resource('/mata_pelajaran', MataPelajaranController::class);
@@ -86,11 +89,7 @@ Route::middleware(['role:admin'])->group(function () {
 });
 
 Route::middleware(['role:walas'])->group(function () {
-      // Wali Kela
-
-        Route::resource('kelas', KelasController::class);
-        Route::resource('/mata_pelajaran', MataPelajaranController::class);
-
+      // Wali Kelas
         Route::resource('wali_kelas_kelas', KelasController::class);
 
         Route::resource('tujuan_pembelajaran', TujuanPembelajaranController::class);

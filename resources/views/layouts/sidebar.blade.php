@@ -70,6 +70,12 @@
     <li class="menu-header small text-uppercase fw-bold">
         <span class="menu-header-text">Master</span>
     </li>
+    <li class="menu-item {{ Request::is('siswa*') ? 'active' : '' }}">
+        <a href="{{ route('siswa.index') }}" class="menu-link">
+            <i class="menu-icon ri-graduation-cap-line"></i>
+            <div data-i18n="Analytics">Siswa</div>
+        </a>
+    </li>
     <li class="menu-item {{ Request::is('kelas*') ? 'active' : '' }}">
         <a href="{{ route('kelas.index') }}" class="menu-link">
             <i class="menu-icon ri-list-indefinite"></i>
