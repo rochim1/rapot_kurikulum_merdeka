@@ -107,6 +107,14 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <div class="form-group mt-2">
+                        <label for="email">Email <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $guru->email) }}">
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
     
                     <!-- Jabatan -->
                     <div class="form-group mt-2">

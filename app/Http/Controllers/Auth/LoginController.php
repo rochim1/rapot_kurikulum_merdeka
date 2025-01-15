@@ -70,7 +70,7 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'id_tahun_ajaran' => 'exists:tb_tahun_ajaran,id_tahun_ajaran',
+            'id_tahun_ajaran' => 'nullable|exists:tb_tahun_ajaran,id_tahun_ajaran',
         ], [
             'email.required' => 'Email tidak boleh kosong.',
             'email.email' => 'Email harus berupa format email yang valid.',
@@ -84,23 +84,38 @@ class LoginController extends Controller
         // Proses login
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            
+
             if ($user->hasRole('admin')) {
                 return redirect()->intended(route('home', absolute: false));
             }
-            if ($user->hasRole('walas') && $user->guru->is_wali_kelas == true) {
-                session(['id_tahun_ajaran' => $request->id_tahun_ajaran]);
 
-                return redirect()->route('home')->with('success', 'Login berhasil!');
+            if ($user->hasRole('walas')) {
+                // Periksa apakah user walas telah mengisi tahun ajaran
+                if (empty($request->id_tahun_ajaran)) {
+                    Auth::logout(); // Logout user jika validasi gagal
+                    Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda harus memilih tahun ajaran terlebih dahulu.');
+                    return redirect()->route('login');
+                }
+
+                if ($user->guru->is_wali_kelas == true) {
+                    session(['id_tahun_ajaran' => $request->id_tahun_ajaran]);
+
+                    return redirect()->route('home')->with('success', 'Login berhasil!');
+                }
+
+                Auth::logout();
+                Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda bukan wali kelas. Hubungi admin jika membutuhkan akses masuk');
+                return redirect()->route('login');
             }
+
             Auth::logout();
-            Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda bukan wali kelas. Hubungi admin jika membutuhkan akses masuk');
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'Role Anda tidak memiliki akses.');
         }
 
         // Jika kredensial salah, kembalikan ke halaman login dengan pesan kesalahan
         return redirect()->route('login')->with('error', 'Email atau password salah.');
     }
+
 
 
     /**

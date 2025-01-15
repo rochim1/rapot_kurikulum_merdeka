@@ -144,7 +144,7 @@ class GuruController extends Controller
         $title = 'Guru';
         $guru = Guru::findOrFail($id_guru);
         $mataPelajarans =  MataPelajaran::orderBy('kelompok', 'ASC')->orderBy('nama_mata_pelajaran', 'ASC')->get();
-        return view('components.guru.edit', compact('guru', 'mataPelajarans','title'));
+        return view('guru.edit', compact('guru', 'mataPelajarans','title'));
     }
 
     public function update(Request $request, $id_guru)
