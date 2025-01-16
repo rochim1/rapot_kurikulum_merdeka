@@ -59,6 +59,7 @@
                 <tbody>
                     @forelse ($gurus as $guru)
                         <tr>
+                            <td>{{ ($gurus->currentPage() - 1) * $gurus->perPage() + $loop->iteration }}</td>
                             <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if($guru->foto)

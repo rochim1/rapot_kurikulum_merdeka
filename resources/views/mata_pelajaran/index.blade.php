@@ -29,7 +29,7 @@
                 <tbody>
                     @forelse ($mataPelajaran as $item)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ($mataPelajaran->currentPage() - 1) * $mataPelajaran->perPage() + $loop->iteration }}</td>
                             <td>{{ $item->nama_mata_pelajaran }}</td>
                             <td>{{ $item->kelompok }}</td>
                             <td class="d-flex gap-2">

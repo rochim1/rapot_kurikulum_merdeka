@@ -30,7 +30,7 @@
                 <tbody>
                     @foreach ($kelolaKelas as $item_kelola_kelas)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ($kelolaKelas->currentPage() - 1) * $kelolaKelas->perPage() + $loop->iteration }}</td>
                             <td>{{ $item_kelola_kelas->kelas->kelas_tingkatan }}.{{ $item_kelola_kelas->kelas->kelas_abjad }}</td>
                             <td>{{ $item_kelola_kelas->kelas->fase }}</td>
                             <td>{{ $item_kelola_kelas->guru->nama }}</td>

@@ -31,7 +31,7 @@
                     <tbody>
                         @forelse ($tahunAjaran as $item_tahun_ajaran)
                             <tr>
-                                <td>{{ $loop->iteration + $tahunAjaran->firstItem() - 1 }}</td>
+                                <td>{{ ($tahunAjaran->currentPage() - 1) * $tahunAjaran->perPage() + $loop->iteration }}</td>
                                 <td>{{ $item_tahun_ajaran->tahun_ajaran_awal }}/{{ $item_tahun_ajaran->tahun_ajaran_akhir }}
                                 </td>
                                 <td>{{ $item_tahun_ajaran->semester }}</td>
