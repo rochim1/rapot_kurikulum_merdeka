@@ -67,28 +67,28 @@
         </li>
     @endif
     @if (Auth::user()->hasRole('walas'))
-    <li class="menu-header small text-uppercase fw-bold">
-        <span class="menu-header-text">Master</span>
-    </li>
-    <li class="menu-item {{ Request::is('siswa*') ? 'active' : '' }}">
-        <a href="{{ route('siswa.index') }}" class="menu-link">
-            <i class="menu-icon ri-graduation-cap-line"></i>
-            <div data-i18n="Analytics">Siswa</div>
-        </a>
-    </li>
-    <li class="menu-item {{ Request::is('kelas*') ? 'active' : '' }}">
-        <a href="{{ route('kelas.index') }}" class="menu-link">
-            <i class="menu-icon ri-list-indefinite"></i>
-            <div data-i18n="Analytics">Kelas</div>
-        </a>
-    </li>
+        <li class="menu-header small text-uppercase fw-bold">
+            <span class="menu-header-text">Master</span>
+        </li>
+        <li class="menu-item {{ Request::is('siswa*') ? 'active' : '' }}">
+            <a href="{{ route('siswa.index') }}" class="menu-link">
+                <i class="menu-icon ri-graduation-cap-line"></i>
+                <div data-i18n="Analytics">Siswa</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Request::is('mata_pelajaran*') ? 'active' : '' }}">
+            <a href="{{ route('mata_pelajaran.index') }}" class="menu-link">
+                <i class="menu-icon ri-book-shelf-line"></i>
+                <div data-i18n="Analytics">Mata Pelajaran</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Request::is('ekstrakulikuler*') ? 'active' : '' }}">
+            <a href="{{ route('ekstrakulikuler.index') }}" class="menu-link">
+                <i class="menu-icon ri-list-indefinite"></i>
+                <div data-i18n="Analytics">Ekstrakulikuler</div>
+            </a>
+        </li>
 
-    <li class="menu-item {{ Request::is('mata_pelajaran*') ? 'active' : '' }}">
-        <a href="{{ route('mata_pelajaran.index') }}" class="menu-link">
-            <i class="menu-icon ri-book-shelf-line"></i>
-            <div data-i18n="Analytics">Mata Pelajaran</div>
-        </a>
-    </li>
         <li class="menu-header small text-uppercase fw-bold">
             <span class="menu-header-text">Wali Kelas</span>
         </li>
@@ -110,11 +110,6 @@
                 <div data-i18n="Account Settings">Rapot</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ Request::is('rapot_cetak') ? 'active' : '' }}">
-                    <a href="{{ route('rapot_cetak.index') }}" class="menu-link">
-                        <div data-i18n="Account">Cetak</div>
-                    </a>
-                </li>
                 <li class="menu-item {{ Request::is('rapot_nilai') ? 'active' : '' }}">
                     <a href="{{ route('rapot_nilai.index') }}" class="menu-link">
                         <div data-i18n="Account">Nilai</div>
@@ -133,6 +128,11 @@
                 <li class="menu-item {{ Request::is('rapot_catatan_wali_kelas*') ? 'active' : '' }}">
                     <a href="{{ route('rapot_catatan_wali_kelas.index') }}" class="menu-link">
                         <div data-i18n="Connections">Catatan Wali Kelas</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('rapot_cetak') ? 'active' : '' }}">
+                    <a href="{{ route('rapot_cetak.index') }}" class="menu-link">
+                        <div data-i18n="Account">Cetak</div>
                     </a>
                 </li>
             </ul>

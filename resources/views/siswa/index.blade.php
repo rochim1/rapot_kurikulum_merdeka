@@ -4,14 +4,16 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">{{ $title }}</h4>
 
-    <div class="d-flex gap-3">
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import"><i class="bi bi-folder-plus"></i>
-            Import
-        </button>
-        <a href="{{ route('siswa.create') }}" class="btn btn-primary btn-icon-split">
-            <span class="text"><i class="bi bi-plus"></i></i> Tambah</span>
-        </a>
-    </div>
+    @if (Auth::user()->hasRole('admin'))
+        <div class="d-flex gap-3">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import"><i class="bi bi-folder-plus"></i>
+                Import
+            </button>
+            <a href="{{ route('siswa.create') }}" class="btn btn-primary btn-icon-split">
+                <span class="text"><i class="bi bi-plus"></i></i> Tambah</span>
+            </a>
+        </div>
+    @endif
 </div>
 
 <div class="card shadow mb-4">
@@ -38,7 +40,7 @@
                                 @if($item_siswa->foto)
                                     <img src="{{ asset('storage/' . $item_siswa->foto) }}" alt="Foto {{ $item_siswa->nama }}" class="border object-fit-cover " style="width: 75px; height: 95px;">
                                 @else
-                                    <img src="{{ asset('storage/no-image.png') }}" alt="Default Foto" class="border object-fit-cover " style="width: 75px; height: 95px;">
+                                    <img src="{{ asset('storage/no-image.png') }}" alt="Default Foto" class="border object-fit-cover " style="width: 50px; height: 65px;">
                                 @endif
                             </td>
                             <td>{{ $item_siswa->nama }}</td>
@@ -61,18 +63,19 @@
                                     <a href="{{ route('siswa.show', $item_siswa->id_siswa) }}" class="btn btn-outline-info" title="Detail">
                                         <i class="bi bi-eye"></i>
                                     </a>
+                                    @if (Auth::user()->hasRole('admin'))
+                                        <a href="{{ route('siswa.edit', $item_siswa->id_siswa) }}" class="btn btn-outline-success" title="Edit">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
 
-                                    <a href="{{ route('siswa.edit', $item_siswa->id_siswa) }}" class="btn btn-outline-success" title="Edit">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-
-                                    <form id="myForm" action="{{ route('siswa.destroy', $item_siswa->id_siswa) }}" method="POST" title="Hapus">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline-danger" id="btn_delete">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    </form>
+                                        <form id="myForm" action="{{ route('siswa.destroy', $item_siswa->id_siswa) }}" method="POST" title="Hapus">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-danger" id="btn_delete">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

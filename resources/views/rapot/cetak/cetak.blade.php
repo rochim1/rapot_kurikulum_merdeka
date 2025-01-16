@@ -11,7 +11,8 @@
     </div>
 </div>
 
-@foreach ($rapot as $itemRapot)
+    
+@forelse ($rapot as $itemRapot)
     <div class="">
 
         {{-- Nilai --}}
@@ -264,5 +265,15 @@
             </div>
         </div>
     </div>
-@endforeach
+@empty
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="container">
+                <div class="text-center text-danger fst-italic fw-bold">
+                    Input data (Nilai / Kehadiran / Ekstrakulikuler / Catatan Wali Kelas) Terlebih Dahulu!
+                </div>
+            </div>
+        </div>
+    </div>
+@endforelse
 @endsection

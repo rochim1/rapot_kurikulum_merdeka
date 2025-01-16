@@ -4,14 +4,16 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">{{ $title }}</h4>
 
-    <div class="d-flex gap-3">
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import"><i class="bi bi-folder-plus"></i>
-            Import
-        </button>
-        <a href="{{ route('mata_pelajaran.create') }}" class="btn btn-primary btn-icon-split">
-            <span class="text"><i class="bi bi-plus"></i></i> Tambah</span>
-        </a>
-    </div>
+    @if (Auth::user()->hasRole('admin'))
+        <div class="d-flex gap-3">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import"><i class="bi bi-folder-plus"></i>
+                Import
+            </button>
+            <a href="{{ route('mata_pelajaran.create') }}" class="btn btn-primary btn-icon-split">
+                <span class="text"><i class="bi bi-plus"></i></i> Tambah</span>
+            </a>
+        </div>
+    @endif
 </div>
 
 <div class="card shadow mb-4">
@@ -23,7 +25,9 @@
                         <th>No</th>
                         <th>Nama Mata Pelajaran</th>
                         <th>Kelompok</th>
-                        <th>Aksi</th>
+                        @if (Auth::user()->hasRole('admin'))
+                            <th>Aksi</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -32,18 +36,20 @@
                             <td>{{ ($mataPelajaran->currentPage() - 1) * $mataPelajaran->perPage() + $loop->iteration }}</td>
                             <td>{{ $item->nama_mata_pelajaran }}</td>
                             <td>{{ $item->kelompok }}</td>
-                            <td class="d-flex gap-2">
-                                <a href="{{ route('mata_pelajaran.edit', $item->id_mata_pelajaran) }}" class="btn btn-outline-success">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <form id="myForm" action="{{ route('mata_pelajaran.destroy', $item->id_mata_pelajaran) }}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-outline-danger" id="btn_delete">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </form>
-                            </td>
+                            @if (Auth::user()->hasRole('admin'))
+                                <td class="d-flex gap-2">
+                                    <a href="{{ route('mata_pelajaran.edit', $item->id_mata_pelajaran) }}" class="btn btn-outline-success">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <form id="myForm" action="{{ route('mata_pelajaran.destroy', $item->id_mata_pelajaran) }}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger" id="btn_delete">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                     @empty
                         <tr>

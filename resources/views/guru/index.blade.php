@@ -60,12 +60,11 @@
                     @forelse ($gurus as $guru)
                         <tr>
                             <td>{{ ($gurus->currentPage() - 1) * $gurus->perPage() + $loop->iteration }}</td>
-                            <td>{{ $loop->iteration }}</td>
                             <td>
                                 @if($guru->foto)
                                     <img src="{{ asset('storage/' . $guru->foto) }}" alt="Foto Guru" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
                                 @else
-                                    <img src="{{ asset('img/default-user.png') }}" alt="Foto Guru" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <img src="{{ asset('storage/no-image.png') }}" alt="Default Foto" class="border object-fit-cover " style="width: 75px; height: 95px;">
                                 @endif
                             </td>
 

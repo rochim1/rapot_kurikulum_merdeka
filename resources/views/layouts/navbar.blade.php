@@ -6,21 +6,28 @@
         </a>
     </div>
 
-    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        @if (session('id_tahun_ajaran'))
-            @php
-                $tahunAjaran = \App\Models\TahunAjaran::find(session('id_tahun_ajaran'));
-            @endphp
-            @if ($tahunAjaran)
-                <h3><strong>Tahun Ajaran: </strong> 
-                    {{ $tahunAjaran->tahun_ajaran_awal }}/{{ $tahunAjaran->tahun_ajaran_akhir }} - {{ $tahunAjaran->semester }}
-                </h3>
+    <div class="navbar-nav-right d-flex" id="navbar-collapse">
+        <div class="mt-3">
+            @if (session('id_tahun_ajaran'))
+                @php
+                    $tahunAjaran = \App\Models\TahunAjaran::find(session('id_tahun_ajaran'));
+                @endphp
+                @if ($tahunAjaran)
+                    <h5><span class="fw-bold me-2">Kelas :</span> 
+                        <span class="fst-italic small">
+                            {{ session('kelas') }} 
+                            ({{ $tahunAjaran->tahun_ajaran_awal }}/{{ $tahunAjaran->tahun_ajaran_akhir }})
+                            -
+                            {{ $tahunAjaran->semester }}
+                        </span>
+                    </h5>
+                @else
+                    <p><strong>Tahun Ajaran: </strong> Data tidak ditemukan.</p>
+                @endif
             @else
-                <p><strong>Tahun Ajaran: </strong> Data tidak ditemukan.</p>
+                <p><strong>Tahun Ajaran: </strong> Tidak tersedia.</p>
             @endif
-        @else
-            <p><strong>Tahun Ajaran: </strong> Tidak tersedia.</p>
-        @endif
+        </div>
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -33,9 +40,9 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item" href="{{ url('admin/profil') }}">
-                            <i class="bi bi-person me-2"></i>
-                            <span class="align-middle">My Profile</span>
+                        <a class="dropdown-item" href="{{ route('profil_user.index') }}">
+                            <i class="bi bi-pencil-square me-2"></i>
+                            <span class="align-middle">Update Password</span>
                         </a>
                     </li>
                     <li>

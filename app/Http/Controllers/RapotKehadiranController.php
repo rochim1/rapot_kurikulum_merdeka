@@ -36,7 +36,7 @@ class RapotKehadiranController extends Controller
         });
 
         $title = 'Rapot';
-        return view('rapot.kehadiran', compact('kelola_kelas', 'title'));
+        return view('rapot.kehadiran.index', compact('kelola_kelas', 'title'));
     }
  
     public function storeOrUpdate(Request $request)

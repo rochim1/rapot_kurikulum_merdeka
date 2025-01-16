@@ -100,6 +100,7 @@ class LoginController extends Controller
             $user = Auth::user();
 
             if ($user->hasRole('admin')) {
+                Alert::success('Kerja Bagus!', 'Login Berhasil');
                 return redirect()->intended(route('home', absolute: false));
             }
 
@@ -112,9 +113,14 @@ class LoginController extends Controller
                 }
 
                 if ($user->guru->is_wali_kelas == true) {
-                    session(['id_tahun_ajaran' => $request->id_tahun_ajaran]);
+                    $tahunAjaran = TahunAjaran::find($request->id_tahun_ajaran);
+                    if (!$tahunAjaran) {
+                        return redirect()->route('login')->with('error', 'Tahun ajaran tidak ditemukan.');
+                    }
 
-                    return redirect()->route('home')->with('success', 'Login berhasil!');
+                    session(['id_tahun_ajaran' => $request->id_tahun_ajaran]);
+                    Alert::success('Kerja Bagus!', 'Login Berhasil');
+                    return redirect()->route('home')->with('success', 'Login berhasil');
                 }
 
                 Auth::logout();
@@ -137,9 +143,14 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function logout()
+    public function logout(Request $request)
     {
+        $request->session()->forget('id_tahun_ajaran');
         Auth::logout();
-        return redirect('/');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+    
+        Alert::success('Kerja Bagus', 'Anda Berhasil Logout')->autoClose(false);
+        return redirect()->route('login');
     }
 }

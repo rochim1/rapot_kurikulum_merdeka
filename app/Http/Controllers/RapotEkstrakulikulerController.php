@@ -45,7 +45,7 @@ class RapotEkstrakulikulerController extends Controller
         });
 
         $title = 'Rapot';
-        return view('rapot.ekstrakulikuler', compact('kelola_kelas', 'title', 'ekstrakulikuler'));
+        return view('rapot.ekstrakulikuler.index', compact('kelola_kelas', 'title', 'ekstrakulikuler'));
     }
     
     

@@ -3,9 +3,11 @@
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">Ekstrakulikuler</h4>
-    <div class="d-flex gap-3">
-        <a href="{{ route('create-ekstrakulikuler') }}" class="btn btn-primary btn-icon-split"><i class="bi bi-plus"></i><span class="'text">Tambah</span></a>
-    </div>
+    @if (Auth::user()->hasRole('admin'))
+        <div class="d-flex gap-3">
+            <a href="{{ route('create-ekstrakulikuler') }}" class="btn btn-primary btn-icon-split"><i class="bi bi-plus"></i><span class="'text">Tambah</span></a>
+        </div>
+    @endif
 </div>
 <div class="card shadow mb-4">
     <div class="card-header">{{ __('Daftar Ekstrakulikuler') }}</div>
@@ -17,8 +19,9 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Ekstrakulikuler</th>
-                        <th>Keterangan</th>
-                        <th>Aksi</th>
+                        @if (Auth::user()->hasRole('admin'))
+                            <th>Aksi</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -26,11 +29,12 @@
                     <tr>
                         <td>{{ ($ekskuls->currentPage() - 1) * $ekskuls->perPage() + $loop->iteration }}</td>
                         <td>{{ $ekskul->nama_ekstrakulikuler }}</td>
-                        <td>{{ $ekskul->keterangan }}</td>
-                        <td>
-                            <a href="{{ route('edit-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" class="btn btn-outline-success" title="Edit"> <i class="bi bi-pencil-square"></i></a>
-                            <a href="{{ route('delete-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" class="btn btn-outline-danger" id="btn_delete" title="Hapus"><i class="bi bi-trash"></i></a>
-                        </td>
+                        @if (Auth::user()->hasRole('admin'))
+                            <td>
+                                <a href="{{ route('edit-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" class="btn btn-outline-success" title="Edit"> <i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ route('delete-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" class="btn btn-outline-danger" id="btn_delete" title="Hapus"><i class="bi bi-trash"></i></a>
+                            </td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>

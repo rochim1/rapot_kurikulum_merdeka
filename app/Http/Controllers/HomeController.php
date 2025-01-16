@@ -52,14 +52,15 @@ class HomeController extends Controller
                 ->where('id_guru', auth()->user()->id)
                 ->get();
 
-            $total_siswa = 0;
-
-            $kelola_kelas->each(function ($kelola) use (&$total_siswa) {
+            $kelola_kelas->each(function ($kelola) use (&$jumlahSiswa) {
                 $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->get();
-                $total_siswa += $kelola->siswa->count();
+                $jumlahSiswa += $kelola->siswa->count();
             });
 
-            $jumlahSiswa = $total_siswa;
+            // ambil kleas
+            $kelas = $kelola_kelas->pluck('kelas')->first();
+            $kelas = $kelas->kelas_tingkatan . '.' . $kelas->kelas_abjad;
+            session(['kelas' => $kelas]);
         } else {
             // If the user is an admin, display all students regardless of 'tahun ajaran'
             $jumlahSiswa = Siswa::count(); // Assuming you have a Siswa model for students

@@ -37,7 +37,7 @@ class RapotCatatanWaliKelasController extends Controller
         });
 
         $title = 'Rapot';
-        return view('rapot.catatan_wali_kelas', compact('kelola_kelas', 'title'));
+        return view('rapot.catatan_wali_kelas.index', compact('kelola_kelas', 'title'));
     }
 
     public function storeOrUpdate(Request $request)
