@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Guru;
 use App\Models\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\TahunAjaran;
+use Illuminate\Http\Request;
+use App\Models\ProfilSekolah;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Models\ProfilSekolah;
 
 class LoginController extends Controller
 {
@@ -75,8 +76,21 @@ class LoginController extends Controller
             'email.required' => 'Email tidak boleh kosong.',
             'email.email' => 'Email harus berupa format email yang valid.',
             'password.required' => 'Password tidak boleh kosong.',
+            'password.min' => 'Password harus memiliki minimal 6 karakter.',
             'id_tahun_ajaran.exists' => 'Tahun ajaran tidak valid.',
         ]);
+
+        // Cek apakah email ada di database
+        $user = \App\Models\User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Mohon maaf, email yang anda masukan tidak terdaftar.');
+        }
+
+        // Cek apakah password sesuai
+        if (!\Hash::check($request->password, $user->password)) {
+            return redirect()->route('login')->with('error', 'Mohon maaf, password yang Anda masukkan salah.');
+        }
 
         // Ambil input email dan password untuk proses login
         $credentials = $request->only('email', 'password');

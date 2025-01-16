@@ -6,7 +6,11 @@
             <small class="opacity-75 fst-italic">Silahkan Login dengan Email dan Password anda</small>
             <hr>
         </div>
-        
+        @if (session('error'))
+            <div class="alert alert-danger mx-3 mt-3"><i class="bi bi-check2-circle"></i> 
+                {{ session('error') }}
+        </div>
+        @endif
         <form class="mb-4" method="POST" action="{{ route('login') }}" autocomplete="off">
     @csrf
     <!-- Input Email -->
@@ -15,7 +19,7 @@
         <input id="email" type="email" 
                class="form-control ps-5 @error('email') is-invalid @enderror" 
                name="email" value="{{ old('email') }}" 
-               autocomplete="email" autofocus required 
+               autocomplete="email"
                placeholder="Masukan Alamat Email...">
         @error('email')
         <span class="invalid-feedback" role="alert">
@@ -28,9 +32,9 @@
     <div class="mb-3 position-relative">
         <i class="bi bi-key position-absolute top-50 translate-middle-y ms-2 text-muted"></i>
         <input id="password" type="password" 
-               class="form-control ps-5 @error('password') is-invalid @enderror" 
-               name="password" autocomplete="current-password" 
-               required placeholder="Masukan Password...">
+                class="form-control ps-5 @error('password') is-invalid @enderror" 
+                name="password" autocomplete="current-password" 
+                placeholder="Masukan Password...">
         @error('password')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
