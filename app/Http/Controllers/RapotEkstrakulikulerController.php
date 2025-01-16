@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ekstrakulikuler;
-use App\Models\Kelas;
 use App\Models\KelolaKelas;
 use App\Models\ProfilSekolah;
 use App\Models\Rapot;

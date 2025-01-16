@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Guru;
 use App\Models\TujuanPembelajaran;
 use App\Models\MataPelajaran;
 use App\Models\Kelas;

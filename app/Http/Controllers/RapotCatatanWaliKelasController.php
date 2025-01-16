@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kelas;
 use App\Models\KelolaKelas;
 use App\Models\ProfilSekolah;
 use App\Models\Rapot;
-use App\Models\RapotCatatanWaliKelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

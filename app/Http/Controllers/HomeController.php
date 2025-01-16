@@ -6,8 +6,6 @@ use App\Models\Guru;
 use App\Models\Siswa;
 use App\Models\KelolaKelas;
 use App\Models\TahunAjaran;
-use Illuminate\Http\Request;
-use App\Models\SiswaTahunAjaran;
 use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
