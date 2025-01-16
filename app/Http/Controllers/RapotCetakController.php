@@ -26,6 +26,6 @@ class RapotCetakController extends Controller
             $profilSekolah = ProfilSekolah::find(1);
             $title = 'Rapot';
             $siswa = Siswa::all();
-            return view('rapot.cetak', compact('siswa','title', 'rapot', 'profilSekolah'));
+            return view('rapot.cetak.index', compact('siswa','title', 'rapot', 'profilSekolah'));
     }
 }
