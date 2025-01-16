@@ -140,6 +140,11 @@
                             </a>
                         </li>
                     @endif
+                <li class="menu-item {{ Request::is('rapot_ttd') ? 'active' : '' }}">
+                    <a href="{{ route('rapot_ttd.index') }}" class="menu-link">
+                        <div data-i18n="Account">Tanda Tangan</div>
+                    </a>
+                </li>
                 <li class="menu-item {{ Request::is('rapot_cetak') ? 'active' : '' }}">
                     <a href="{{ route('rapot_cetak.index') }}" class="menu-link">
                         <div data-i18n="Account">Cetak</div>
