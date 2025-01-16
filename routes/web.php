@@ -57,33 +57,24 @@ Route::middleware(['role:admin'])->group(function () {
         Route::post('/import-guru', [GuruController::class, 'import'])->name('import-guru');
         Route::post('/guru/{id_guru}/update-status', [GuruController::class, 'updateStatus'])->name('update-status');
         Route::post('/guru/{id_guru}/update-wali-kelas', [GuruController::class, 'updateWaliKelas'])->name('guru.update_wali_kelas');
-
         Route::resource('/kelola_kelas', KelolaKelasController::class);
         Route::post('/import_kelola_kelas', [KelolaKelasController::class, 'import'])->name('import_kelola_kelas');
         Route::post('/toggleStatus', [KelolaKelasController::class, 'import'])->name('kelas.toggleStatus');        
-
         Route::get('/data-ekstrakulikuler', [EkstrakulikulerController::class, 'index'])->name('data-ekstrakulikuler');
         Route::get('/create-ekstrakulikuler', [EkstrakulikulerController::class, 'create'])->name('create-ekstrakulikuler');
         Route::post('/store-ekstrakulikuler', [EkstrakulikulerController::class, 'store'])->name('store-ekstrakulikuler');
         Route::get('/edit-ekstrakulikuler/{id_ekstrakulikuler}', [EkstrakulikulerController::class, 'edit'])->name('edit-ekstrakulikuler');
         Route::post('/update-ekstrakulikuler/{id_ekstrakulikuler}', [EkstrakulikulerController::class, 'update'])->name('update-ekstrakulikuler');
         Route::get('/delete-ekstrakulikuler/{id_ekstrakulikuler}', [EkstrakulikulerController::class, 'destroy'])->name('delete-ekstrakulikuler');
-
-
         // user
-        
         Route::post('/import_siswa', [SiswaController::class, 'import_siswa'])->name('import_siswa');
-
         Route::resource('/mata_pelajaran', MataPelajaranController::class);
         Route::post('/import_mata_pelajaran', [MataPelajaranController::class, 'import_mata_pelajaran'])->name('import_mata_pelajaran');
-
         Route::resource('kelas', KelasController::class);
         Route::post('/import_kelas', [KelasController::class, 'import_kelas'])->name('import_kelas');
-
         Route::resource('/tahun_ajaran', TahunAjaranController::class);
         Route::post('/import_tahun_ajaran', [TahunAjaranController::class, 'import_tahun_ajaran'])->name('import_tahun_ajaran');
-        Route::put('/tahun_ajaran_is_active/{tahunAjaran}', [TahunAjaranController::class, 'tahun_ajaran_is_active'])->name('tahun_ajaran_is_active');
-        
+        Route::put('/tahun_ajaran_is_active/{tahunAjaran}', [TahunAjaranController::class, 'tahun_ajaran_is_active'])->name('tahun_ajaran_is_active');       
         Route::resource('/profil_sekolah', ProfilSekolahController::class);
 
 });
@@ -91,24 +82,16 @@ Route::middleware(['role:admin'])->group(function () {
 Route::middleware(['role:walas'])->group(function () {
       // Wali Kelas
         Route::resource('wali_kelas_kelas', KelasController::class);
-
         Route::resource('tujuan_pembelajaran', TujuanPembelajaranController::class);
         Route::put('/tujuan_pembelajaran_is_active/{tujuanPembelajaran}', [TujuanPembelajaranController::class, 'tujuan_pembelajaran_is_active'])->name('tujuan_pembelajaran_is_active');
-
-        // Route::resource('rapot_nilai', RapotNilaiController::class);
         Route::get('rapot_nilai', [RapotNilaiController::class, 'index'])->name('rapot_nilai.index');
         Route::get('/rapot_nilai/editOrCreate', [RapotNilaiController::class, 'editOrCreate'])->name('rapot_nilai.editOrCreate');
         Route::post('/rapot_nilai/storeOrUpdate', [RapotNilaiController::class, 'storeOrUpdate'])->name('rapot_nilai.storeOrUpdate');
-
         Route::get('/rapot_ekstrakulikuler', [RapotEkstrakulikulerController::class, 'index'])->name('rapot_ekstrakulikuler.index');
         Route::post('/rapot_ekstrakulikuler/storeOrUpdate', [RapotEkstrakulikulerController::class, 'storeOrUpdate'])->name('rapot_ekstrakulikuler.storeOrUpdate');
-
         Route::get('/rapot_kehadiran', [RapotKehadiranController::class, 'index'])->name('rapot_kehadiran.index');
         Route::post('/rapot_kehadiran/storeOrUpdate', [RapotKehadiranController::class, 'storeOrUpdate'])->name('rapot_kehadiran.storeOrUpdate');
-
         Route::get('/rapot_catatan_wali_kelas', [RapotCatatanWaliKelasController::class, 'index'])->name('rapot_catatan_wali_kelas.index');
         Route::post('/rapot_catatan_wali_kelas/storeOrUpdate', [RapotCatatanWaliKelasController::class, 'storeOrUpdate'])->name('rapot_catatan_wali_kelas.storeOrUpdate');
-
         Route::get('/rapot_cetak', [RapotCetakController::class, 'index'])->name('rapot_cetak.index');
-      // Route::post('/rapot_cetak/storeOrUpdate', [RapotCetakController::class, 'storeOrUpdate'])->name('rapot_cetak.storeOrUpdate');
 });

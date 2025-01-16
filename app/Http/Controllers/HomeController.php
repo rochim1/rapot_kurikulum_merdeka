@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\Siswa;
+use App\Models\KelolaKelas;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\KelolaKelas;
 use App\Models\SiswaTahunAjaran;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -63,6 +64,7 @@ class HomeController extends Controller
             // If the user is an admin, display all students regardless of 'tahun ajaran'
             $jumlahSiswa = Siswa::count(); // Assuming you have a Siswa model for students
         }
-        return view('home', compact('jumlahSiswa', 'tahunAjaran', 'title'));
+        $jumlahGuru = Guru::count();
+        return view('home', compact('jumlahSiswa', 'tahunAjaran', 'title','jumlahGuru'));
     }
 }

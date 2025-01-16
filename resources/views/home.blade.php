@@ -22,7 +22,6 @@
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Logout
                             </a>
-
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
@@ -38,7 +37,6 @@
             </div>
         </div>
     </div>
-    {{-- @if (auth()->user()->hasRole('walas')) --}}
         <div class="row">
             <!-- Card untuk Jumlah Siswa -->
             <div class="col-md-6 mt-3">
@@ -51,7 +49,18 @@
                     </div>
                 </div>
             </div>
+            @if (auth()->user()->hasRole('admin'))
+                <div class="col-md-6 mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Jumlah Guru</h5>
+                            <p class="card-text">
+                                <strong>{{ $jumlahGuru }}</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
-    {{-- @endif --}}
 </div>
 @endsection
