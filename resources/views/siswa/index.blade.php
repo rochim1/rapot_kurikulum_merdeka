@@ -33,7 +33,7 @@
                 <tbody>
                     @forelse ($siswa as $item_siswa)
                         <tr class="align-top">
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ ($siswa->currentPage() - 1) * $siswa->perPage() + $loop->iteration }}</td>
                             <td>
                                 @if($item_siswa->foto)
                                     <img src="{{ asset('storage/' . $item_siswa->foto) }}" alt="Foto {{ $item_siswa->nama }}" class="border object-fit-cover " style="width: 75px; height: 95px;">

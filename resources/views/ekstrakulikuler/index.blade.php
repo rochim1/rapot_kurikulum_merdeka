@@ -24,7 +24,7 @@
                 <tbody>
                     @foreach ($ekskuls as $ekskul)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ ($ekskuls->currentPage() - 1) * $ekskuls->perPage() + $loop->iteration }}</td>
                         <td>{{ $ekskul->nama_ekstrakulikuler }}</td>
                         <td>{{ $ekskul->keterangan }}</td>
                         <td>

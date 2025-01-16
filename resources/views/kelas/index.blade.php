@@ -30,7 +30,7 @@
                     <tbody>
                         @forelse ($kelas as $item_kelas)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ ($kelas->currentPage() - 1) * $kelas->perPage() + $loop->iteration }}</td>
                                 <td>{{ $item_kelas->kelas_tingkatan }}.{{ $item_kelas->kelas_abjad }}</td> 
                                 <td>{{ $item_kelas->fase }}</td>
                                 <td class="d-flex gap-2">
