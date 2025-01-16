@@ -19,7 +19,7 @@
                 <div class="d-flex mb-3">
                     <label class="me-2 mt-2">Pilih Kelas All</label>
                     <select id="selectAll" class="form-control w-auto">
-                        <option value="">- Pilih Predikat untuk Semua -</option>
+                        <option value="">- Pilih Kelas All  -</option>
                         <option value="Tinggal Kelas">Tinggal Kelas</option>
                         <option value="II">II</option>
                         <option value="III">III</option>

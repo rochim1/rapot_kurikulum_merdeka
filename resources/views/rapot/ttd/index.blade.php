@@ -27,7 +27,7 @@
                     class="form-control"
                     name="ttd_tempat_tanggal_rapot"
                     value="{{ old('ttd_tempat_tanggal_rapot', $ttd_tempat_tanggal_rapot ?? '') }}"
-                    placeholder="Masukkan tempat dan tanggal"
+                    placeholder="Tempat, Tanggal Bulan Tahun"
                 />
             </div>
             

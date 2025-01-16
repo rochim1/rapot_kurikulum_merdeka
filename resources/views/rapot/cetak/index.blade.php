@@ -81,44 +81,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="table-light">
-                                <td colspan="4" class="text-start fw-bold small">Kelompok A</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td>Pendidikan Agama Islam dan Budi Pekerti</td>
-                                <td class="text-center">76</td>
-                                <td>
-                                    <p>Mencapai Kompetensi dengan sangat baik dalam hal Menerapkan sikap akhlak terpuji (Gaya Hidup Bersih, Gaya Hidup Rapi dan Gaya Hidup Teratur)</p>
-                                    <p class="mb-n1">Perlu peningkatan dalam hal Mengetahui bacaan Zikir dan Doa setelah sholat.</p>
-                                </td>
-                            </tr>
-
-                            <tr class="table-light">
-                                <td colspan="4" class="text-start fw-bold small">Kelompok B</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td>Pendidikan Agama Islam dan Budi Pekerti</td>
-                                <td class="text-center">76</td>
-                                <td>
-                                    <p>Mencapai Kompetensi dengan sangat baik dalam hal Menerapkan sikap akhlak terpuji (Gaya Hidup Bersih, Gaya Hidup Rapi dan Gaya Hidup Teratur)</p>
-                                    <p class="mb-n1">Perlu peningkatan dalam hal Mengetahui bacaan Zikir dan Doa setelah sholat.</p>
-                                </td>
-                            </tr>
-
-                            <tr class="table-light">
-                                <td colspan="4" class="text-start fw-bold small">Kelompok C</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td>Pendidikan Agama Islam dan Budi Pekerti</td>
-                                <td class="text-center">76</td>
-                                <td>
-                                    <p>Mencapai Kompetensi dengan sangat baik dalam hal Menerapkan sikap akhlak terpuji (Gaya Hidup Bersih, Gaya Hidup Rapi dan Gaya Hidup Teratur)</p>
-                                    <p class="mb-n1">Perlu peningkatan dalam hal Mengetahui bacaan Zikir dan Doa setelah sholat.</p>
-                                </td>
-                            </tr>
+                            @foreach ($itemRapot->rapotNilai as $index => $rapotNilai)
+                                <tr>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{ $rapotNilai->mataPelajaran->nama_mata_pelajaran }}</td>
+                                    <td class="text-center">{{ $rapotNilai->nilai_akhir }}</td>
+                                    <td>
+                                        <p>
+                                            @if ($rapotNilai->tujuan_pembelajaran_tercapai_text)
+                                                Mencapai Kompetensi dengan sangat baik dalam hal Menganalisis 
+                                                {{ $rapotNilai->tujuan_pembelajaran_tercapai_text }}
+                                            @endif
+                                        </p>
+                                        <p class="mb-n1">
+                                            @if ($rapotNilai->tujuan_pembelajaran_tidak_tercapai_text)
+                                            Perlu peningkatan dalam hal
+                                                {{ $rapotNilai->tujuan_pembelajaran_tidak_tercapai_text }}
+                                            @endif
+                                        </p>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -187,7 +170,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($itemRapot->rapotEkstrakulikuler as $itemrapotEkstrakulikuler)
+                            @forelse ($itemRapot->rapotEkstrakulikuler as $itemrapotEkstrakulikuler)
                                 <tr>
                                     @if ($itemrapotEkstrakulikuler->predikat_ekstrakulikuler)
                                         <td>{{ $itemrapotEkstrakulikuler->ekstrakulikuler->nama_ekstrakulikuler }}</td>
@@ -195,7 +178,13 @@
                                         <td>{{ $itemrapotEkstrakulikuler->catatan_ekstrakulikuler }}</td>
                                     @endif
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr class="text-center">
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            @endforelse 
                         </tbody>
                     </table>
 
@@ -265,7 +254,12 @@
                             </div>
                     
                             <div class="">
-                                <p class="m-0">{{ $itemRapot->ttd_tempat_tanggal_rapot }}</p>
+                                <p class="m-0">
+                                    @if (!$itemRapot->ttd_tempat_tanggal_rapot)
+                                        <span class="m-0">..................................................</span>
+                                    @endif
+                                    {{ $itemRapot->ttd_tempat_tanggal_rapot }}
+                                </p>
                                 <p class="m-0">Wali Kelas</p>
                                 <br><br><br>
                                 <p class="m-0 text-decoration-underline fw-bold">{{ $itemRapot->guru->nama }}</p>
