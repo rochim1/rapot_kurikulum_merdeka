@@ -113,11 +113,10 @@ class RapotNilaiController extends Controller
                     'id_siswa' => $siswa_id,
                 ],
                 [
-                    'ket_naik_kelas' => $kelola_kelas->tahunAjaran->semester == 'Ganjil' ? false : true,
+                    'naik_kelas' => $kelola_kelas->tahunAjaran->semester == 'Ganjil' ? false : true,
                     'id_guru' => $kelola_kelas->pluck('id_guru')->first(),
                     'nama_kepsek' => $profilSekolah->nama_kepsek,
                     'nip_kepsek' => $profilSekolah->nip_kepsek,
-                    'ttd_tempat_tanggal_rapot' => $profilSekolah->ttd_tempat_tanggal_rapot,
                 ]
             );
 

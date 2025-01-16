@@ -62,10 +62,8 @@ class RapotKehadiranController extends Controller
                     'id_tahun_ajaran' => $kelola_kelas->id_tahun_ajaran,
                     'id_siswa' => $siswa_id,
                     'id_guru' => $kelola_kelas->pluck('id_guru')->first(),
-                    'ket_naik_kelas' => $kelola_kelas->tahunAjaran->semester == 'Ganjil' ? false : true,
                     'nama_kepsek' => $profilSekolah->nama_kepsek,
                     'nip_kepsek' => $profilSekolah->nip_kepsek,
-                    'ttd_tempat_tanggal_rapot' => $profilSekolah->ttd_tempat_tanggal_rapot,
                 ],
                 [
                     'sakit' => $validatedData['sakit'][$siswa_id] ?? null,

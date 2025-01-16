@@ -24,7 +24,8 @@ return new class extends Migration
 
             $table->text('catatan_wali_kelas')->nullable();
 
-            $table->tinyInteger('ket_naik_kelas')->nullable();
+            $table->string('naik_kelas',50)->nullable();
+
             $table->string('ttd_tempat_tanggal_rapot',50)->nullable();
             $table->string('nama_kepsek')->nullable();
             $table->string('nip_kepsek')->nullable();

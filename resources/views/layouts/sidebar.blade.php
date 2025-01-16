@@ -130,6 +130,16 @@
                         <div data-i18n="Connections">Catatan Wali Kelas</div>
                     </a>
                 </li>
+                    @php
+                        $tahunAjaran = \App\Models\TahunAjaran::find(session('id_tahun_ajaran'));
+                    @endphp
+                    @if ($tahunAjaran->semester == 'Genap')
+                        <li class="menu-item {{ Request::is('rapot_naik_kelas*') ? 'active' : '' }}">
+                            <a href="{{ route('rapot_naik_kelas.index') }}" class="menu-link">
+                                <div data-i18n="Connections">Naik Kelas</div>
+                            </a>
+                        </li>
+                    @endif
                 <li class="menu-item {{ Request::is('rapot_cetak') ? 'active' : '' }}">
                     <a href="{{ route('rapot_cetak.index') }}" class="menu-link">
                         <div data-i18n="Account">Cetak</div>

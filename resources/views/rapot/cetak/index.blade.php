@@ -181,7 +181,6 @@
                     <table class="table table-bordered my-4">
                         <thead class="table-secondary">
                             <tr class="text-center">
-                                <th>No</th>
                                 <th>Kegiatan</th>
                                 <th>Predikat</th>
                                 <th>Keterangan</th>
@@ -190,10 +189,11 @@
                         <tbody>
                             @foreach ($itemRapot->rapotEkstrakulikuler as $itemrapotEkstrakulikuler)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $itemrapotEkstrakulikuler->ekstrakulikuler->nama_ekstrakulikuler }}</td>
-                                    <td class="text-center">{{ $itemrapotEkstrakulikuler->predikat_ekstrakulikuler }}</td>
-                                    <td>{{ $itemrapotEkstrakulikuler->catatan_ekstrakulikuler }}</td>
+                                    @if ($itemrapotEkstrakulikuler->predikat_ekstrakulikuler)
+                                        <td>{{ $itemrapotEkstrakulikuler->ekstrakulikuler->nama_ekstrakulikuler }}</td>
+                                        <td class="text-center">{{ $itemrapotEkstrakulikuler->predikat_ekstrakulikuler }}</td>
+                                        <td>{{ $itemrapotEkstrakulikuler->catatan_ekstrakulikuler }}</td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -210,15 +210,33 @@
                         <tbody>
                             <tr>
                                 <td>Sakit</td>
-                                <td class="text-center">{{ $itemRapot->sakit }} Hari</td>
+                                <td class="text-center">
+                                    @if ($itemRapot->sakit)
+                                        {{ $itemRapot->sakit }} Hari
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
                                 <td>Izin</td>
-                                <td class="text-center">{{ $itemRapot->izin }} Hari</td>
+                                <td class="text-center">
+                                    @if ($itemRapot->izin)
+                                        {{ $itemRapot->izin }} Hari
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
                                 <td>Tanpa Keterangan</td>
-                                <td class="text-center">{{ $itemRapot->tanpa_keterangan }} Hari</td>
+                                <td class="text-center">
+                                    @if ($itemRapot->tanpa_keterangan)
+                                        {{ $itemRapot->tanpa_keterangan }} Hari
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -226,10 +244,15 @@
                     <h6 class="mt-5">Catatan Wali Kelas</h6>
                     <p class="border p-2">{{ $itemRapot->catatan_wali_kelas }}</p>
             
-                    @if ($itemRapot->ket_naik_kelas == true)
-                        <div class="mt-4 text-center">
-                            <p class="border p-2 fw-bold">Keterangan Kenaikan Kelas: ???</p>
-                        </div>
+                    @php
+                        $tahunAjaran = \App\Models\TahunAjaran::find(session('id_tahun_ajaran'));
+                    @endphp
+                    @if ($tahunAjaran->semester == 'Genap')
+                        @if ($itemRapot->naik_kelas == true)
+                            <div class="mt-4 text-center">
+                                <p class="border p-2 fw-bold">Keterangan Kenaikan Kelas: {{ $itemRapot->naik_kelas }}</p>
+                            </div>
+                        @endif
                     @endif
                     
                     <div class="row mt-5 mx-3">

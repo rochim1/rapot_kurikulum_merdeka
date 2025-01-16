@@ -125,20 +125,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <hr>
-                        <div class="mb-3">
-                            <label for="ttd_tempat_tanggal_rapot" class="form-label">Tanggal Rapot<span
-                                    class="text-danger">*</span></label>
-                            <input type="text"
-                                class="form-control @error('ttd_tempat_tanggal_rapot') is-invalid @enderror"
-                                name="ttd_tempat_tanggal_rapot"
-                                value="{{ old('ttd_tempat_tanggal_rapot', $profilSekolah->ttd_tempat_tanggal_rapot) }}"
-                                required>
-                            @error('ttd_tempat_tanggal_rapot')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
                     </div>
                 </div>
             </div>

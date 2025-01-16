@@ -66,7 +66,6 @@ class ProfilSekolahController extends Controller
             'nama_kepsek' => 'required|string|max:255',
             'nip_kepsek' => 'required|string|max:18',
             'pangkat_golongan_kepsek' => 'required|string|max:50',
-            'ttd_tempat_tanggal_rapot' => 'required|string|max:255',
         ]);
     
         $profilSekolah->update($validated);
