@@ -17,9 +17,9 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Kelompok</th>
                             <th>Mata Pelajaran</th>
                             <th>Kelas</th>
-                            <th>Fase</th>
                             <th>Tujuan Pembelajaran</th>
                             <th>Status</th>
                             <th>Aksi</th>
@@ -29,9 +29,9 @@
                         @forelse ($tujuanPembelajaran as $item_tujuan_pembelajaran)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item_tujuan_pembelajaran->mataPelajaran->kelompok }}</td>
                                 <td>{{ $item_tujuan_pembelajaran->mataPelajaran->nama_mata_pelajaran }}</td>
                                 <td>{{ $item_tujuan_pembelajaran->kelas->kelas_tingkatan }}.{{ $item_tujuan_pembelajaran->kelas->kelas_abjad }}</td>
-                                <td>{{ $item_tujuan_pembelajaran->kelas->fase }}</td>
                                 <td>{{ Str::limit($item_tujuan_pembelajaran->tujuan_pembelajaran, 50, '...') }}</td>
                                 <td>
                                     <form action="{{ route('tujuan_pembelajaran_is_active', $item_tujuan_pembelajaran->id_tujuan_pembelajaran) }}" method="POST" style="display: inline;">

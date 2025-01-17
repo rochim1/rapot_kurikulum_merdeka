@@ -28,11 +28,9 @@ class RapotNilaiController extends Controller
             $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->where('status', 'active')->get();
         });
 
-        $mataPelajaran = $kelola_kelas->map(function ($kelola) {
-            return MataPelajaran::where('kelompok', $kelola->kelas->fase)
-                ->orderBy('nama_mata_pelajaran', 'asc')
-                ->get();
-        })->flatten();
+        $mataPelajaran = MataPelajaran::orderBy('kelompok', 'ASC')
+        ->orderBy('nama_mata_pelajaran', 'ASC')
+        ->get();
 
         $tujuan_pembelajaran = collect();
         $mataPelajaranSelected = null;

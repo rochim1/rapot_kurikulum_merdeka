@@ -81,9 +81,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($itemRapot->rapotNilai as $index => $rapotNilai)
+                            @php
+                                $kelompokSebelumnya = null;
+                                $nomorUrut = 0;
+                            @endphp
+                            @foreach ($itemRapot->rapotNilai as $rapotNilai)
+                                @if ($rapotNilai->mataPelajaran->kelompok != $kelompokSebelumnya)
+                                    @php
+                                        $kelompokSebelumnya = $rapotNilai->mataPelajaran->kelompok;
+                                        $nomorUrut = 1;
+                                    @endphp
+                                    <tr class="table-light">
+                                        <td colspan="4" class="text-start fw-bold small">
+                                            Kelompok {{ $rapotNilai->mataPelajaran->kelompok }}
+                                        </td>
+                                    </tr>
+                                @else
+                                    @php
+                                        $nomorUrut++;
+                                    @endphp
+                                @endif
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $nomorUrut }}</td>
                                     <td>{{ $rapotNilai->mataPelajaran->nama_mata_pelajaran }}</td>
                                     <td class="text-center">{{ $rapotNilai->nilai_akhir }}</td>
                                     <td>
@@ -95,14 +114,14 @@
                                         </p>
                                         <p class="mb-n1">
                                             @if ($rapotNilai->tujuan_pembelajaran_tidak_tercapai_text)
-                                            Perlu peningkatan dalam hal
+                                                Perlu peningkatan dalam hal
                                                 {{ $rapotNilai->tujuan_pembelajaran_tidak_tercapai_text }}
                                             @endif
                                         </p>
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody>
+                        </tbody>                        
                     </table>
                 </div>
             </div>

@@ -16,8 +16,9 @@ class TujuanPembelajaranController extends Controller
             ->where('id_kelas', KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_guru', auth()->user()->id)
             ->value('id_kelas'))
-            ->join('tb_mata_pelajaran', 'tb_mata_pelajaran.id_mata_pelajaran', '=', 'tb_tujuan_pembelajaran.id_mata_pelajaran')  // Join dengan tabel tb_mata_pelajaran
-            ->orderBy('tb_mata_pelajaran.nama_mata_pelajaran', 'asc')  // Mengurutkan berdasarkan nama mata pelajaran
+            ->join('tb_mata_pelajaran', 'tb_mata_pelajaran.id_mata_pelajaran', '=', 'tb_tujuan_pembelajaran.id_mata_pelajaran') 
+            ->orderBy('tb_mata_pelajaran.kelompok', 'asc')  
+            ->orderBy('tb_mata_pelajaran.nama_mata_pelajaran', 'asc')  
             ->get();
     
     
@@ -30,21 +31,13 @@ class TujuanPembelajaranController extends Controller
 
     public function create()
     {   
-         $kelola_kelas = KelolaKelas::with('kelas')
-            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', auth()->user()->id)
-            ->get();
-                
-        $mataPelajaran = $kelola_kelas->map(function($kelola) {
-            return MataPelajaran::where('kelompok', $kelola->kelas->fase)
-                ->orderBy('nama_mata_pelajaran', 'asc')
-                ->get();
-        })->flatten();
+        $mataPelajaran = MataPelajaran::orderBy('kelompok', 'ASC')
+        ->orderBy('nama_mata_pelajaran', 'ASC')
+        ->get();
 
         return view('tujuan_pembelajaran.create', [
             'title' => 'Tambah Tujuan Pembelajaran',
             'mataPelajaran' => $mataPelajaran,
-            'kelas' => Kelas::orderBy('kelas_tingkatan', 'asc')->orderBy('kelas_abjad', 'asc')->get(),
         ]);
     }
 
