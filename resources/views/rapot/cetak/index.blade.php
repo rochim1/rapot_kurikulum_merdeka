@@ -5,14 +5,14 @@
     <h4 class="mb-md-0">Data {{ $title }}</h4>
 
     <div class="d-flex gap-3">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#import">
+        <a href="{{ route('rapot_cetak.index') }}?export=pdf" target="_blank" type="button" class="btn btn-primary">
             <i class="bi bi-file-earmark-pdf me-1"></i>
-            Save PDF
-        </button>
-        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#import">
+            Export PDF
+        </a>
+        <a href="#" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#import">
             <i class="bi bi-printer me-1"></i>
             Print
-        </button>
+        </a>
     </div>
 </div>
 
@@ -71,7 +71,7 @@
                             </table>
                         </div>
                     </div>
-                    
+                    <hr>
                     <div class="text-center my-4">
                         <h5 class="text-dark">LAPORAN HASIL BELAJAR</h5>
                     </div>   
@@ -185,20 +185,25 @@
                             </table>
                         </div>
                     </div>
-
+                    <hr>
                     <h6 class="mt-5">Ektakurikuler</h6>
                     <table class="table table-bordered my-4">
                         <thead class="table-secondary">
                             <tr class="text-center">
+                                <th>No</th>
                                 <th>Kegiatan</th>
                                 <th>Predikat</th>
                                 <th>Keterangan</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @php 
+                                $counter = 1; 
+                            @endphp
                             @forelse ($itemRapot->rapotEkstrakulikuler as $itemrapotEkstrakulikuler)
                                 <tr>
                                     @if ($itemrapotEkstrakulikuler->predikat_ekstrakulikuler)
+                                        <td class="text-center">{{ $counter++ }}</td>
                                         <td>{{ $itemrapotEkstrakulikuler->ekstrakulikuler->nama_ekstrakulikuler }}</td>
                                         <td class="text-center">{{ $itemrapotEkstrakulikuler->predikat_ekstrakulikuler }}</td>
                                         <td>{{ $itemrapotEkstrakulikuler->catatan_ekstrakulikuler }}</td>

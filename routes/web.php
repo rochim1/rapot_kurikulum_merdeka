@@ -87,10 +87,6 @@ Route::middleware(['role:admin'])->group(function () {
 });
 
 Route::middleware(['role:walas'])->group(function () {
-        // Route::get('wali_kelas_kelas', [SiswaController::class, 'index'])->name('wali_kelas_kelas.index');
-        // Route::get('wali_kelas_mata_pelajaran', [MataPelajaranController::class, 'index'])->name('wali_kelas_mata_pelajaran.index');
-        // Route::get('wali_kelas_ekstrakulikuler', [EkstrakulikulerController::class, 'index'])->name('wali_kelas_ekstrakulikuler.index');
-
         Route::resource('tujuan_pembelajaran', TujuanPembelajaranController::class);
         Route::put('/tujuan_pembelajaran_is_active/{tujuanPembelajaran}', [TujuanPembelajaranController::class, 'tujuan_pembelajaran_is_active'])->name('tujuan_pembelajaran_is_active');
         
@@ -114,4 +110,5 @@ Route::middleware(['role:walas'])->group(function () {
         Route::post('/rapot_ttd/storeOrUpdate', [RapotTtdController::class, 'storeOrUpdate'])->name('rapot_ttd.storeOrUpdate');
 
         Route::get('/rapot_cetak', [RapotCetakController::class, 'index'])->name('rapot_cetak.index');
+        Route::get('/rapot_cetak_export_pdf', [RapotCetakController::class, 'export_pdf'])->name('rapot_cetak.export_pdf');
 });
