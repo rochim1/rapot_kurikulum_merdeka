@@ -14,6 +14,10 @@ class MataPelajaranImport implements ToModel
     */
     public function model(array $row)
     {
+        if (!isset($row[0], $row[1])) {
+            return null;
+        }
+
         return new MataPelajaran([
             'nama_mata_pelajaran' => $row[0],
             'kelompok' => $row[1],
