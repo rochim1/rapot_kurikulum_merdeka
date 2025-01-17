@@ -5,8 +5,13 @@
     <h4 class="mb-md-0">Data {{ $title }}</h4>
 
     <div class="d-flex gap-3">
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import"><i class="bi bi-folder-plus"></i>
-            Import
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#import">
+            <i class="bi bi-file-earmark-pdf me-1"></i>
+            Save PDF
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#import">
+            <i class="bi bi-printer me-1"></i>
+            Print
         </button>
     </div>
 </div>
@@ -80,7 +85,7 @@
                                 <th>Capaian Kompetensi</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="align-top">
                             @php
                                 $kelompokSebelumnya = null;
                                 $nomorUrut = 0;
@@ -106,18 +111,20 @@
                                     <td>{{ $rapotNilai->mataPelajaran->nama_mata_pelajaran }}</td>
                                     <td class="text-center">{{ $rapotNilai->nilai_akhir }}</td>
                                     <td>
-                                        <p>
-                                            @if ($rapotNilai->tujuan_pembelajaran_tercapai_text)
+                                        <div class="mb-n3">
+                                        @if ($rapotNilai->tujuan_pembelajaran_tercapai_text)
+                                            <p>
                                                 Mencapai Kompetensi dengan sangat baik dalam hal Menganalisis 
                                                 {{ $rapotNilai->tujuan_pembelajaran_tercapai_text }}
-                                            @endif
-                                        </p>
-                                        <p class="mb-n1">
-                                            @if ($rapotNilai->tujuan_pembelajaran_tidak_tercapai_text)
+                                            </p>
+                                        @endif
+                                        @if ($rapotNilai->tujuan_pembelajaran_tidak_tercapai_text)
+                                            <p>
                                                 Perlu peningkatan dalam hal
                                                 {{ $rapotNilai->tujuan_pembelajaran_tidak_tercapai_text }}
-                                            @endif
-                                        </p>
+                                            </p>
+                                        @endif
+                                    </div>
                                     </td>
                                 </tr>
                             @endforeach
