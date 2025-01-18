@@ -56,7 +56,7 @@ class RapotNilaiController extends Controller
 
             if ($rapot_nilai->count() > 0) {
                 $title = 'Edit Rapot';
-                return view('rapot.nilai.index', compact(
+                return view('rapot.nilai.nilai_edit', compact(
                     'rapot_nilai',
                     'kelola_kelas',
                     'mataPelajaran',
