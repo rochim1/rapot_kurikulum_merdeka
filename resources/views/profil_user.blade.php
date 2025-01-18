@@ -6,7 +6,7 @@
     </div>
 
     <div class="card shadow mb-4">
-        <div class="card-header">Form Profil</div>
+        <div class="card-header">Form Ubah Password</div>
         <div class="card-body">
             <form action="{{ route('profil_user.update') }}" method="POST" autocomplete="off">
                 @csrf

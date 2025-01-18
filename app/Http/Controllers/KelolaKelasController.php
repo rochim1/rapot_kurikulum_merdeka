@@ -47,13 +47,13 @@ class KelolaKelasController extends Controller
                     })
                     ->unique();
 
-                $siswa = Siswa::whereNotIn('id_siswa', $siswaTerdaftarIds)->get();
+                $siswa = Siswa::whereNotIn('daftar_id_siswa', $siswaTerdaftarIds)->get();
             } else {
                 // Ambil siswa yang sudah terdaftar di kelas
                 $kelolaKelas = KelolaKelas::where('id_kelas', $id_kelas)->first();
                 if ($kelolaKelas) {
                     $siswaIds = json_decode($kelolaKelas->daftar_id_siswa);
-                    $siswa = Siswa::whereIn('id_siswa', $siswaIds)->get();
+                    $siswa = Siswa::whereIn('daftar_id_siswa', $siswaIds)->get();
                 }
             }
         }
@@ -106,7 +106,7 @@ class KelolaKelasController extends Controller
         $tahunAjaran = TahunAjaran::all();
         $kelas = Kelas::all();
 
-        $selectSiswa=$kelola_kela->siswa->pluck('id_siswa')->toArray();
+        $selectSiswa=$kelola_kela->siswa->pluck('daftar_id_siswa')->toArray();
         return view('kelola_kelas.edit', [
             'title' => 'Edit Kelas',
             'kelolakelas' => $kelola_kela,
