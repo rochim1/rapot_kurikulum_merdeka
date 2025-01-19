@@ -25,7 +25,6 @@ class ProfilSekolahSeeder extends Seeder
             'nama_kepsek' => 'Gusma Nelti, S.Pd',
             'nip_kepsek' => '19630515 199003 2 001',
             'pangkat_golongan_kepsek' => 'IV/A - Pembina Utama',
-            'ttd_tempat_tanggal_rapot' => 'Palembang, 25 Desember 2024',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

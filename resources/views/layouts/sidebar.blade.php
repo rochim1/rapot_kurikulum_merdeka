@@ -65,7 +65,18 @@
                 <div data-i18n="Analytics">Kelola Kelas</div>
             </a>
         </li>
+
+        <li class="menu-header small text-uppercase fw-bold">
+            <span class="menu-header-text">Rapot P5</span>
+        </li>
+        <li class="menu-item {{ Request::is('tema*') ? 'active' : '' }}">
+            <a href="{{ route('tema.index') }}" class="menu-link">
+                <i class="menu-icon ri-list-indefinite"></i>
+                <div data-i18n="Analytics">Tema</div>
+            </a>
+        </li>
     @endif
+
     @if (Auth::user()->hasRole('walas'))
         <li class="menu-header small text-uppercase fw-bold">
             <span class="menu-header-text">Master</span>

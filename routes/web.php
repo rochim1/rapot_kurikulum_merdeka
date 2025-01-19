@@ -19,6 +19,7 @@ use App\Http\Controllers\RapotKehadiranController;
 use App\Http\Controllers\RapotNaikKelasController;
 use App\Http\Controllers\RapotNilaiController;
 use App\Http\Controllers\RapotTtdController;
+use App\Http\Controllers\TemaController;
 use App\Http\Controllers\TujuanPembelajaranController;
 use App\Http\Controllers\UserProfilController;
 
@@ -77,13 +78,19 @@ Route::middleware(['role:admin'])->group(function () {
         // user
         Route::post('/import_siswa', [SiswaController::class, 'import_siswa'])->name('import_siswa');
         Route::post('/import_mata_pelajaran', [MataPelajaranController::class, 'import_mata_pelajaran'])->name('import_mata_pelajaran');
+
         Route::resource('kelas', KelasController::class);
         Route::post('/import_kelas', [KelasController::class, 'import_kelas'])->name('import_kelas');
+
         Route::resource('/tahun_ajaran', TahunAjaranController::class);
         Route::post('/import_tahun_ajaran', [TahunAjaranController::class, 'import_tahun_ajaran'])->name('import_tahun_ajaran');
         Route::put('/tahun_ajaran_is_active/{tahunAjaran}', [TahunAjaranController::class, 'tahun_ajaran_is_active'])->name('tahun_ajaran_is_active');       
+
         Route::resource('/profil_sekolah', ProfilSekolahController::class);
 
+        Route::resource('/profil_sekolah', ProfilSekolahController::class);
+
+        Route::resource('/tema', TemaController::class);
 });
 
 Route::middleware(['role:walas'])->group(function () {
