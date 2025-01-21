@@ -8,6 +8,7 @@ use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use App\Models\ProfilSekolah;
 use App\Http\Controllers\Controller;
+use App\Models\KelolaKelas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -56,6 +57,7 @@ class LoginController extends Controller
         $sekolah = ProfilSekolah::first();
         session(['data_sekolah' => $sekolah]);
         $tahunAjaran = TahunAjaran::all();
+        
         return view('auth.login', compact('tahunAjaran'));
     }
 
@@ -80,60 +82,69 @@ class LoginController extends Controller
             'id_tahun_ajaran.exists' => 'Tahun ajaran tidak valid.',
         ]);
 
-        // Cek apakah email ada di database
-        $user = \App\Models\User::where('email', $request->email)->first();
-
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'Mohon maaf, email yang anda masukan tidak terdaftar.');
-        }
-
-        // Cek apakah password sesuai
-        if (!\Hash::check($request->password, $user->password)) {
-            return redirect()->route('login')->with('error', 'Mohon maaf, password yang Anda masukkan salah.');
-        }
-
-        // Ambil input email dan password untuk proses login
         $credentials = $request->only('email', 'password');
-
         // Proses login
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
             if ($user->hasRole('admin')) {
                 Alert::success('Kerja Bagus!', 'Login Berhasil');
-                return redirect()->intended(route('home', absolute: false));
-            }
+                return redirect()->route('home');
+            } 
+            else if($user->hasRole('walas')) {
+                $tahunAjaran = TahunAjaran::find($request->id_tahun_ajaran);
+                
+                if($tahunAjaran){
+                    $kelola_kelas = KelolaKelas::where('id_tahun_ajaran', $request->id_tahun_ajaran)
+                        ->where('id_guru', auth()->user()->id)
+                        ->first();
+                        
+                    // cek apa dia wali kelasnya?
+                    if($kelola_kelas) {
+                        session(['id_tahun_ajaran' => $kelola_kelas->id_tahun_ajaran]);
+                        session(['id_kelas' => $kelola_kelas->id_kelas]);
+                        Alert::success('Kerja Bagus!', 'Login Berhasil');
+                        return redirect()->route('home');
+                    } else {
+                        Auth::logout();
+                        Alert::error('Terjadi kesalahan!', 'Anda bukan wali kelas pada tahun ajaran ' 
+                                                            . $tahunAjaran->tahun_ajaran_awal 
+                                                            . '/'. $tahunAjaran->tahun_ajaran_akhir 
+                                                            . ' - ' . $tahunAjaran->semester
+                                    );
+                        return redirect()->route('login');
+                    }
+                    
+                
 
-            if ($user->hasRole('walas')) {
-                // Periksa apakah user walas telah mengisi tahun ajaran
-                if (empty($request->id_tahun_ajaran)) {
-                    Auth::logout(); // Logout user jika validasi gagal
-                    Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda harus memilih tahun ajaran terlebih dahulu.');
+                } else if (!$tahunAjaran) {
+                    Auth::logout();
+                    Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda harus memilih tahun ajaran terlebih dahulu');
+                    return redirect()->route('login');
+                } 
+                else if(!$tahunAjaran->is_active) {
+                    Auth::logout();
+                    Alert::error('Terjadi kesalahan!', 'Hubungi admin untuk mengaktifkan Tahun Ajaran');
+                    return redirect()->route('login');
+                }  
+                else {
+                    Auth::logout();
+                    Alert::error('Terjadi kesalahan!', 'Mohon maaf, Hubungi admin Website.');
                     return redirect()->route('login');
                 }
-
-                if ($user->guru->is_wali_kelas == true) {
-                    $tahunAjaran = TahunAjaran::find($request->id_tahun_ajaran);
-                    if (!$tahunAjaran) {
-                        return redirect()->route('login')->with('error', 'Tahun ajaran tidak ditemukan.');
-                    }
-
-                    session(['id_tahun_ajaran' => $request->id_tahun_ajaran]);
-                    Alert::success('Kerja Bagus!', 'Login Berhasil');
-                    return redirect()->route('home')->with('success', 'Login berhasil');
-                }
-
-                Auth::logout();
-                Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda bukan wali kelas. Hubungi admin jika membutuhkan akses masuk');
-                return redirect()->route('login');
             }
+            
 
+        } else {
             Auth::logout();
-            return redirect()->route('login')->with('error', 'Role Anda tidak memiliki akses.');
+            Alert::error('Terjadi kesalahan!', 'Mohon maaf, Email / password yang Anda masukkan salah.');
+            return redirect()->route('login');
         }
 
-        // Jika kredensial salah, kembalikan ke halaman login dengan pesan kesalahan
-        return redirect()->route('login')->with('error', 'Email atau password salah.');
+        // Login Wali Kelas
+
+
+        
     }
 
 

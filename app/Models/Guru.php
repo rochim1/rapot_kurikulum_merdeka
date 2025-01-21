@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Guru extends Model
 {
     use HasFactory, SoftDeletes;
+    public $incrementing = false;
 
     protected $table ='tb_guru';
     protected $primaryKey = 'id_guru';

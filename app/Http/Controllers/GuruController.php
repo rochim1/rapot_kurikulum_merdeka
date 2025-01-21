@@ -119,7 +119,28 @@ class GuruController extends Controller
         $user->assignRole('walas');
 
         // Menyimpan data guru dan menghubungkan dengan user
-        $guru = Guru::create(array_merge($request->all(), ['id_user' => $user->id, 'foto' => $fotoPath,]));
+        $guru = Guru::create([
+            'id_guru' => $user->id,
+            'id_user' => $user->id,
+            'mata_pelajaran_id' => $request->mata_pelajaran_id,
+            'nama' => $request->nama,
+            'nip' => $request->nip,
+            'nrg' => $request->nrg,
+            'jk' => $request->jk,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tgl_lahir' => $request->tgl_lahir,
+            'agama' => $request->agama,
+            'alamat' => $request->alamat,
+            'no_hp' => $request->no_hp,
+            'email' => $request->email,
+            'jabatan' => $request->jabatan,
+            'golongan' => $request->golongan,
+            'tmt_awal' => $request->tmt_awal,
+            'pendidikan_terakhir' => $request->pendidikan_terakhir,
+            'status' => 'Aktif',
+            'is_wali_kelas' => false,
+            'foto' => $fotoPath,  // assuming $fotoPath is the file path of the photo
+        ]);
         Alert::success('success', 'Data guru berhasil disimpan dan user berhasil dibuat dengan role guru.');
         return redirect()->route('data-guru');
     }
