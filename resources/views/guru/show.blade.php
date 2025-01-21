@@ -24,7 +24,11 @@
                 </tr>
                 <tr>
                     <th>Nama</th>
-                    <td>{{ $guru->nama }}</td>
+                    <td>{{ $guru->user->name }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ $guru->user->email }}</td>
                 </tr>
                 <tr>
                     <th>NIP</th>

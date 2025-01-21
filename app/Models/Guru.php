@@ -13,7 +13,7 @@ class Guru extends Model
 
     protected $table ='tb_guru';
     protected $primaryKey = 'id_guru';
-    protected $guarded=['id_guru'];
+    protected $guarded=[''];
 
     public function mata_pelajaran()
     {
@@ -28,5 +28,5 @@ class Guru extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
-    }
+    }    
 }

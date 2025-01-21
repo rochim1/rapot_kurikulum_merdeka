@@ -68,7 +68,7 @@
                                 @endif
                             </td>
 
-                            <td>{{ $guru->nama }}</td>
+                            <td>{{ $guru->user->name }}</td>
                             <td>{{ $guru->nip }}</td>
                             <td>{{ $guru->nrg }}</td>
                             <td>{{ $guru->mata_pelajaran->nama_mata_pelajaran??'-' }}</td>
@@ -102,7 +102,12 @@
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 <a href="{{ route('edit-guru', $guru->id_guru) }}" class="btn btn-outline-success" title="Edit"><i class="bi bi-pencil-square"></i></a>
-                                <a href="{{ route('delete-guru', $guru->id_guru) }}" class="btn btn-outline-danger" id="btn_delete" title="Hapus"><i class="bi bi-trash"></i></a>
+                                <form id="myForm" action="{{ route('delete-guru', $guru->id_guru) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-danger" id="btn_delete">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty

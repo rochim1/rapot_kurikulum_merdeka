@@ -19,8 +19,8 @@
                     <!-- Nama -->
                     <div class="form-group">
                         <label for="nama">Nama <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama', $guru->nama) }}" required>
-                        @error('nama')
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $guru->user->name) }}" required>
+                        @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -110,7 +110,7 @@
 
                     <div class="form-group mt-2">
                         <label for="email">Email <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $guru->email) }}">
+                        <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $guru->user->email) }}">
                         @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

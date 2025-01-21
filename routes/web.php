@@ -41,11 +41,11 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 
-Route::get('/profil', [UserProfilController::class, 'profilAdmin'])->name('profil_user.index');
-Route::post('/update_profil', [UserProfilController::class, 'updateProfilUser'])->name('profil_user.update');
-
 Route::middleware(['role:admin|walas'])->group(function(){
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('/profil', [UserProfilController::class, 'profilAdmin'])->name('profil_user.index');
+    Route::post('/update_profil', [UserProfilController::class, 'updateProfilUser'])->name('profil_user.update');
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::resource('/siswa', SiswaController::class);
@@ -61,7 +61,7 @@ Route::middleware(['role:admin'])->group(function () {
         Route::post('/store-guru', [GuruController::class, 'store'])->name('store-guru');
         Route::get('/edit-guru/{id_guru}', [GuruController::class, 'edit'])->name('edit-guru');
         Route::post('/update-guru/{id_guru}', [GuruController::class, 'update'])->name('update-guru');
-        Route::get('/delete-guru/{id_guru}', [GuruController::class, 'destroy'])->name('delete-guru');
+        Route::post('/delete-guru/{id_guru}', [GuruController::class, 'destroy'])->name('delete-guru');
         Route::get('/detile/{id_guru}', [GuruController::class, 'show'])->name('show-guru');
         Route::post('/import-guru', [GuruController::class, 'import'])->name('import-guru');
         Route::post('/guru/{id_guru}/update-status', [GuruController::class, 'updateStatus'])->name('update-status');

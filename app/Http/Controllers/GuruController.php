@@ -8,6 +8,7 @@ use App\Imports\GuruImport;
 use Illuminate\Http\Request;
 use App\Models\MataPelajaran;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +21,7 @@ class GuruController extends Controller
      */
     public function index()
     {
-        $gurus = Guru::with('mata_pelajaran')->paginate(10);
+        $gurus = Guru::with('user', 'mata_pelajaran')->paginate(10);
         $title = 'Guru';
         return view('guru.index', compact('gurus', 'title'));
     }
@@ -41,8 +42,9 @@ class GuruController extends Controller
     // Menyimpan data guru
     public function store(Request $request)
     {
+        DB::enableQueryLog();
         $request->validate([
-            'nama' => 'required|string|max:100',
+            // 'nama' => 'required|string|max:100',
             'mata_pelajaran_id' => 'nullable|exists:tb_mata_pelajaran,id_mata_pelajaran',
             'nip' => 'nullable|string|max:50',
             'nrg' => 'nullable|string|max:50',
@@ -52,7 +54,7 @@ class GuruController extends Controller
             'agama' => 'nullable|string|max:50',
             'alamat' => 'nullable|string',
             'no_hp' => 'nullable|string|max:20',
-            'email' => 'required',
+            // 'email' => 'required',
             'jabatan' => 'nullable|string|max:50',
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
@@ -65,7 +67,7 @@ class GuruController extends Controller
             'nama.string' => 'Nama harus berupa teks.',
             'status.required' => 'Status wajib diisi.',
             'status.string' => 'Status harus berupa teks.',
-            'nama.max' => 'Nama maksimal 100 karakter.',
+            // 'nama.max' => 'Nama maksimal 100 karakter.',
             'mata_pelajaran_id.required' => 'Mata pelajaran wajib dipilih.',
             'mata_pelajaran_id.exists' => 'Mata pelajaran tidak valid.',
             'nip.string' => 'NIP harus berupa teks.',
@@ -123,7 +125,7 @@ class GuruController extends Controller
             'id_guru' => $user->id,
             'id_user' => $user->id,
             'mata_pelajaran_id' => $request->mata_pelajaran_id,
-            'nama' => $request->nama,
+            // 'nama' => $request->nama,
             'nip' => $request->nip,
             'nrg' => $request->nrg,
             'jk' => $request->jk,
@@ -132,14 +134,12 @@ class GuruController extends Controller
             'agama' => $request->agama,
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
-            'email' => $request->email,
+            // 'email' => $request->email,
             'jabatan' => $request->jabatan,
             'golongan' => $request->golongan,
             'tmt_awal' => $request->tmt_awal,
             'pendidikan_terakhir' => $request->pendidikan_terakhir,
-            'status' => 'Aktif',
-            'is_wali_kelas' => false,
-            'foto' => $fotoPath,  // assuming $fotoPath is the file path of the photo
+            'foto' => $fotoPath,
         ]);
         Alert::success('success', 'Data guru berhasil disimpan dan user berhasil dibuat dengan role guru.');
         return redirect()->route('data-guru');
@@ -151,8 +151,7 @@ class GuruController extends Controller
     public function show($id_guru)
     {
         $title = 'Guru';
-        $guru = Guru::findOrFail($id_guru);
-        Guru::with('mata_pelajaran')->get();
+        $guru = Guru::with('user', 'mata_pelajaran')->where('id_guru', $id_guru)->firstOrFail();
         return view('guru.show', compact('guru', 'title'));
     }
 
@@ -170,7 +169,7 @@ class GuruController extends Controller
     public function update(Request $request, $id_guru)
     {
         $request->validate([
-            'nama' => 'required|string|max:100',
+            'name' => 'required|string|max:100',
             'mata_pelajaran_id' => 'nullable|exists:tb_mata_pelajaran,id_mata_pelajaran',
             'nip' => 'nullable|string|max:50',
             'nrg' => 'nullable|string|max:50',
@@ -189,11 +188,11 @@ class GuruController extends Controller
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'status' => 'nullable|string|max:50',
         ], [
-            'nama.required' => 'Nama wajib diisi.',
-            'nama.string' => 'Nama harus berupa teks.',
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa teks.',
             'status.required' => 'Status wajib diisi.',
             'status.string' => 'Status harus berupa teks.',
-            'nama.max' => 'Nama maksimal 100 karakter.',
+            'name.max' => 'Nama maksimal 100 karakter.',
             'mata_pelajaran_id.required' => 'Mata pelajaran wajib dipilih.',
             'mata_pelajaran_id.exists' => 'Mata pelajaran tidak valid.',
             'nip.string' => 'NIP harus berupa teks.',
@@ -245,38 +244,42 @@ class GuruController extends Controller
             $data->foto = 'foto-guru/' . $uniqueName;
         }
 
-        // Update data lainnya
-        $data->nama = $request->nama;
-        $data->mata_pelajaran_id = $request->mata_pelajaran_id;
-        $data->nip = $request->nip;
-        $data->nrg = $request->nrg;
-        $data->jk = $request->jk;
-        $data->tempat_lahir = $request->tempat_lahir;
-        $data->tgl_lahir = $request->tgl_lahir;
-        $data->agama = $request->agama;
-        $data->alamat = $request->alamat;
-        $data->no_hp = $request->no_hp;
-        $data->jabatan = $request->jabatan;
-        $data->golongan = $request->golongan;
-        $data->tmt_awal = $request->tmt_awal;
-        $data->pendidikan_terakhir = $request->pendidikan_terakhir;
+        $data = Guru::findOrFail($id_guru); // Atau bisa gunakan find($id_guru) jika Anda ingin menangani kasus data tidak ditemukan
 
-        // Simpan perubahan
-        $data->save();
+        // Update data guru menggunakan array
+        $data->update([
+            'mata_pelajaran_id' => $request->mata_pelajaran_id,
+            'nip' => $request->nip,
+            'nrg' => $request->nrg,
+            'jk' => $request->jk,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tgl_lahir' => $request->tgl_lahir,
+            'agama' => $request->agama,
+            'alamat' => $request->alamat,
+            'no_hp' => $request->no_hp,
+            'jabatan' => $request->jabatan,
+            'golongan' => $request->golongan,
+            'tmt_awal' => $request->tmt_awal,
+            'pendidikan_terakhir' => $request->pendidikan_terakhir,
+        ]);
+
+        // Update data user terkait dengan guru
+        $user = $data->user; // Mengambil relasi user dari guru
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
 
         Alert::success('success', 'Data guru berhasil diperbarui.');
         return redirect()->route('data-guru');
     }
-
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id_guru)
     {
-        $guru=Guru::find($id_guru);
-        $guru->delete();
+        User::find($id_guru)->delete();
         Alert::success('success','Data guru berhasil dihapus');
         return redirect()->route('data-guru');
     }
