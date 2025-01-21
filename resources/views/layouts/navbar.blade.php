@@ -41,8 +41,9 @@
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
                         <a class="dropdown-item" href="{{ route('profil_user.index') }}">
-                            <i class="bi bi-pencil-square me-2"></i>
-                            <span class="align-middle">Update Password</span>
+                            <i class="bi bi-person">
+                                <span class="align-middle ps-1 fst-normal pt-n1">Profil</span>
+                            </i> 
                         </a>
                     </li>
                     <li>
