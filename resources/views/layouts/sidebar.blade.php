@@ -69,10 +69,22 @@
         <li class="menu-header small text-uppercase fw-bold">
             <span class="menu-header-text">Rapot P5</span>
         </li>
-        <li class="menu-item {{ Request::is('tema*') ? 'active' : '' }}">
-            <a href="{{ route('tema.index') }}" class="menu-link">
+        <li class="menu-item {{ Request::is('target_capaian*') ? 'active' : '' }}">
+            <a href="{{ route('target_capaian.index') }}" class="menu-link">
                 <i class="menu-icon ri-list-indefinite"></i>
-                <div data-i18n="Analytics">Tema</div>
+                <div data-i18n="Analytics">Target Capaian</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Request::is('data_projek*') ? 'active' : '' }}">
+            <a href="{{ route('data_projek.index') }}" class="menu-link">
+                <i class="menu-icon ri-list-indefinite"></i>
+                <div data-i18n="Analytics">Data Projek</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Request::is('kelompok_projek*') ? 'active' : '' }}">
+            <a href="{{ route('kelompok_projek.index') }}" class="menu-link">
+                <i class="menu-icon ri-list-indefinite"></i>
+                <div data-i18n="Analytics">Kelompok Projek</div>
             </a>
         </li>
     @endif
@@ -111,7 +123,21 @@
         </li>
         <li class="menu-item 
             @php
-                if(Request::is('rapot*')) {
+                if(Request::is('rapot_nilai')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_nilai')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_kehadiran')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_ekstrakulikuler')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_catatan_wali_kelas')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_naik_kelas')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_ttd')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_cetak')) {
                     echo 'active open';
                 }
             @endphp
@@ -162,6 +188,13 @@
                     </a>
                 </li>
             </ul>
+        </li>
+
+        <li class="menu-item {{ Request::is('rapot_p5*') ? 'active' : '' }}">
+            <a href="{{ route('rapot_p5.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bi bi-file-earmark-text"></i>
+                <div data-i18n="Analytics">Rapot P5</div>
+            </a>
         </li>
     @endif
 </ul>
