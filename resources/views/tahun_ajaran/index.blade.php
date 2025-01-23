@@ -21,7 +21,6 @@
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">cari</button>
                     </div>
                 </form>
-
             </div>
 
         </div>
