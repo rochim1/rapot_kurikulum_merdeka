@@ -12,6 +12,18 @@
             <a href="{{ route('tahun_ajaran.create') }}" class="btn btn-primary btn-icon-split">
                 <span class="text"><i class="bi bi-plus"></i></i> Tambah</span>
             </a>
+            <div>
+                <form action="{{ route('tahun_ajaran.index') }}" method="GET" class="m-0">
+                    <div class="input-group">
+                        <input name="search" value="{{ request('search') }}" type="text" class="form-control"
+                            placeholder="nama tahun ajaran" aria-label="Recipient's username"
+                            aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">cari</button>
+                    </div>
+                </form>
+
+            </div>
+
         </div>
     </div>
 
@@ -29,9 +41,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($tahunAjaran as $item_tahun_ajaran)
+                        @forelse($tahunAjaran as $item_tahun_ajaran)
                             <tr>
-                                <td>{{ ($tahunAjaran->currentPage() - 1) * $tahunAjaran->perPage() + $loop->iteration }}</td>
+                                <td>{{ ($tahunAjaran->currentPage() - 1) * $tahunAjaran->perPage() + $loop->iteration }}
+                                </td>
                                 <td>{{ $item_tahun_ajaran->tahun_ajaran_awal }}/{{ $item_tahun_ajaran->tahun_ajaran_akhir }}
                                 </td>
                                 <td>{{ $item_tahun_ajaran->semester }}</td>

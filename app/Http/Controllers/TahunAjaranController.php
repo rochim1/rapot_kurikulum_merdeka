@@ -13,14 +13,43 @@ class TahunAjaranController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // Start building the query
+        $query = TahunAjaran::query();
+
+        // Add filters dynamically if provided
+        if ($request->filled('tahun_ajaran_awal')) {
+            $query->where('tahun_ajaran_awal', $request->input('tahun_ajaran_awal'));
+        }
+
+        if ($request->filled('tahun_ajaran_akhir')) {
+            $query->where('tahun_ajaran_akhir', $request->input('tahun_ajaran_akhir'));
+        }
+
+        if ($request->filled('semester')) {
+            $query->where('semester', $request->input('semester'));
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('tahun_ajaran_awal', 'LIKE', "%$search%")
+                  ->orWhere('tahun_ajaran_akhir', 'LIKE', "%$search%");
+            });
+        }
+
+        // Apply ordering and paginate results
+        $tahunAjaran = $query->orderBy('tahun_ajaran_awal', 'desc')
+            ->orderBy('tahun_ajaran_akhir', 'desc')
+            ->orderBy('semester', 'desc')
+            ->paginate(10)
+            ->withQueryString(); // Retain query parameters in pagination links
+
+        // Return the view with the data
         return view('tahun_ajaran.index', [
-            'tahunAjaran' => TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')
-                ->orderBy('tahun_ajaran_akhir', 'desc')
-                ->orderBy('semester', 'desc')
-                ->paginate(10),
-            'title' => 'Tahun Ajaran'
+            'tahunAjaran' => $tahunAjaran,
+            'title' => 'Tahun Ajaran',
         ]);
     }
 
