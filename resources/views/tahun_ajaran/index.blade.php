@@ -5,13 +5,15 @@
         <h4 class="mb-md-0">{{ $title }}</h4>
 
         <div class="d-flex gap-3">
-            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import"><i
-                    class="bi bi-folder-plus"></i>
-                Import
-            </button>
-            <a href="{{ route('tahun_ajaran.create') }}" class="btn btn-primary btn-icon-split">
-                <span class="text"><i class="bi bi-plus"></i></i> Tambah</span>
-            </a>
+            @if (Auth::user()->hasRole('admin'))
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import"><i
+                        class="bi bi-folder-plus"></i>
+                    Import
+                </button>
+                <a href="{{ route('tahun_ajaran.create') }}" class="btn btn-primary btn-icon-split">
+                    <span class="text"><i class="bi bi-plus"></i></i> Tambah</span>
+                </a>
+            @endif
             <div>
                 <form action="{{ route('tahun_ajaran.index') }}" method="GET" class="m-0">
                     <div class="input-group">

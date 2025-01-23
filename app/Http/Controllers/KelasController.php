@@ -9,18 +9,32 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class KelasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kelas = Kelas::orderBy('kelas_tingkatan', 'asc') 
+        // Start building the query for the 'kelas' table
+        $query = Kelas::query();
+
+        // Apply filters dynamically
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            // Use DB::raw to concatenate fields and apply a filter
+            $query->whereRaw("CONCAT(kelas_tingkatan, '.', kelas_abjad) LIKE ?", ["%$search%"]);
+        }
+
+        // Add ordering and paginate the results
+        $kelas = $query->orderBy('kelas_tingkatan', 'asc')
             ->orderBy('fase', 'asc')
             ->orderBy('kelas_abjad', 'asc')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString(); // Retain query parameters during pagination
 
+        // Return the view with data and filters
         return view('kelas.index', [
             'kelas' => $kelas,
             'title' => 'Kelas'
         ]);
     }
+
 
     public function create()
     {
