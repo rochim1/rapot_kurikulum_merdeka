@@ -28,6 +28,18 @@ class SiswaController extends Controller
             $query->whereIn('id_siswa', $kelola_kelas->daftar_id_siswa);
         }
 
+        if (request()->filled('nama')) {
+            $query->where('nama', 'like', '%' . request('nama') . '%');
+        }
+        
+        if (request()->filled('nis')) {
+            $query->where('nis', 'like', '%' . request('nis') . '%');
+        }
+        
+        if (request()->filled('nisn')) {
+            $query->where('nisn', 'like', '%' . request('nisn') . '%');
+        }
+        
         return view('siswa.index', [
             'siswa' => $query->paginate(10), 
             'title' => 'Siswa'

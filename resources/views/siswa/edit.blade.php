@@ -21,80 +21,88 @@
                 @enderror
             </div>
 
-            <div class="mb-3">
-                <label for="nis" class="form-label">NIS</label>
-                <input type="text" class="form-control @error('nis') is-invalid @enderror" id="nis" name="nis" value="{{ old('nis', $siswa->nis) }}">
-                @error('nis')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="nis" class="form-label">NIS</label>
+                    <input type="text" class="form-control @error('nis') is-invalid @enderror" id="nis" name="nis" value="{{ old('nis', $siswa->nis) }}">
+                    @error('nis')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+    
+                <div class="mb-3 col-md-6">
+                    <label for="nisn" class="form-label">NISN</label>
+                    <input type="text" class="form-control @error('nisn') is-invalid @enderror" id="nisn" name="nisn" value="{{ old('nisn', $siswa->nisn) }}">
+                    @error('nisn')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label for="nisn" class="form-label">NISN</label>
-                <input type="text" class="form-control @error('nisn') is-invalid @enderror" id="nisn" name="nisn" value="{{ old('nisn', $siswa->nisn) }}">
-                @error('nisn')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
+                    <input type="text" class="form-control @error('tempat_lahir') is-invalid @enderror" id="tempat_lahir" name="tempat_lahir" maxlength="50" value="{{ old('tempat_lahir', $siswa->tempat_lahir) }}">
+                    @error('tempat_lahir')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+    
+                <div class="mb-3 col-md-6">
+                    <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                    <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir', $siswa->tanggal_lahir) }}">
+                    @error('tanggal_lahir')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
-                <input type="text" class="form-control @error('tempat_lahir') is-invalid @enderror" id="tempat_lahir" name="tempat_lahir" maxlength="50" value="{{ old('tempat_lahir', $siswa->tempat_lahir) }}">
-                @error('tempat_lahir')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="jk" class="form-label">Jenis Kelamin</label>
+                    <select class="form-select @error('jk') is-invalid @enderror" id="jk" name="jk">
+                        <option value="">Pilih Jenis Kelamin</option>
+                        <option value="Laki-Laki" {{ old('jk', $siswa->jk) == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki</option>
+                        <option value="Perempuan" {{ old('jk', $siswa->jk) == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                    </select>
+                    @error('jk')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+    
+                <div class="mb-3 col-md-6">
+                    <label for="agama" class="form-label">Agama</label>
+                    <select class="form-select @error('agama') is-invalid @enderror" id="agama" name="agama">
+                        <option value="" selected disabled>Pilih Agama</option>
+                        <option value="Islam" {{ old('agama', $siswa->agama) == 'Islam' ? 'selected' : '' }}>Islam</option>
+                        <option value="Kristen" {{ old('agama', $siswa->agama) == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                        <option value="Katolik" {{ old('agama', $siswa->agama) == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                        <option value="Hindu" {{ old('agama', $siswa->agama) == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                        <option value="Buddha" {{ old('agama', $siswa->agama) == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                        <option value="Konghucu" {{ old('agama', $siswa->agama) == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
+                    </select>
+                    @error('agama')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir', $siswa->tanggal_lahir) }}">
-                @error('tanggal_lahir')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="jk" class="form-label">Jenis Kelamin</label>
-                <select class="form-select @error('jk') is-invalid @enderror" id="jk" name="jk">
-                    <option value="">Pilih Jenis Kelamin</option>
-                    <option value="Laki-Laki" {{ old('jk', $siswa->jk) == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki</option>
-                    <option value="Perempuan" {{ old('jk', $siswa->jk) == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-                </select>
-                @error('jk')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="agama" class="form-label">Agama</label>
-                <select class="form-select @error('agama') is-invalid @enderror" id="agama" name="agama">
-                    <option value="" selected disabled>Pilih Agama</option>
-                    <option value="Islam" {{ old('agama', $siswa->agama) == 'Islam' ? 'selected' : '' }}>Islam</option>
-                    <option value="Kristen" {{ old('agama', $siswa->agama) == 'Kristen' ? 'selected' : '' }}>Kristen</option>
-                    <option value="Katolik" {{ old('agama', $siswa->agama) == 'Katolik' ? 'selected' : '' }}>Katolik</option>
-                    <option value="Hindu" {{ old('agama', $siswa->agama) == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                    <option value="Buddha" {{ old('agama', $siswa->agama) == 'Buddha' ? 'selected' : '' }}>Buddha</option>
-                    <option value="Konghucu" {{ old('agama', $siswa->agama) == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
-                </select>
-                @error('agama')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="nama_ayah" class="form-label">Nama Ayah</label>
-                <input type="text" class="form-control @error('nama_ayah') is-invalid @enderror" id="nama_ayah" name="nama_ayah" maxlength="100" value="{{ old('nama_ayah', $siswa->nama_ayah) }}">
-                @error('nama_ayah')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
-                <label for="nama_ibu" class="form-label">Nama Ibu</label>
-                <input type="text" class="form-control @error('nama_ibu') is-invalid @enderror" id="nama_ibu" name="nama_ibu" maxlength="100" value="{{ old('nama_ibu', $siswa->nama_ibu) }}">
-                @error('nama_ibu')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+            <div class="row">
+                <div class="mb-3 col-md-6">
+                    <label for="nama_ayah" class="form-label">Nama Ayah</label>
+                    <input type="text" class="form-control @error('nama_ayah') is-invalid @enderror" id="nama_ayah" name="nama_ayah" maxlength="100" value="{{ old('nama_ayah', $siswa->nama_ayah) }}">
+                    @error('nama_ayah')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+    
+                <div class="mb-3 col-md-6">
+                    <label for="nama_ibu" class="form-label">Nama Ibu</label>
+                    <input type="text" class="form-control @error('nama_ibu') is-invalid @enderror" id="nama_ibu" name="nama_ibu" maxlength="100" value="{{ old('nama_ibu', $siswa->nama_ibu) }}">
+                    @error('nama_ibu')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
             <div class="mb-3">
