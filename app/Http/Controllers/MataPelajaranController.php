@@ -13,17 +13,34 @@ class MataPelajaranController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $matapelajaran = MataPelajaran::orderBy('kelompok', 'ASC')
-        ->orderBy('nama_mata_pelajaran', 'ASC')
-        ->paginate(10);
-        
+        // Start building the query for 'mata_pelajaran'
+        $query = MataPelajaran::query();
+
+        // Filter by 'nama_mata_pelajaran' using 'like' if it is provided
+        if ($request->filled('nama_mata_pelajaran')) {
+            $query->where('nama_mata_pelajaran', 'like', '%' . $request->input('nama_mata_pelajaran') . '%');
+        }
+
+        if ($request->filled('kelompok')) {
+            $query->where('kelompok', '=', $request->input('kelompok'));
+        }
+
+        // Add ordering and paginate the results
+        $mataPelajaran = $query->orderBy('kelompok', 'ASC')
+            ->orderBy('nama_mata_pelajaran', 'ASC')
+            ->paginate(10)
+            ->withQueryString(); // Retain query parameters during pagination
+
+        // Return the view with data and filters
         return view('mata_pelajaran.index', [
-            'mataPelajaran' => $matapelajaran,
-            'title' => 'Mata Pelajaran'
+            'mataPelajaran' => $mataPelajaran,
+            'title' => 'Mata Pelajaran',
+            'filters' => $request->only('kelompok', 'nama_matapelajaran') // Pass filters to the view
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
