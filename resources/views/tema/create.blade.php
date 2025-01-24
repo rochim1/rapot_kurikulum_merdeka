@@ -20,7 +20,7 @@
                     <option value="">Pilih Tahun Ajaran</option>
                     @foreach($tahunAjaran as $itemTahunAjaran)
                         <option value="{{ $itemTahunAjaran->id_tahun_ajaran }}" 
-                            {{ old('id_tahun_ajaran', $tema->id_tahun_ajaran) == $itemTahunAjaran->id_tahun_ajaran ? 'selected' : '' }}>
+                            {{ old('id_tahun_ajaran') == $itemTahunAjaran->id_tahun_ajaran ? 'selected' : '' }}>
                             {{ $itemTahunAjaran->tahun_ajaran_awal }}/{{ $itemTahunAjaran->tahun_ajaran_akhir }} - {{ $itemTahunAjaran->semester }}
                         </option>
                     @endforeach

@@ -97,7 +97,7 @@ class KelasController extends Controller
         // Menghapus data kelas
         $kela->delete();
         Alert::success('Kerja bagus', 'Kelas berhasil dihapus!');
-        return redirect(  )->route('kelas.index')->with('success', 'Data kelas berhasil dihapus.');
+        return redirect(  )->route('kelas.index');
     }
 
     public function import_kelas(Request $request)

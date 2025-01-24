@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KelolaKelas;
 use App\Models\RapotP5;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 
 class RapotP5Controller extends Controller
@@ -10,9 +12,32 @@ class RapotP5Controller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $kelola_kelas = KelolaKelas::with('kelas')
+            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+            ->where('id_guru', auth()->user()->id)
+            ->get();
+
+        $kelola_kelas->each(function ($kelola) {
+            $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->where('status', 'active')->get();
+        });
+
+        // tema
+        $mataPelajaran = MataPelajaran::orderBy('kelompok', 'ASC')
+        ->orderBy('nama_mata_pelajaran', 'ASC')
+        ->get();
+
+        $id_tema = null;
+
+        return view('rapot.nilai.index', compact(
+            'kelola_kelas',
+            'mataPelajaran',
+            'tujuan_pembelajaran',
+            'id_mata_pelajaran',
+            'mataPelajaranSelected',
+            'title'
+        ));
     }
 
     /**
