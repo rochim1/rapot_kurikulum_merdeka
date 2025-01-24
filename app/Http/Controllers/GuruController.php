@@ -19,12 +19,45 @@ class GuruController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $gurus = Guru::with('user', 'mata_pelajaran')->paginate(10);
+        // Start building the query for 'guru' with relationships 'user' and 'mata_pelajaran'
+        $query = Guru::with('user', 'mata_pelajaran');
+
+        // Apply filters based on user input
+        if ($request->filled('nama_guru')) {
+            $query->whereHas('user', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->input('nama_guru') . '%');
+            });
+        }
+
+        if (request()->filled('nip')) {
+            $query->where('nip', 'like', '%' . request('nip') . '%');
+        }
+
+        if (request()->filled('nrg')) {
+            $query->where('nrg', 'like', '%' . request('nrg') . '%');
+        }
+
+        if ($request->filled('mata_pelajaran')) {
+            $query->whereHas('mata_pelajaran', function ($query) use ($request) {
+                $query->where('nama_mata_pelajaran', 'like', '%' . $request->input('mata_pelajaran') . '%');
+            });
+        }
+
+        // Paginate the results with query strings preserved
+        $gurus = $query->orderBy('updated_at', 'ASC')  // You can change this to sort by other columns as needed
+            ->paginate(10)
+            ->withQueryString();  // Retain query parameters during pagination
+
+        // Title for the page
         $title = 'Guru';
-        return view('guru.index', compact('gurus', 'title'));
+
+        // Return the view with data and filters
+        return view('guru.index', compact('gurus', 'title'))
+            ->with('filters', $request->only('nama_guru', 'mata_pelajaran'));
     }
+
 
     /**
      * Show the form for creating a new resource.

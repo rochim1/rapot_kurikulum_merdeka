@@ -4,10 +4,28 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">Guru</h4>
     <div class="d-flex gap-3">
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#importGuru"><i class="bi bi-folder-plus"></i>
-            Import Guru
-        </button>
-        <a href="{{ route('create-guru') }}" class="btn btn-primary btn-icon-split"><i class="bi bi-plus"></i><span class="'text">Tambah Guru</span></a>
+        @if (Auth::user()->hasRole('admin'))
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#importGuru"><i class="bi bi-folder-plus"></i>
+            </button>
+            <a href="{{ route('create-guru') }}" class="btn btn-primary btn-icon-split"><i class="bi bi-plus"></i><span class="'text"></span></a>
+        @endif
+        <form action="{{ route('data-guru') }}" method="GET" class="m-0">
+            <div class="d-flex">
+                <div class="input-group mx-1">
+                    <input name="nip" value="{{ request('nip') }}" type="text" class="form-control"
+                        placeholder="nip" aria-label="nip" aria-describedby="button-addon2">
+                </div>
+                <div class="input-group mx-1">
+                    <input name="nrg" value="{{ request('nrg') }}" type="text" class="form-control"
+                        placeholder="nrg" aria-label="nrg" aria-describedby="button-addon2">
+                </div>
+                <div class="input-group mx-1">
+                    <input name="nama_guru" value="{{ request('nama_guru') }}" type="text" class="form-control"
+                        placeholder="nama guru" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">cari</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <div class="card shadow mb-4">
