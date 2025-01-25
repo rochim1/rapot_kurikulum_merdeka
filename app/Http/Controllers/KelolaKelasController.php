@@ -106,7 +106,7 @@ class KelolaKelasController extends Controller
             'id_kelas_tujuan' => 'required|exists:tb_kelas,id_kelas',
             'id_siswa' => 'required|array',
         ]);
-
+        dump($request->all());
         // Retrieve selected student IDs from the request, defaulting to an empty array
         // Get the id_siswa as an array (it might be a comma-separated string)
         $id_siswa = $request->input('id_siswa', []);
