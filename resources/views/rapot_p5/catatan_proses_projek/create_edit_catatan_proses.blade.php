@@ -68,7 +68,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
-        <form action="{{ route('rapot_p5_catatan_proses_projek.store') }}" method="POST">
+        <form action="{{ route('rapot_p5_catatan_proses_projek.storeOrUpdate') }}" method="POST">
             @csrf
             <div class="table-responsive">
                 <table class="table table-hover">

@@ -44,9 +44,9 @@ class RapotP5CapaianProjekController extends Controller
 
                     $kelola_kelas->each(function ($kelola) {
                         $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)
-                                            ->where('status', 'active')
-                                            ->get();
-                                            
+                            ->where('status', 'active')
+                            ->get();
+                    
                         $kelola->siswa->each(function ($siswa) use ($kelola) {
                             $siswa->rapot = DB::table('tb_rapot')
                                 ->where('id_kelas', $kelola->id_kelas)
@@ -56,13 +56,24 @@ class RapotP5CapaianProjekController extends Controller
                         });
                     });
 
+                    $predikat = DB::table('tb_rapot_p5_capaian_projek')
+                        ->where('id_target_capaian', $request->id_target_capaian)
+                        ->get()
+                        ->keyBy('id_rapot');
 
+                    $id_kelompok_projek = $request->id_kelompok_projek;
+                    $id_kel_pro_data_pro = $request->id_kelompok_projek_data_projek;
+                    $id_target_capaian = $request->id_target_capaian;
                     return view('rapot_p5.nilai_capaian.create_edit_nilai_capaian', compact(
                         'kelompokProjek',
                         'kelompokProjekDataProjek',
                         'dataProjekTargetCapaian',
                         'targetCapaian',
                         'kelola_kelas',
+                        'id_kelompok_projek',
+                        'id_kel_pro_data_pro',
+                        'id_target_capaian',
+                        'predikat',
                         'title',
                     ));
                 }
@@ -85,53 +96,44 @@ class RapotP5CapaianProjekController extends Controller
         $title = 'Input Nilai Projek';
         return view('rapot_p5.nilai_capaian.pilih_kelompok_projek', compact('title', 'kelompokProjek'));
     } 
-    
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeOrUpdate(Request $request)
     {
-        //
-    }
+        DB::beginTransaction();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(RapotP5CapaianProjek $rapotP5CapaianProjek)
-    {
-        //
-    }
+        try {
+            $validated = $request->validate([
+                'id_rapot.*' => 'nullable|exists:tb_rapot,id_rapot',
+                'id_kelompok_projek.*' => 'required|exists:tb_kelompok_projek,id_kelompok_projek',
+                'id_kel_pro_data_pro.*' => 'required|exists:tb_kelompok_projek_data_projek,id_kelompok_projek_data_projek',
+                'id_target_capaian.*' => 'required|exists:tb_target_capaian,id_target_capaian',
+                'predikat.*' => 'required|string|max:50',
+            ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RapotP5CapaianProjek $rapotP5CapaianProjek)
-    {
-        //
-    }
+            foreach ($validated['id_rapot'] as $key => $id_rapot) {
+                DB::table('tb_rapot_p5_capaian_projek')->updateOrInsert(
+                    [
+                        'id_rapot' => $id_rapot,
+                        'id_kelompok_projek' => $validated['id_kelompok_projek'][$key],
+                        'id_kel_pro_data_pro' => $validated['id_kel_pro_data_pro'][$key],
+                        'id_target_capaian' => $validated['id_target_capaian'][$key],
+                    ],
+                    [
+                        'predikat' => $request->predikat[$key],
+                    ]
+                );
+            }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, RapotP5CapaianProjek $rapotP5CapaianProjek)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RapotP5CapaianProjek $rapotP5CapaianProjek)
-    {
-        //
+            DB::commit();
+            Alert::success('Success', 'Data berhasil disimpan!');
+            return redirect()->route('rapot_p5_capaian_projek.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Error', 'Terjadi kesalahan, data gagal disimpan.');
+            return redirect()->route('rapot_p5_capaian_projek.index');
+        }
     }
 }

@@ -93,21 +93,10 @@ class RapotP5CatatanProsesProjekController extends Controller
         return view('rapot_p5.catatan_proses_projek.pilih_kelompok_projek', compact('title', 'kelompokProjek'));
     }    
 
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeOrUpdate(Request $request)
     {
         $validated = $request->validate([
             'id_rapot' => 'required|array',
@@ -140,39 +129,5 @@ class RapotP5CatatanProsesProjekController extends Controller
             Alert::error('Error', 'Terjadi kesalahan, data gagal disimpan.');
             return back();
         }
-    }
-    
-    
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(RapotP5CatatanProsesProjek $rapotP5CatatanProsesProjek)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RapotP5CatatanProsesProjek $rapotP5CatatanProsesProjek)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, RapotP5CatatanProsesProjek $rapotP5CatatanProsesProjek)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RapotP5CatatanProsesProjek $rapotP5CatatanProsesProjek)
-    {
-        //
     }
 }
