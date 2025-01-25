@@ -14,6 +14,7 @@
 <div class="card shadow mb-4">
     <div class="card-body">
         <form action="{{ route('rapot_p5_capaian_projek.index') }}" method="GET">
+            <!-- Dropdown Kelompok Projek -->
             <div class="mb-3 row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Kelompok</label>
                 <div class="col-sm-10">
@@ -36,15 +37,16 @@
                 </div>
             </div>
             
+            <!-- Dropdown Projek -->
             <div class="mb-3 row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Projek</label>
                 <div class="col-sm-10">
-                    <select class="form-select @error('id_kelompok_projek_data_projek') is-invalid @enderror" 
-                        name="id_kelompok_projek_data_projek" 
-                        id="id_kelompok_projek_data_projek" 
-                        required
-                        onchange="this.form.submit()"
-                    >
+                    <div class="col-sm-10">
+                        <select class="form-select @error('id_kelompok_projek_data_projek') is-invalid @enderror" 
+                            name="id_kelompok_projek_data_projek" 
+                            id="id_kelompok_projek_data_projek" 
+                            required
+                            onchange="this.form.submit()">
                         <option value="">Pilih Projek</option>
                         @foreach ($kelompokProjekDataProjek as $item)
                             <option value="{{ $item->id_kelompok_projek_data_projek }}" 
@@ -52,37 +54,21 @@
                                 {{ $item->dataProjek->nama }}
                             </option>
                         @endforeach
-                    </select>
-                    @error('id_kelompok_projek_data_projek')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror   
-                </div>
-            </div>
-
-            <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Dimensi Profil</label>
-                <div class="col-sm-10">
-                    <select class="form-select @error('id_target_capaian') is-invalid @enderror" 
-                        name="id_target_capaian" 
-                        id="id_target_capaian" 
-                        required
-                        onchange="this.form.submit()"
-                    >
-                        <option value="">Pilih Dimensi Profil</option>
-                        @foreach ($dataProjekTargetCapaian as $item)
-                            <option value="{{ $item->targetCapaian->id_target_capaian }}" 
-                                {{ request('id_target_capaian') == $item->targetCapaian->id_target_capaian ? 'selected' : '' }}
-                            >
-                                {{ $item->targetCapaian->dimensi }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('id_data_projek_target_capaian')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror   
+                        </select>
+                        @error('id_kelompok_projek_data_projek')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror        
+                    </div>
                 </div>
             </div>
         </form>
+
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Dimensi Profil</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly value="Pilih Dimensi Profil">
+            </div>
+        </div>
 
         <div class="mb-3 row">
             <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Elemen Profil</label>

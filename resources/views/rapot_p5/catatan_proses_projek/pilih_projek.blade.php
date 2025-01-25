@@ -15,29 +15,33 @@
     <div class="card-body">
         <form action="{{ route('rapot_p5_catatan_proses_projek.index') }}" method="GET">
             <!-- Dropdown Kelompok Projek -->
-            <div class="mb-4">
-                <label for="id_kelompok_projek" class="form-label">Pilih Kelompok</label>
-                <select class="form-select @error('id_kelompok_projek') is-invalid @enderror" 
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Kelompok</label>
+                <div class="col-sm-10">
+                    <select class="form-select @error('id_kelompok_projek') is-invalid @enderror" 
                         name="id_kelompok_projek" 
                         id="id_kelompok_projek" 
                         required
-                        onchange="this.form.submit()">
-                    <option value="">Pilih Kelompok</option>
-                    @foreach ($kelompokProjek as $item)
-                        <option value="{{ $item->id_kelompok_projek }}" {{ request('id_kelompok_projek') == $item->id_kelompok_projek ? 'selected' : '' }}>
-                            {{ $item->nama }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_kelompok_projek')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                        onchange="this.form.submit()"
+                    >
+                        <option value="">Pilih Kelompok</option>
+                        @foreach ($kelompokProjek as $item)
+                            <option value="{{ $item->id_kelompok_projek }}" {{ request('id_kelompok_projek') == $item->id_kelompok_projek ? 'selected' : '' }}>
+                                {{ $item->nama }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('id_kelompok_projek')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
             
             <!-- Dropdown Projek -->
-            <div class="mb-4">
-                <label for="id_kelompok_projek_data_projek" class="form-label">Pilih Projek</label>
-                <select class="form-select @error('id_kelompok_projek_data_projek') is-invalid @enderror" 
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Projek</label>
+                <div class="col-sm-10">
+                    <select class="form-select @error('id_kelompok_projek_data_projek') is-invalid @enderror" 
                         name="id_kelompok_projek_data_projek" 
                         id="id_kelompok_projek_data_projek" 
                         required
@@ -49,13 +53,13 @@
                             {{ $item->dataProjek->nama }}
                         </option>
                     @endforeach
-                </select>
-                @error('id_kelompok_projek_data_projek')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror        
+                    </select>
+                    @error('id_kelompok_projek_data_projek')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror        
+                </div>
             </div>
         </form>
-        
     </div>
 </div>
 @endsection

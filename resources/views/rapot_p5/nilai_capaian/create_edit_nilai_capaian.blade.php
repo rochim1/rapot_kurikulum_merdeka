@@ -13,15 +13,12 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
-        <form action="{{ route('rapot_p5_catatan_proses_projek.index') }}" method="GET">
+        <form action="{{ route('rapot_p5_capaian_projek.index') }}" method="GET">
             <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">
-                    Pilih Kelompok
-                </label>
+                <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Kelompok</label>
                 <div class="col-sm-10">
                     <select class="form-select @error('id_kelompok_projek') is-invalid @enderror" 
                         name="id_kelompok_projek" 
-                        id="id_kelompok_projek" 
                         required
                         onchange="this.form.submit()"
                     >
@@ -38,14 +35,12 @@
                 </div>
             </div>
 
+            <!-- Dropdown Projek -->
             <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">
-                    Pilih Projek
-                </label>
+                <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Projek</label>
                 <div class="col-sm-10">
                     <select class="form-select @error('id_kelompok_projek_data_projek') is-invalid @enderror" 
                         name="id_kelompok_projek_data_projek" 
-                        id="id_kelompok_projek_data_projek" 
                         required
                         onchange="this.form.submit()"
                     >
@@ -59,16 +54,53 @@
                     </select>
                     @error('id_kelompok_projek_data_projek')
                         <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror        
+                    @enderror     
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Dimensi Profil</label>
+                <div class="col-sm-10">
+                    <select class="form-select @error('id_target_capaian') is-invalid @enderror" 
+                        name="id_target_capaian" 
+                        required
+                        onchange="this.form.submit()"
+                    >
+                        <option value="">Pilih Dimensi Profil</option>
+                        @foreach ($dataProjekTargetCapaian as $item)
+                            <option value="{{ $item->targetCapaian->id_target_capaian }}" 
+                                {{ request('id_target_capaian') == $item->targetCapaian->id_target_capaian ? 'selected' : '' }}
+                            >
+                                {{ $item->targetCapaian->dimensi }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('id_data_projek_target_capaian')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror   
                 </div>
             </div>
         </form>
+    
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Elemen Profil</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly value="{{ $targetCapaian->elemen }}">
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Sub Elemen Profil</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" readonly value="{{ $targetCapaian->sub_elemen }}">
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="card shadow mb-4">
     <div class="card-body">
-        <form action="{{ route('rapot_p5_catatan_proses_projek.store') }}" method="POST">
+        <form action="{{ route('rapot_p5_capaian_projek.store') }}" method="POST">
             @csrf
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -77,7 +109,7 @@
                             <th>#</th>
                             <th>Nama Siswa</th>
                             <th>NIS/NISN</th>
-                            <th>Catatan Rapot P5</th>
+                            <th>Predikat</th>
                         </tr>
                     </thead>
                     <tbody class="align-top">
@@ -95,12 +127,18 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <input type="hidden" name="id_rapot[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ optional($siswa->rapot)->id_rapot }}">
-                                        <input type="hidden" name="id_kel_pro_data_pro[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ $id_kelompok_projek_data_projek }}">
-                                        <input type="text" class="form-control" name="catatan[{{ optional($siswa->rapot)->id_rapot ?? 'null' }}]" rows="3" 
-                                            value="{{ isset($catatanProsesProjek[optional($siswa->rapot)->id_rapot]) ? $catatanProsesProjek[optional($siswa->rapot)->id_rapot]->catatan_proses_projek : '' }}"
+                                        {{-- <input type="text" name="id_rapot[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ optional($siswa->rapot)->id_rapot }}">
+                                        <input type="text" name="id_kel_pro_data_pro[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ $id_kelompok_projek_data_projek }}"> --}}
+                                        <select
+                                            class="form-select"
+                                            name=""
                                         >
-                                   
+                                            <option value="">-Pilih Predikat-</option>
+                                            <option value="">Mulai Berkembang</option>
+                                            <option value="">Sedang Berkembang</option>
+                                            <option value="">Berkembang Sesuai Berkembang</option>
+                                            <option value="">Sangat Berkembang</option>
+                                        </select>
                                     </td>
                                 </tr>
                             @endforeach

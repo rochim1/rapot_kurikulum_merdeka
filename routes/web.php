@@ -14,7 +14,6 @@ use App\Http\Controllers\MataPelajaranController;
 use App\Http\Controllers\EkstrakulikulerController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\KelompokProjekController;
-use App\Http\Controllers\KelompokProjekDataProjectController;
 use App\Http\Controllers\KelompokProjekDataProjekController;
 use App\Http\Controllers\ProfilSekolahController;
 use App\Http\Controllers\RapotCatatanWaliKelasController;
@@ -23,13 +22,13 @@ use App\Http\Controllers\RapotEkstrakulikulerController;
 use App\Http\Controllers\RapotKehadiranController;
 use App\Http\Controllers\RapotNaikKelasController;
 use App\Http\Controllers\RapotNilaiController;
+use App\Http\Controllers\RapotP5CapaianProjekController;
 use App\Http\Controllers\RapotP5CatatanProsesProjekController;
 use App\Http\Controllers\RapotP5Controller;
 use App\Http\Controllers\RapotTtdController;
 use App\Http\Controllers\TargetCapaianController;
 use App\Http\Controllers\TujuanPembelajaranController;
 use App\Http\Controllers\UserProfilController;
-use App\Models\RapotP5CapaianProjek;
 
 /*
 |--------------------------------------------------------------------------
@@ -135,12 +134,10 @@ Route::middleware(['role:walas'])->group(function () {
     Route::get('/rapot_cetak', [RapotCetakController::class, 'index'])->name('rapot_cetak.index');
     Route::get('/rapot_cetak_export_pdf', [RapotCetakController::class, 'export_pdf'])->name('rapot_cetak.export_pdf');
 
-    Route::get('/rapot_p5_capaian_projek', [RapotP5CapaianProjek::class, 'index'])->name('rapot_p5_capaian_projek.index');
-    Route::post('/rapot_p5_capaian_projek/storeOrUpdate', [RapotP5Controller::class, 'storeOrUpdate'])->name('rapot_p5_capaian_projek.storeOrUpdate');
+        Route::resource('rapot_p5_capaian_projek', RapotP5CapaianProjekController::class);
 
-    Route::get('/rapot_p5_catatan_proses_projek', [RapotP5CatatanProsesProjekController::class, 'index'])->name('rapot_p5_catatan_proses_projek.index');
-    Route::post('/rapot_p5_catatan_proses_projek', [RapotP5CatatanProsesProjekController::class, 'store'])->name('rapot_p5_catatan_proses_projek.store');
-    // Route::post('/rapot_p5_catatan_proses_projek', [RapotP5CatatanProsesProjekController::class, 'storeOrUpdate'])->name('rapot_p5_catatan_proses_projek.storeOrUpdate');        
+        Route::get('/rapot_p5_catatan_proses_projek', [RapotP5CatatanProsesProjekController::class, 'index'])->name('rapot_p5_catatan_proses_projek.index');
+        Route::post('/rapot_p5_catatan_proses_projek', [RapotP5CatatanProsesProjekController::class, 'store'])->name('rapot_p5_catatan_proses_projek.store');
 
     Route::get('/rapot_p5_cetak', [RapotP5Controller::class, 'index'])->name('rapot_p5_cetak.index');
     Route::post('/rapot_p5_cetak/storeOrUpdate', [RapotP5Controller::class, 'storeOrUpdate'])->name('rapot_p5_cetak.storeOrUpdate');

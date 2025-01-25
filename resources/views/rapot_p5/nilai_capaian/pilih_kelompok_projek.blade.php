@@ -16,12 +16,12 @@
         <div class="mb-3 row">
             <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Kelompok</label>
             <div class="col-sm-10">
-                <form action="{{ route('rapot_p5_catatan_proses_projek.index') }}" method="GET">
+                <form action="{{ route('rapot_p5_capaian_projek.index') }}" method="GET">
                     <select class="form-select @error('id_kelompok_projek') is-invalid @enderror" 
-                            name="id_kelompok_projek" 
-                            id="id_kelompok_projek" 
-                            required
-                            onchange="this.form.submit()"
+                        name="id_kelompok_projek" 
+                        id="id_kelompok_projek" 
+                        required
+                        onchange="this.form.submit()"
                     >
                         <option value="">Pilih Kelompok</option>
                         @foreach ($kelompokProjek as $item)
@@ -40,7 +40,28 @@
         <div class="mb-3 row">
             <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Projek</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" disabled value="Pilih Projek">
+                <input type="text" class="form-control" disabled value="Pilih Projek">
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Dimensi Profil</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" disabled value="Pilih Dimensi Profil">
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Elemen Profil</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" disabled value="Pilih Elemen Profil">
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Sub Elemen Profil</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" disabled value="Pilih Sub Elemen Profil">
             </div>
         </div>
     </div>
