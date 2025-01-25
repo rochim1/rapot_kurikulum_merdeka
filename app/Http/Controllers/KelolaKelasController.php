@@ -19,7 +19,7 @@ class KelolaKelasController extends Controller
      */
     public function index()
     {
-        $kelolaKelas = KelolaKelas::with(['guru', 'tahunAjaran', 'kelas'])->paginate(10);
+        $kelolaKelas = KelolaKelas::with(['guru.user', 'tahunAjaran', 'kelas'])->paginate(10);
         return view('kelola_kelas.index', [
             'kelolaKelas' => $kelolaKelas,
             'title' => 'Kelola Kelas'
@@ -35,6 +35,7 @@ class KelolaKelasController extends Controller
         $title = 'Kelola Kelas';
 
         // Mendapatkan siswa yang belum terdaftar di kelas yang dipilih
+        dump($request->all());
         $siswa = [];
         if ($request->has('id_kelas')) {
             $id_kelas = $request->input('id_kelas');
@@ -47,13 +48,24 @@ class KelolaKelasController extends Controller
                     })
                     ->unique();
 
-                $siswa = Siswa::whereNotIn('daftar_id_siswa', $siswaTerdaftarIds)->get();
+                $siswa = Siswa::whereNotIn('id_siswa', $siswaTerdaftarIds)->get();
             } else {
                 // Ambil siswa yang sudah terdaftar di kelas
-                $kelolaKelas = KelolaKelas::where('id_kelas', $id_kelas)->first();
+                $query = KelolaKelas::query();
+                
+                if ($request->filled('id_tahun_ajaran')) {
+                    $query-> where('id_tahun_ajaran', $request->input('id_tahun_ajaran'));
+                }
+
+                if ($request->filled('id_kelas')) {
+                    $query-> where('id_kelas', $id_kelas);
+                }
+               
+                $kelolaKelas = $query->first();
                 if ($kelolaKelas) {
                     $siswaIds = json_decode($kelolaKelas->daftar_id_siswa);
-                    $siswa = Siswa::whereIn('daftar_id_siswa', $siswaIds)->get();
+                    
+                    $siswa = Siswa::whereIn('id_siswa', $siswaIds)->get();
                 }
             }
         }
@@ -68,18 +80,19 @@ class KelolaKelasController extends Controller
     { 
         // Validasi input form
         $request->validate([
-            'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
+            'id_tahun_ajaran_tujuan' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
             'id_guru' => 'required|exists:tb_guru,id_guru',
-            'id_kelas' => 'required|exists:tb_kelas,id_kelas',
+            'id_kelas' => 'required',
+            'id_kelas_tujuan' => 'required|exists:tb_kelas,id_kelas',
             'id_siswa' => 'required|array',
             'id_siswa.*' => 'exists:tb_siswa,id_siswa',
         ]);
 
         // Menyimpan data kelas yang baru
         $kelolaKelas = new KelolaKelas();
-        $kelolaKelas->id_tahun_ajaran = $request->id_tahun_ajaran;
+        $kelolaKelas->id_tahun_ajaran = $request->id_tahun_ajaran_tujuan;
         $kelolaKelas->id_guru = $request->id_guru;
-        $kelolaKelas->id_kelas = $request->id_kelas;
+        $kelolaKelas->id_kelas = $request->id_kelas_tujuan;
         $kelolaKelas->daftar_id_siswa = json_encode($request->id_siswa); // Menyimpan siswa yang terdaftar dalam format JSON
         $kelolaKelas->save();
 
