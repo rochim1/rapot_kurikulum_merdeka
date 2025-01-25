@@ -118,6 +118,7 @@ class KelolaKelasController extends Controller
 
         // Menampilkan pesan sukses
         Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
+        session()->forget('selected_students');
         return redirect()->route('kelola_kelas.index');
     }
 
