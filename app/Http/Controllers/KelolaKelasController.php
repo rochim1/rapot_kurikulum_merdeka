@@ -56,17 +56,33 @@ class KelolaKelasController extends Controller
         // Store the final list back in the session
         session()->put('selected_students', $final_selected_students);
         
+        if ($request->filled('submit_action') && $request->input('submit_action') == 'true') {
+            $result = $this->storeKelolaKelas([
+                "id_guru" => $request->input('id_guru'),
+                "id_tahun_ajaran" => $request->input('id_tahun_ajaran_tujuan'),
+                "id_kelas" => $request->input('id_kelas_tujuan'),
+                'daftar_id_siswa' => $final_selected_students
+            ]);
+
+            return redirect()->route('kelola_kelas.index');
+        }
+
         $siswa = [];
         if ($request->has('id_kelas')) {
             $id_kelas = $request->input('id_kelas');
             if ($id_kelas === 'not_registered') {
                 // Ambil siswa yang belum terdaftar di kelas manapun
                 $siswaTerdaftarIds = KelolaKelas::select('daftar_id_siswa')
-                    ->get()
-                    ->flatMap(function ($item) {
-                        return json_decode($item->daftar_id_siswa);
-                    })
-                    ->unique();
+                ->get()
+                ->flatMap(function ($item) {
+                    // Ensure daftar_id_siswa is a valid JSON string
+                    if (is_string($item->daftar_id_siswa)) {
+                        return json_decode($item->daftar_id_siswa, true) ?? [];
+                    }
+                    return []; // Return an empty array if it's not a string or invalid
+                })
+                ->unique();
+
 
                 $siswa = Siswa::whereNotIn('id_siswa', $siswaTerdaftarIds)->get();
             } else {
@@ -93,57 +109,20 @@ class KelolaKelasController extends Controller
         return view('kelola_kelas.create', compact('guru', 'kelas', 'tahunAjaran', 'siswa', 'title'));
     }
 
+    private function storeKelolaKelas($input) {
+        $result = KelolaKelas::create($input);
+        Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
+        session()->forget('selected_students');
+        return $result;
+    }
+
     /**
+     * TIDAK DIPAKAI == TIDAK DIPAKAI == TIDAK DIPAKAI == TIDAK DIPAKAI == TIDAK DIPAKAI == TIDAK DIPAKAI == 
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // Validasi input form
-        $request->validate([
-            'id_tahun_ajaran_tujuan' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
-            'id_guru' => 'required|exists:tb_guru,id_guru',
-            'id_kelas' => 'required',
-            'id_kelas_tujuan' => 'required|exists:tb_kelas,id_kelas',
-            'id_siswa' => 'required|array',
-        ]);
-        dump($request->all());
-        // Retrieve selected student IDs from the request, defaulting to an empty array
-        // Get the id_siswa as an array (it might be a comma-separated string)
-        $id_siswa = $request->input('id_siswa', []);
-        
-        // If it's a single string with comma-separated values, convert it to an array
-        if (is_string($id_siswa[0])) {
-            $id_siswa = explode(',', $id_siswa[0]);
-        }
-        
-        // Decode the JSON string for unselected students into an array
-        $id_siswa_removed = json_decode($request->input('unselected_students', '[]'), true);
-
-        // Ensure both selected and unselected are arrays
-        $id_siswa = is_array($id_siswa) ? $id_siswa : [];
-        $id_siswa_removed = is_array($id_siswa_removed) ? $id_siswa_removed : [];
-
-        // Retrieve the existing selected students from the session, defaulting to an empty array
-        $existing_selected_students = session('selected_students', []);
-
-        // Merge the new selected IDs with the existing ones, ensuring uniqueness
-        $merged_selected_students = array_unique(array_merge($existing_selected_students, $id_siswa));
-
-        // Remove the unselected student IDs from the merged list
-        $final_selected_students = array_diff($merged_selected_students, $id_siswa_removed);
-        dd($final_selected_students);
-        // Menyimpan data kelas yang baru
-        $kelolaKelas = new KelolaKelas();
-        $kelolaKelas->id_tahun_ajaran = $request->id_tahun_ajaran_tujuan;
-        $kelolaKelas->id_guru = $request->id_guru;
-        $kelolaKelas->id_kelas = $request->id_kelas_tujuan;
-        $kelolaKelas->daftar_id_siswa = json_encode($final_selected_students); // Menyimpan siswa yang terdaftar dalam format JSON
-        $kelolaKelas->save();
-
-        // Menampilkan pesan sukses
-        Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
-        session()->forget('selected_students');
-        return redirect()->route('kelola_kelas.index');
+        // tidak dipakai
     }
 
     /**

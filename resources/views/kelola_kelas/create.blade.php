@@ -148,12 +148,12 @@
                 </div>
 
                 <!-- Hidden input for unselected students -->
-                <input type="hidden" id="unselected_students" name="unselected_students" value="">
-
+                <input type="hidden" class="unselected_students" name="unselected_students" value="">
+                <button type="submit" name="submit_action" value="true" class="btn btn-primary">Simpan</button>
             </form>
 
             <!-- Form untuk Menyimpan Data -->
-            <form action="{{ route('kelola_kelas.store') }}" method="POST" class="mt-0">
+            {{-- <form action="{{ route('kelola_kelas.store') }}" method="POST" class="mt-0">
                 @csrf
 
                 <!-- Include hidden inputs for the first form's data -->
@@ -162,15 +162,15 @@
                 <input type="hidden" name="id_tahun_ajaran_tujuan" value="{{ request('id_tahun_ajaran_tujuan') }}">
                 <input type="hidden" name="id_kelas" value="{{ request('id_kelas') }}">
                 <input type="hidden" name="id_kelas_tujuan" value="{{ request('id_kelas_tujuan') }}">
-                <input type="hidden" id="unselected_students" name="unselected_students" value="">
+                <input type="hidden" class="unselected_students" name="unselected_students" value="">
                 <input type="hidden" name="id_siswa[]" value="{{ implode(',', request('id_siswa', [])) }}">
 
                 <!-- List Siswa with Checkboxes -->
 
 
                 <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary">Simpan</button>
-            </form>
+                
+            </form> --}}
 
         </div>
     </div>
@@ -201,13 +201,16 @@
                     console.log('Unselected students:', unselectedStudents);
 
                     // Set the hidden input's value
-                    const hiddenInput = document.getElementById('unselected_students');
+                    const hiddenInput = document.querySelector(
+                    '.unselected_students'); // Fix: document.querySelector, not getElementByClass
                     if (hiddenInput) {
-                        hiddenInput.value = JSON.stringify(unselectedStudents);
+                        hiddenInput.value = JSON.stringify(
+                        unselectedStudents); // Setting value as JSON string
                     } else {
-                        console.error('Hidden input #unselected_students not found.');
+                        console.error('Hidden input .unselected_students not found.');
                     }
                 });
+
             } else {
                 console.error('Form #createKelolaKelas_form not found.');
             }
