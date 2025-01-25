@@ -33,9 +33,29 @@ class KelolaKelasController extends Controller
         $kelas = Kelas::orderBy('kelas_tingkatan', 'asc')->orderBy('kelas_abjad', 'asc')->get();
         $tahunAjaran = TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')->get();
         $title = 'Kelola Kelas';
+        
+        // Retrieve selected student IDs from the request, defaulting to an empty array
+        $id_siswa = $request->input('id_siswa', []);
 
-        // Mendapatkan siswa yang belum terdaftar di kelas yang dipilih
-        dump($request->all());
+        // Decode the JSON string for unselected students into an array
+        $id_siswa_removed = json_decode($request->input('unselected_students', '[]'), true);
+
+        // Ensure both selected and unselected are arrays
+        $id_siswa = is_array($id_siswa) ? $id_siswa : [];
+        $id_siswa_removed = is_array($id_siswa_removed) ? $id_siswa_removed : [];
+
+        // Retrieve the existing selected students from the session, defaulting to an empty array
+        $existing_selected_students = session('selected_students', []);
+
+        // Merge the new selected IDs with the existing ones, ensuring uniqueness
+        $merged_selected_students = array_unique(array_merge($existing_selected_students, $id_siswa));
+
+        // Remove the unselected student IDs from the merged list
+        $final_selected_students = array_diff($merged_selected_students, $id_siswa_removed);
+
+        // Store the final list back in the session
+        session()->put('selected_students', $final_selected_students);
+        
         $siswa = [];
         if ($request->has('id_kelas')) {
             $id_kelas = $request->input('id_kelas');

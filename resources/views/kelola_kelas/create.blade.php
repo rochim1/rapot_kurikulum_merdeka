@@ -11,7 +11,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <!-- Form untuk memilih Tahun Ajaran dan Guru -->
-            <form action="{{ route('kelola_kelas.create') }}" method="GET" class="mb-0">
+            <form id="createKelolaKelas_form" action="{{ route('kelola_kelas.create') }}" method="GET" class="mb-0">
                 @csrf
 
                 <!-- Guru -->
@@ -123,7 +123,33 @@
                     </div>
                 </div>
 
-                <!-- Tahun Ajaran -->
+                <div class="mb-3">
+                    <label for="daftar_id_siswa" class="form-label">
+                        Pilih Siswa<span class="text-danger fs-5">*</span>
+                    </label>
+                    @if (!empty($siswa))
+                        <div id="list_siswa" class="border p-3" style="max-height: 300px; overflow-y: auto;">
+                            <div class="row">
+                                @foreach ($siswa as $s)
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input siswa-checkbox"
+                                                value="{{ $s->id_siswa }}" name="id_siswa[]"
+                                                {{ in_array($s->id_siswa, session('selected_students', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label ms-2">{{ $s->nama }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <div class="w-100 bg-secondary text-white p-2 rounded text-center">Tidak ada data siswa</div>
+                    @endif
+                </div>
+
+                <!-- Hidden input for unselected students -->
+                <input type="hidden" id="unselected_students" name="unselected_students" value="">
+
             </form>
 
             <!-- Form untuk Menyimpan Data -->
@@ -138,27 +164,7 @@
                 <input type="hidden" name="id_kelas_tujuan" value="{{ request('id_kelas_tujuan') }}">
 
                 <!-- List Siswa with Checkboxes -->
-                <div class="mb-3">
-                    <label for="daftar_id_siswa" class="form-label">Pilih Siswa<span
-                            class="text-danger fs-5">*</span></label>
-                    @if (!empty($siswa))
-                        <div id="list_siswa" class="border p-3" style="max-height: 300px; overflow-y: auto;">
-                            <div class="row">
-                                @foreach ($siswa as $s)
-                                    <div class="col-md-3">
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" value="{{ $s->id_siswa }}"
-                                                name="id_siswa[]">
-                                            <label class="form-check-label ms-2">{{ $s->nama }}</label>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @else
-                        <div class="w-100 bg-secondary text-white p-2 rounded text-center">Tidak ada data siswa</div>
-                    @endif
-                </div>
+
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -166,4 +172,43 @@
 
         </div>
     </div>
+
 @endsection
+
+@push('upper_script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('createKelolaKelas_form');
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    // Collect all student checkboxes
+                    const allCheckboxes = document.querySelectorAll('.siswa-checkbox');
+                    const unselectedStudents = [];
+
+                    // Debugging: Check if checkboxes are being selected
+                    console.log(`Total checkboxes: ${allCheckboxes.length}`);
+
+                    // Find unchecked students
+                    allCheckboxes.forEach(checkbox => {
+                        if (!checkbox.checked) {
+                            unselectedStudents.push(checkbox.value);
+                        }
+                    });
+
+                    // Debugging: Check unselected students
+                    console.log('Unselected students:', unselectedStudents);
+
+                    // Set the hidden input's value
+                    const hiddenInput = document.getElementById('unselected_students');
+                    if (hiddenInput) {
+                        hiddenInput.value = JSON.stringify(unselectedStudents);
+                    } else {
+                        console.error('Hidden input #unselected_students not found.');
+                    }
+                });
+            } else {
+                console.error('Form #createKelolaKelas_form not found.');
+            }
+        });
+    </script>
+@endpush
