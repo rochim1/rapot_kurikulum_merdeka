@@ -138,7 +138,8 @@ Route::middleware(['role:walas'])->group(function () {
         Route::post('/rapot_p5_capaian_projek/storeOrUpdate', [RapotP5Controller::class, 'storeOrUpdate'])->name('rapot_p5_capaian_projek.storeOrUpdate');        
 
         Route::get('/rapot_p5_catatan_proses_projek', [RapotP5CatatanProsesProjekController::class, 'index'])->name('rapot_p5_catatan_proses_projek.index');
-        Route::post('/rapot_p5_catatan_proses_projek/storeOrUpdate', [RapotP5Controller::class, 'storeOrUpdate'])->name('rapot_p5_catatan_proses_projek.storeOrUpdate');        
+        Route::post('/rapot_p5_catatan_proses_projek', [RapotP5CatatanProsesProjekController::class, 'store'])->name('rapot_p5_catatan_proses_projek.store');
+        // Route::post('/rapot_p5_catatan_proses_projek', [RapotP5CatatanProsesProjekController::class, 'storeOrUpdate'])->name('rapot_p5_catatan_proses_projek.storeOrUpdate');        
 
         Route::get('/rapot_p5_cetak', [RapotP5Controller::class, 'index'])->name('rapot_p5_cetak.index');
         Route::post('/rapot_p5_cetak/storeOrUpdate', [RapotP5Controller::class, 'storeOrUpdate'])->name('rapot_p5_cetak.storeOrUpdate');        

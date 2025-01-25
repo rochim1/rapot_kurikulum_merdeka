@@ -14,7 +14,6 @@
 <div class="card shadow mb-4">
     <div class="card-body">
         <form action="{{ route('rapot_p5_catatan_proses_projek.index') }}" method="GET">
-            <!-- Dropdown Kelompok Projek -->
             <div class="mb-4">
                 <label for="id_kelompok_projek" class="form-label">Pilih Kelompok</label>
                 <select class="form-select @error('id_kelompok_projek') is-invalid @enderror" 
@@ -55,7 +54,57 @@
                 @enderror        
             </div>
         </form>
-        
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <form action="{{ route('rapot_p5_catatan_proses_projek.store') }}" method="POST">
+            @csrf
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama Siswa</th>
+                            <th>NIS/NISN</th>
+                            <th>Catatan Rapot P5</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-top">
+                        @forelse($kelola_kelas as $kelola)
+                            @foreach($kelola->siswa as $siswa)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $siswa->nama }}</td>
+                                    <td>
+                                        {{ $siswa->nis }} / 
+                                        @if ($siswa->nisn)
+                                            {{ $siswa->nisn }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="id_rapot[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ optional($siswa->rapot)->id_rapot }}">
+                                        <input type="hidden" name="id_kel_pro_data_pro[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ $id_kelompok_projek_data_projek }}">
+                                        <input type="text" class="form-control" name="catatan[{{ optional($siswa->rapot)->id_rapot ?? 'null' }}]" rows="3" 
+                                            value="{{ isset($catatanProsesProjek[optional($siswa->rapot)->id_rapot]) ? $catatanProsesProjek[optional($siswa->rapot)->id_rapot]->catatan_proses_projek : '' }}"
+                                        >
+                                   
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center text-danger fw-bold py-3">Data {{ $title }} belum tersedia.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+        </form>
     </div>
 </div>
 @endsection
