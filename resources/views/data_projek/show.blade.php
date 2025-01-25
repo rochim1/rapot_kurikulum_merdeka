@@ -52,8 +52,8 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->targetCapaian->dimensi }}</td>
                         <td>{{ $item->targetCapaian->elemen }}</td>
-                        <td>{{ $item->targetCapaian->sub_elemen }}</td>
-                        <td>{{ $item->targetCapaian->capaian_akhir_fase }}</td>
+                        <td>{{ Str::limit($item->targetCapaian->sub_elemen, 100, '...') }}</td>
+                        <td>{{ Str::limit($item->targetCapaian->capaian_akhir_fase, 100, '...') }}</td>
                         <td>
                             <form id="myForm" action="{{ route('data_projek_target_capaian.destroy', $item->id_data_projek_target_capaian) }}" method="POST">
                                 @method('DELETE')

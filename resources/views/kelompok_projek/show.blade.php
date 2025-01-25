@@ -3,7 +3,7 @@
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">{{ $title }}</h4>
-    <a href="{{ route('data_projek.index') }}" class="btn btn-secondary btn-icon-split">
+    <a href="{{ route('kelompok_projek.index') }}" class="btn btn-secondary btn-icon-split">
         <span class="text"><i class="bi bi-arrow-left-circle"></i> Kembali</span>
     </a>
 </div>
@@ -14,6 +14,11 @@
         <div class="mb-3">
             <label for="nama" class="form-label">Nama Kelompok</label>
             <p>{{ $kelompokProjek->nama }}</p>
+        </div>
+
+        <div class="mb-3">
+            <label for="kelas_tingkatan" class="form-label">Kelas</label>
+            <p>{{ $kelompokProjek->tahunAjaran->tahun_ajaran_awal }}/{{ $kelompokProjek->tahunAjaran->tahun_ajaran_akhir }} - {{ $kelompokProjek->tahunAjaran->semester }}</p>
         </div>
 
         <div class="mb-3">
