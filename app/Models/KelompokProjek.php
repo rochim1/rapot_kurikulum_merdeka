@@ -13,6 +13,11 @@ class KelompokProjek extends Model
     protected $primaryKey = 'id_kelompok_projek';
     protected $guarded = ['id_kelompok_projek'];
 
+    public function tahunAjaran()
+    {
+        return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
+    }
+
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'id_kelas');

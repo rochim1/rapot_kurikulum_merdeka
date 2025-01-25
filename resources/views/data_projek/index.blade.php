@@ -28,8 +28,8 @@
                             <tr>
                                 <td>{{ ($dataProjek->currentPage() - 1) * $dataProjek->perPage() + $loop->iteration }}</td>
                                 <td>{{ $item_projek->tema }}</td>
-                                <td>{{ $item_projek->nama }}</td>
-                                <td>{{ $item_projek->deskripsi }}</td>
+                                <td>{{ Str::limit($item_projek->nama, 50, '...') }}</td>
+                                <td>{{ Str::limit($item_projek->deskripsi, 50, '...') }}</td>
                                 <td class="d-flex gap-2">
                                     <a href="{{ route('data_projek.show', $item_projek->id_data_projek) }}" class="btn btn-outline-info" title="Lihat Profil">
                                         Target Capaian

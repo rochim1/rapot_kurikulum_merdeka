@@ -23,11 +23,13 @@ use App\Http\Controllers\RapotEkstrakulikulerController;
 use App\Http\Controllers\RapotKehadiranController;
 use App\Http\Controllers\RapotNaikKelasController;
 use App\Http\Controllers\RapotNilaiController;
+use App\Http\Controllers\RapotP5CatatanProsesProjekController;
 use App\Http\Controllers\RapotP5Controller;
 use App\Http\Controllers\RapotTtdController;
 use App\Http\Controllers\TargetCapaianController;
 use App\Http\Controllers\TujuanPembelajaranController;
 use App\Http\Controllers\UserProfilController;
+use App\Models\RapotP5CapaianProjek;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,6 +134,12 @@ Route::middleware(['role:walas'])->group(function () {
         Route::get('/rapot_cetak', [RapotCetakController::class, 'index'])->name('rapot_cetak.index');
         Route::get('/rapot_cetak_export_pdf', [RapotCetakController::class, 'export_pdf'])->name('rapot_cetak.export_pdf');
 
-        Route::get('/rapot_p5', [RapotP5Controller::class, 'index'])->name('rapot_p5.index');
-        Route::post('/rapot_p5/storeOrUpdate', [RapotP5Controller::class, 'storeOrUpdate'])->name('rapot_p5.storeOrUpdate');        
+        Route::get('/rapot_p5_capaian_projek', [RapotP5CapaianProjek::class, 'index'])->name('rapot_p5_capaian_projek.index');
+        Route::post('/rapot_p5_capaian_projek/storeOrUpdate', [RapotP5Controller::class, 'storeOrUpdate'])->name('rapot_p5_capaian_projek.storeOrUpdate');        
+
+        Route::get('/rapot_p5_catatan_proses_projek', [RapotP5CatatanProsesProjekController::class, 'index'])->name('rapot_p5_catatan_proses_projek.index');
+        Route::post('/rapot_p5_catatan_proses_projek/storeOrUpdate', [RapotP5Controller::class, 'storeOrUpdate'])->name('rapot_p5_catatan_proses_projek.storeOrUpdate');        
+
+        Route::get('/rapot_p5_cetak', [RapotP5Controller::class, 'index'])->name('rapot_p5_cetak.index');
+        Route::post('/rapot_p5_cetak/storeOrUpdate', [RapotP5Controller::class, 'storeOrUpdate'])->name('rapot_p5_cetak.storeOrUpdate');        
 });

@@ -23,6 +23,21 @@
             </div>
 
             <div class="mb-3">
+                <label for="id_tahun_ajaran" class="form-label">Tahun Ajaran</label>
+                <select name="id_tahun_ajaran" id="id_tahun_ajaran" class="form-select select2 @error('id_tahun_ajaran') is-invalid @enderror" required>
+                    <option value="">Pilih Tahun Ajaran</option>
+                    @foreach ($tahunAjaran as $tahunAjaranItem)
+                        <option value="{{ $tahunAjaranItem->id_tahun_ajaran }}" {{ old('id_tahun_ajaran') == $tahunAjaranItem->id_tahun_ajaran ? 'selected' : '' }}>
+                            {{ $tahunAjaranItem->tahun_ajaran_awal }} / {{ $tahunAjaranItem->tahun_ajaran_akhir }} - Semester {{ $tahunAjaranItem->semester }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('id_tahun_ajaran')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
                 <label for="id_kelas" class="form-label">Kelas</label>
                 <select name="id_kelas" id="id_kelas" class="form-select select2 @error('id_kelas') is-invalid @enderror" required>
                     <option value="">Pilih Kelas</option>

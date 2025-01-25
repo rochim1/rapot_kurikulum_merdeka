@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('tb_kelompok_projek', function (Blueprint $table) {
             $table->bigIncrements('id_kelompok_projek');
             $table->string('nama', 255)->nullable();
+            $table->unsignedBigInteger('id_tahun_ajaran')->nullable();
             $table->unsignedBigInteger('id_kelas')->nullable();
             $table->unsignedBigInteger('id_user')->nullable();
 
+            $table->foreign('id_tahun_ajaran')->references('id_tahun_ajaran')->on('tb_tahun_ajaran')->onDelete('cascade');
             $table->foreign('id_kelas')->references('id_kelas')->on('tb_kelas')->onDelete('cascade');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

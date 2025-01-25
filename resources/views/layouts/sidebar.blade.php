@@ -190,11 +190,48 @@
             </ul>
         </li>
 
-        <li class="menu-item {{ Request::is('rapot_p5*') ? 'active' : '' }}">
-            <a href="{{ route('rapot_p5.index') }}" class="menu-link">
+        <li class="menu-item 
+            @php
+                if(Request::is('rapot_nilai')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_nilai')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_kehadiran')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_ekstrakulikuler')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_catatan_wali_kelas')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_naik_kelas')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_ttd')) {
+                    echo 'active open';
+                } else if(Request::is('rapot_cetak')) {
+                    echo 'active open';
+                }
+            @endphp
+            ">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bi bi-file-earmark-text"></i>
-                <div data-i18n="Analytics">Rapot P5</div>
+                <div data-i18n="Account Settings">Rapot P5</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ Request::is('rapot_p5_capaian_projek') ? 'active' : '' }}">
+                    <a href="{{ route('rapot_p5_capaian_projek.index') }}" class="menu-link">
+                        <div data-i18n="Account">Capaian Projek</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('rapot_p5_catatan_proses_projek') ? 'active' : '' }}">
+                    <a href="{{ route('rapot_p5_catatan_proses_projek.index') }}" class="menu-link">
+                        <div data-i18n="Notifications">Catatan Proses Projek</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('rapot_p5_cetak*') ? 'active' : '' }}">
+                    <a href="{{ route('rapot_p5_cetak.index') }}" class="menu-link">
+                        <div data-i18n="Connections">Cetak</div>
+                    </a>
+                </li>
+            </ul>
         </li>
     @endif
 </ul>

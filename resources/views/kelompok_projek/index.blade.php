@@ -18,6 +18,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Kelompok</th>
+                            <th>Tahun Ajaran</th>
                             <th>Kelas</th>
                             <th>Koordinator</th>
                             <th>Aksi</th>
@@ -28,6 +29,10 @@
                             <tr>
                                 <td>{{ ($kelompokProjek->currentPage() - 1) * $kelompokProjek->perPage() + $loop->iteration }}</td>
                                 <td>{{ $item_kelompok->nama ?? 'N/A' }}</td>
+                                <td>
+                                    {{ $item_kelompok->tahunAjaran->tahun_ajaran_awal ?? 'N/A' }}/{{ $item_kelompok->tahunAjaran->tahun_ajaran_akhir ?? 'N/A' }}
+                                    {{ $item_kelompok->tahunAjaran->semester ?? 'N/A' }}
+                                </td>
                                 <td>
                                     {{ $item_kelompok->kelas->kelas_tingkatan ?? 'N/A' }}.{{ $item_kelompok->kelas->kelas_abjad ?? 'N/A' }}
                                 </td>

@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
             ProfilSekolahSeeder::class,
             ProfilSekolahSeeder::class,
             TargetCapaianSeeder::class,
+            DataProjekSeeder::class,
+            DataProjekTargetCapaianSeeder::class,
+            // KelompokProjekSeeder::class,
+            // KelompokProjekDataProjekSeeder::class,
         ]);
     }
 }
