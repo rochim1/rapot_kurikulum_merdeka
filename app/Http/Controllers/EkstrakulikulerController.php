@@ -9,10 +9,25 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class EkstrakulikulerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $ekskuls = Ekstrakulikuler::paginate(10);
+        // Start building the query for 'ekstrakulikuler'
+        $query = Ekstrakulikuler::query();
+
+        // Apply filters based on user input
+        if ($request->filled('nama_ekstrakulikuler')) {
+            $query->where('nama_ekstrakulikuler', 'like', '%' . $request->input('nama_ekstrakulikuler') . '%');
+        }
+
+        // Paginate the results with query strings preserved
+        $ekskuls = $query->orderBy('nama_ekstrakulikuler', 'ASC')
+            ->paginate(10)
+            ->withQueryString(); // Retain query parameters during pagination
+
+        // Title for the page
         $title = 'Ekstrakulikuler';
+
+        // Return the view with data and filters
         return view('ekstrakulikuler.index', compact('ekskuls', 'title'));
     }
     public function create()

@@ -18,8 +18,8 @@
                 <div>
                     <form action="{{ route('mata_pelajaran.index') }}" method="GET" class="m-0">
                         <div class="d-flex">
-                            <div class="input-group">
-                                <select name="kelompok" class="form-control mx-1" aria-label="kelompok"
+                            <div class="input-group mx-1">
+                                <select name="kelompok" class="form-control" aria-label="kelompok"
                                     aria-describedby="button-addon2">
                                     <option value="">Select Kelompok</option>
                                     <option value="A" {{ request('kelompok') === 'A' ? 'selected' : '' }}>A</option>
@@ -27,9 +27,9 @@
                                     <option value="C" {{ request('kelompok') === 'C' ? 'selected' : '' }}>C</option>
                                 </select>
                             </div>
-                            <div class="input-group">
+                            <div class="input-group mx-1">
                                 <input name="nama_mata_pelajaran" value="{{ request('nama_mata_pelajaran') }}"
-                                    type="text" class="form-control mx-1" placeholder="nama mata pelajaran"
+                                    type="text" class="form-control" placeholder="nama mata pelajaran"
                                     aria-label="nama_mata_pelajaran" aria-describedby="button-addon2">
                                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2">cari</button>
                             </div>

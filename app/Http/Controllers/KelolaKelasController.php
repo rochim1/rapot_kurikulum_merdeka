@@ -29,7 +29,7 @@ class KelolaKelasController extends Controller
     public function create(Request $request)
     {
         // Mengambil data guru, kelas, dan tahun ajaran
-        $guru = Guru::orderBy('nama', 'asc')->get();
+        $guru = Guru::with('user')->where('status', 'Aktif')->orderBy('updated_at', 'asc')->get();
         $kelas = Kelas::orderBy('kelas_tingkatan', 'asc')->orderBy('kelas_abjad', 'asc')->get();
         $tahunAjaran = TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')->get();
         $title = 'Kelola Kelas';
@@ -66,7 +66,6 @@ class KelolaKelasController extends Controller
      */
     public function store(Request $request)
     { 
-        return $request;
         // Validasi input form
         $request->validate([
             'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
@@ -102,7 +101,7 @@ class KelolaKelasController extends Controller
      */
     public function edit(KelolaKelas $kelola_kela)
     {
-        $guru = Guru::all();
+        $guru = Guru::with('user')->where('status', 'Aktif')->orderBy('updated_at', 'asc')->get();
         $tahunAjaran = TahunAjaran::all();
         $kelas = Kelas::all();
 
@@ -124,7 +123,7 @@ class KelolaKelasController extends Controller
     {
         // Ambil data kelas berdasarkan ID kelas
         $kelas = KelolaKelas::findOrFail($id_kelas); // Mengambil kelas berdasarkan ID kelas
-
+        dd($kelas);
         // Validasi data yang dikirim dari form
         $validateData = $request->validate([
             'id_guru' => 'required|exists:tb_guru,id_guru',
