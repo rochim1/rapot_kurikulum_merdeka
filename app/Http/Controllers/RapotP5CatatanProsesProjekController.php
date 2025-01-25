@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\KelolaKelas;
 use App\Models\KelompokProjek;
 use App\Models\KelompokProjekDataProjek;
-use App\Models\RapotP5CatatanProsesProjek;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

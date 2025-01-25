@@ -128,7 +128,7 @@ class KelolaKelasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(KelolaKelas $kela)
+    public function show(KelolaKelas $kelas)
     {
         // 
     }
@@ -142,7 +142,7 @@ class KelolaKelasController extends Controller
         $tahunAjaran = TahunAjaran::all();
         $kelas = Kelas::all();
 
-        $selectSiswa=$kelola_kela->siswa->pluck('daftar_id_siswa')->toArray();
+        $selectSiswa = $kelola_kela->pluck('daftar_id_siswa')->toArray();
         return view('kelola_kelas.edit', [
             'title' => 'Edit Kelas',
             'kelolakelas' => $kelola_kela,

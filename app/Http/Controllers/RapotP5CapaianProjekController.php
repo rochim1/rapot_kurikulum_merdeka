@@ -95,7 +95,7 @@ class RapotP5CapaianProjekController extends Controller
     
         $title = 'Input Nilai Projek';
         return view('rapot_p5.nilai_capaian.pilih_kelompok_projek', compact('title', 'kelompokProjek'));
-    } 
+    }
 
     /**
      * Store a newly created resource in storage.
