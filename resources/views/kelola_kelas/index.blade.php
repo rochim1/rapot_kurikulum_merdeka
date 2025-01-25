@@ -14,6 +14,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
+        {{ dump($kelolaKelas); }}
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
@@ -33,7 +34,7 @@
                             <td>{{ ($kelolaKelas->currentPage() - 1) * $kelolaKelas->perPage() + $loop->iteration }}</td>
                             <td>{{ $item_kelola_kelas->kelas->kelas_tingkatan }}.{{ $item_kelola_kelas->kelas->kelas_abjad }}</td>
                             <td>{{ $item_kelola_kelas->kelas->fase }}</td>
-                            <td>{{ $item_kelola_kelas->guru->nama }}</td>
+                            <td>{{ $item_kelola_kelas->guru->user->name }}</td>
                             <td>{{ $item_kelola_kelas->tahunAjaran->tahun_ajaran_awal }}/{{ $item_kelola_kelas->tahunAjaran->tahun_ajaran_akhir }} - {{ $item_kelola_kelas->tahunAjaran->semester }}</td>
                             <td>
                                 @if ($item_kelola_kelas->tahunAjaran->is_active)

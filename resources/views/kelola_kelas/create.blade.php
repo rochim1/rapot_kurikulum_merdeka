@@ -11,30 +11,14 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <!-- Form untuk memilih Tahun Ajaran dan Guru -->
-            <form action="{{ route('kelola_kelas.create') }}" method="GET">
+            <form action="{{ route('kelola_kelas.create') }}" method="GET" class="mb-0">
                 @csrf
-            
-                <!-- Tahun Ajaran (Academic Year) -->
+
+                <!-- Guru -->
                 <div class="mb-3">
-                    <label for="id_tahun_ajaran" class="form-label">Tahun Ajaran</label>
-                    <select class="form-select select2 @error('id_tahun_ajaran') is-invalid @enderror" id="id_tahun_ajaran" name="id_tahun_ajaran">
-                        <option value="">Pilih Tahun Ajaran</option>
-                        @foreach ($tahunAjaran as $item_tahun)
-                            <option value="{{ $item_tahun->id_tahun_ajaran }}"
-                                {{ old('id_tahun_ajaran', request('id_tahun_ajaran')) == $item_tahun->id_tahun_ajaran ? 'selected' : '' }}>
-                                {{ $item_tahun->tahun_ajaran_awal }}/{{ $item_tahun->tahun_ajaran_akhir }} - {{ $item_tahun->semester }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('id_tahun_ajaran')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            
-                <!-- Guru (Teacher) -->
-                <div class="mb-3">
-                    <label for="id_guru" class="form-label">Guru <span class="text-danger fs-5">*</span></label>
-                    <select class="form-select @error('id_guru') is-invalid @enderror" id="id_guru" name="id_guru" required>
+                    <label for="id_guru" class="form-label">Guru Walas<span class="text-danger">*</span></label>
+                    <select class="form-select @error('id_guru') is-invalid @enderror" id="id_guru" name="id_guru"
+                        required>
                         <option value="">Pilih Guru</option>
                         @foreach ($guru as $item_guru)
                             <option value="{{ $item_guru->id_guru }}"
@@ -47,49 +31,117 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-            
-                <!-- Kelas (Class) -->
-                <div class="mb-3">
-                    <label for="id_kelas" class="form-label">Kelas <span class="text-danger fs-5">*</span></label>
-                    <div class="row">
-                        <div class="col-md-10">
-                            <select class="form-select @error('id_kelas') is-invalid @enderror" id="id_kelas" name="id_kelas" required onchange="this.form.submit()">
-                                <option value="">Pilih Kelas</option>
-                                <option value="not_registered" {{ request('id_kelas') === 'not_registered' ? 'selected' : '' }}>
-                                    Siswa yang Belum Terdaftar
-                                </option>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Kelas Tujuan</h5>
+                        <div class="mb-3">
+                            <label for="id_tahun_ajaran_tujuan" class="form-label">Tahun Ajaran <span
+                                    class="text-danger">*</span></label>
+                            <select class="form-select select2 @error('id_tahun_ajaran_tujuan') is-invalid @enderror"
+                                id="id_tahun_ajaran_tujuan" name="id_tahun_ajaran_tujuan" required>
+                                <option value="">Pilih Tahun Ajaran</option>
+                                @foreach ($tahunAjaran as $item_tahun)
+                                    <option value="{{ $item_tahun->id_tahun_ajaran }}"
+                                        {{ old('id_tahun_ajaran', request('id_tahun_ajaran')) == $item_tahun->id_tahun_ajaran ? 'selected' : '' }}>
+                                        {{ $item_tahun->tahun_ajaran_awal }}/{{ $item_tahun->tahun_ajaran_akhir }} -
+                                        {{ $item_tahun->semester }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('id_tahun_ajaran')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_kelas_tujuan" class="form-label">Kelas Tujuan <span
+                                    class="text-danger">*</span></label>
+                            <select class="form-select @error('id_kelas_tujuan') is-invalid @enderror" id="id_kelas_tujuan"
+                                name="id_kelas_tujuan" required>
+                                <option value="">Pilih Kelas Tujuan</option>
                                 @foreach ($kelas as $item_kelas)
                                     <option value="{{ $item_kelas->id_kelas }}"
-                                        {{ request('id_kelas') == $item_kelas->id_kelas ? 'selected' : '' }}>
+                                        {{ request('id_kelas_tujuan') == $item_kelas->id_kelas ? 'selected' : '' }}>
                                         {{ $item_kelas->kelas_tingkatan }} - {{ $item_kelas->kelas_abjad }}
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-success">pilih siswa</button>
+                            @error('id_kelas_tujuan')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
-                    @error('id_kelas')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
                 </div>
-            
-                <!-- Submit Buttons -->
-                {{-- <button type="submit" class="btn btn-success">Simpan</button>
-                <button type="submit" class="btn btn-primary" name="repeat" value="1">
-                    <i class="bi bi-arrow-counterclockwise"></i> Simpan & Buat Ulang
-                </button> --}}
-            </form>
-            
-            <!-- List Siswa dengan Checkbox -->
-            @if (!empty($siswa))
-                <form action="{{ route('kelola_kelas.store') }}" method="POST">
-                    @csrf
+                <hr>
+                <label for="">filter siswa</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="id_tahun_ajaran" class="form-label">Tahun Ajaran</label>
+                            <select class="form-select select2 @error('id_tahun_ajaran') is-invalid @enderror"
+                                id="id_tahun_ajaran" name="id_tahun_ajaran">
+                                <option value="">Pilih Tahun Ajaran</option>
+                                @foreach ($tahunAjaran as $item_tahun)
+                                    <option value="{{ $item_tahun->id_tahun_ajaran }}"
+                                        {{ old('id_tahun_ajaran', request('id_tahun_ajaran')) == $item_tahun->id_tahun_ajaran ? 'selected' : '' }}>
+                                        {{ $item_tahun->tahun_ajaran_awal }}/{{ $item_tahun->tahun_ajaran_akhir }} -
+                                        {{ $item_tahun->semester }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('id_tahun_ajaran')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="id_kelas" class="form-label">pilih kelas <span class="text-danger">*</span></label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <select class="form-select @error('id_kelas') is-invalid @enderror" id="id_kelas"
+                                        name="id_kelas" required>
+                                        <option value="">Pilih Kelas</option>
+                                        <option value="not_registered"
+                                            {{ request('id_kelas') === 'not_registered' ? 'selected' : '' }}>Siswa yang
+                                            Belum Terdaftar</option>
+                                        @foreach ($kelas as $item_kelas)
+                                            <option value="{{ $item_kelas->id_kelas }}"
+                                                {{ request('id_kelas') == $item_kelas->id_kelas ? 'selected' : '' }}>
+                                                {{ $item_kelas->kelas_tingkatan }} - {{ $item_kelas->kelas_abjad }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-success inline-text">Pilih Siswa</button>
+                                </div>
+                            </div>
+                            @error('id_kelas')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="mb-3">
-                        <label for="daftar_id_siswa" class="form-label">Pilih Siswa<span
-                                class="text-danger fs-5">*</span></label>
+                <!-- Tahun Ajaran -->
+            </form>
+
+            <!-- Form untuk Menyimpan Data -->
+            <form action="{{ route('kelola_kelas.store') }}" method="POST" class="mt-0">
+                @csrf
+
+                <!-- Include hidden inputs for the first form's data -->
+                <input type="hidden" name="id_guru" value="{{ request('id_guru') }}">
+                <input type="hidden" name="id_tahun_ajaran" value="{{ request('id_tahun_ajaran') }}">
+                <input type="hidden" name="id_tahun_ajaran_tujuan" value="{{ request('id_tahun_ajaran_tujuan') }}">
+                <input type="hidden" name="id_kelas" value="{{ request('id_kelas') }}">
+                <input type="hidden" name="id_kelas_tujuan" value="{{ request('id_kelas_tujuan') }}">
+
+                <!-- List Siswa with Checkboxes -->
+                <div class="mb-3">
+                    <label for="daftar_id_siswa" class="form-label">Pilih Siswa<span
+                            class="text-danger fs-5">*</span></label>
+                    @if (!empty($siswa))
                         <div id="list_siswa" class="border p-3" style="max-height: 300px; overflow-y: auto;">
                             <div class="row">
                                 @foreach ($siswa as $s)
@@ -103,14 +155,15 @@
                                 @endforeach
                             </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="w-100 bg-secondary text-white p-2 rounded text-center">Tidak ada data siswa</div>
+                    @endif
+                </div>
 
-                    <!-- Tombol Simpan -->
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </form>
-
+                <!-- Submit Button -->
                 <button type="submit" class="btn btn-primary">Simpan</button>
-            @endif
+            </form>
+
         </div>
     </div>
 @endsection
