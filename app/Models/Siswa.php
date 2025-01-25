@@ -36,4 +36,9 @@ class Siswa extends Model
                     ->withPivot('predikat_ekstrakulikuler', 'catatan_ekstrakulikuler');
     }   
 
+    public function kelolaKelas()
+    {
+        return $this->belongsTo(KelolaKelas::class, 'id_kelas', 'id_kelas');
+    }
+
 }

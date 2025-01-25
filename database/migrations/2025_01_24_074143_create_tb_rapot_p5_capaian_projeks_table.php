@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tb_rapot_p5_capaianprojek', function (Blueprint $table) {
+        Schema::create('tb_rapot_p5_capaian_projek', function (Blueprint $table) {
             $table->bigIncrements('id_rapot_p5_capaianprojek');
             // $table->unsignedBigInteger('id_rapot')->nullable();
             // $table->unsignedBigInteger('id_mata_pelajaran')->nullable();

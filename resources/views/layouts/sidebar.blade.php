@@ -144,7 +144,7 @@
             ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bi bi-file-earmark-text"></i>
-                <div data-i18n="Account Settings">Rapot</div>
+                <div data-i18n="Account Settings">Rapot Utama</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ Request::is('rapot_nilai') ? 'active' : '' }}">
@@ -192,21 +192,11 @@
 
         <li class="menu-item 
             @php
-                if(Request::is('rapot_nilai')) {
+                if(Request::is('rapot_p5_capaian_projek')) {
                     echo 'active open';
-                } else if(Request::is('rapot_nilai')) {
+                } else if(Request::is('rapot_p5_catatan_proses_projek')) {
                     echo 'active open';
-                } else if(Request::is('rapot_kehadiran')) {
-                    echo 'active open';
-                } else if(Request::is('rapot_ekstrakulikuler')) {
-                    echo 'active open';
-                } else if(Request::is('rapot_catatan_wali_kelas')) {
-                    echo 'active open';
-                } else if(Request::is('rapot_naik_kelas')) {
-                    echo 'active open';
-                } else if(Request::is('rapot_ttd')) {
-                    echo 'active open';
-                } else if(Request::is('rapot_cetak')) {
+                } else if(Request::is('rapot_p5_cetak')) {
                     echo 'active open';
                 }
             @endphp
