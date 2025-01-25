@@ -42,7 +42,7 @@
                                 <option value="">Pilih Tahun Ajaran</option>
                                 @foreach ($tahunAjaran as $item_tahun)
                                     <option value="{{ $item_tahun->id_tahun_ajaran }}"
-                                        {{ old('id_tahun_ajaran', request('id_tahun_ajaran')) == $item_tahun->id_tahun_ajaran ? 'selected' : '' }}>
+                                        {{ old('id_tahun_ajaran_tujuan', request('id_tahun_ajaran_tujuan')) == $item_tahun->id_tahun_ajaran ? 'selected' : '' }}>
                                         {{ $item_tahun->tahun_ajaran_awal }}/{{ $item_tahun->tahun_ajaran_akhir }} -
                                         {{ $item_tahun->semester }}
                                     </option>
@@ -162,6 +162,8 @@
                 <input type="hidden" name="id_tahun_ajaran_tujuan" value="{{ request('id_tahun_ajaran_tujuan') }}">
                 <input type="hidden" name="id_kelas" value="{{ request('id_kelas') }}">
                 <input type="hidden" name="id_kelas_tujuan" value="{{ request('id_kelas_tujuan') }}">
+                <input type="hidden" id="unselected_students" name="unselected_students" value="">
+                <input type="hidden" name="id_siswa[]" value="{{ implode(',', request('id_siswa', [])) }}">
 
                 <!-- List Siswa with Checkboxes -->
 

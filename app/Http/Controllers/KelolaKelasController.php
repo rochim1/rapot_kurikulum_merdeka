@@ -97,7 +97,7 @@ class KelolaKelasController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    { 
+    {
         // Validasi input form
         $request->validate([
             'id_tahun_ajaran_tujuan' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
@@ -105,15 +105,39 @@ class KelolaKelasController extends Controller
             'id_kelas' => 'required',
             'id_kelas_tujuan' => 'required|exists:tb_kelas,id_kelas',
             'id_siswa' => 'required|array',
-            'id_siswa.*' => 'exists:tb_siswa,id_siswa',
         ]);
 
+        // Retrieve selected student IDs from the request, defaulting to an empty array
+        // Get the id_siswa as an array (it might be a comma-separated string)
+        $id_siswa = $request->input('id_siswa', []);
+        
+        // If it's a single string with comma-separated values, convert it to an array
+        if (is_string($id_siswa[0])) {
+            $id_siswa = explode(',', $id_siswa[0]);
+        }
+        
+        // Decode the JSON string for unselected students into an array
+        $id_siswa_removed = json_decode($request->input('unselected_students', '[]'), true);
+
+        // Ensure both selected and unselected are arrays
+        $id_siswa = is_array($id_siswa) ? $id_siswa : [];
+        $id_siswa_removed = is_array($id_siswa_removed) ? $id_siswa_removed : [];
+
+        // Retrieve the existing selected students from the session, defaulting to an empty array
+        $existing_selected_students = session('selected_students', []);
+
+        // Merge the new selected IDs with the existing ones, ensuring uniqueness
+        $merged_selected_students = array_unique(array_merge($existing_selected_students, $id_siswa));
+
+        // Remove the unselected student IDs from the merged list
+        $final_selected_students = array_diff($merged_selected_students, $id_siswa_removed);
+        dd($final_selected_students);
         // Menyimpan data kelas yang baru
         $kelolaKelas = new KelolaKelas();
         $kelolaKelas->id_tahun_ajaran = $request->id_tahun_ajaran_tujuan;
         $kelolaKelas->id_guru = $request->id_guru;
         $kelolaKelas->id_kelas = $request->id_kelas_tujuan;
-        $kelolaKelas->daftar_id_siswa = json_encode($request->id_siswa); // Menyimpan siswa yang terdaftar dalam format JSON
+        $kelolaKelas->daftar_id_siswa = json_encode($final_selected_students); // Menyimpan siswa yang terdaftar dalam format JSON
         $kelolaKelas->save();
 
         // Menampilkan pesan sukses
