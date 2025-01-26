@@ -85,14 +85,14 @@
         <div class="mb-3 row">
             <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Elemen Profil</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" readonly value="{{ $targetCapaian->elemen }}">
+                <input type="text" class="form-control" readonly value="{{ $targetCapaian->elemen ?? 'Pilih Elemen Profil' }}">
             </div>
         </div>
 
         <div class="mb-3 row">
             <label for="inputPassword" class="col-sm-2 col-form-label">Pilih Sub Elemen Profil</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" readonly value="{{ $targetCapaian->sub_elemen }}">
+                <input type="text" class="form-control" readonly value="{{ $targetCapaian->sub_elemen ?? 'Pilih Sub Elemen Profil' }}">
             </div>
         </div>
     </div>
@@ -100,7 +100,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
-        <form action="{{ route('rapot_p5_capaian_projek.store') }}" method="POST">
+        <form action="{{ route('rapot_p5_capaian_projek.storeOrUpdate') }}" method="POST">
             @csrf
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -127,18 +127,32 @@
                                         @endif
                                     </td>
                                     <td>
-                                        {{-- <input type="text" name="id_rapot[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ optional($siswa->rapot)->id_rapot }}">
-                                        <input type="text" name="id_kel_pro_data_pro[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ $id_kelompok_projek_data_projek }}"> --}}
+                                        <input type="hidden" name="id_rapot[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ optional($siswa->rapot)->id_rapot }}">
+                                        <input type="hidden" name="id_kelompok_projek[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ $id_kelompok_projek }}">
+                                        <input type="hidden" name="id_kel_pro_data_pro[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ $id_kel_pro_data_pro }}">
+                                        <input type="hidden" name="id_target_capaian[{{ $siswa->rapot->id_rapot ?? 'null' }}]" value="{{ $id_target_capaian }}">
                                         <select
                                             class="form-select"
-                                            name=""
+                                            name="predikat[{{ $siswa->rapot->id_rapot ?? 'null' }}]"
                                         >
-                                            <option value="">-Pilih Predikat-</option>
-                                            <option value="">Mulai Berkembang</option>
-                                            <option value="">Sedang Berkembang</option>
-                                            <option value="">Berkembang Sesuai Berkembang</option>
-                                            <option value="">Sangat Berkembang</option>
-                                        </select>
+                                        <option value="">-Pilih Predikat-</option>
+                                        <option value="Mulai Berkembang" 
+                                            {{ isset($predikat[$siswa->rapot->id_rapot]) && $predikat[$siswa->rapot->id_rapot]->predikat == 'Mulai Berkembang' ? 'selected' : '' }}>
+                                            Mulai Berkembang
+                                        </option>
+                                        <option value="Sedang Berkembang" 
+                                            {{ isset($predikat[$siswa->rapot->id_rapot]) && $predikat[$siswa->rapot->id_rapot]->predikat == 'Sedang Berkembang' ? 'selected' : '' }}>
+                                            Sedang Berkembang
+                                        </option>
+                                        <option value="Berkembang Sesuai Harapan" 
+                                            {{ isset($predikat[$siswa->rapot->id_rapot]) && $predikat[$siswa->rapot->id_rapot]->predikat == 'Berkembang Sesuai Harapan' ? 'selected' : '' }}>
+                                            Berkembang Sesuai Harapan
+                                        </option>
+                                        <option value="Sangat Berkembang" 
+                                            {{ isset($predikat[$siswa->rapot->id_rapot]) && $predikat[$siswa->rapot->id_rapot]->predikat == 'Sangat Berkembang' ? 'selected' : '' }}>
+                                            Sangat Berkembang
+                                        </option>
+                                    </select>
                                     </td>
                                 </tr>
                             @endforeach
