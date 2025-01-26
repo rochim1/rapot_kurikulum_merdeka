@@ -4,9 +4,22 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">{{ $title }}</h4>
 
-    <a href="{{ route('data_projek.create') }}" class="btn btn-primary btn-icon-split">
-        <span class="text"><i class="bi bi-plus"></i> Tambah</span>
-    </a>
+    <div class="d-flex gap-3">
+        @if (Auth::user()->hasRole('admin'))
+        <a href="{{ route('data_projek.create') }}" class="btn btn-primary btn-icon-split">
+            <span class="text"><i class="bi bi-plus"></i> Tambah</span>
+        </a>
+        @endif
+        <div>
+            <form action="{{ route('data_projek.index') }}" method="GET" class="m-0">
+                <div class="input-group">
+                    <input name="tema" value="{{ request('tema') }}" type="text" class="form-control"
+                        placeholder="tema" aria-label="tema" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">cari</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <div class="card shadow mb-4">

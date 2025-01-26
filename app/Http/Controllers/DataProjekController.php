@@ -13,9 +13,23 @@ class DataProjekController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dataProjek = DataProjek::orderBy('created_at', 'DESC')->paginate(10);
+        $query = DataProjek::query();
+
+        if ($request->filled('tema')) {
+            $query->where('tema', 'like', '%' . $request->input('tema') . '%');
+        }
+
+        if ($request->filled('nama')) {
+            $query->where('nama', 'like', '%' . $request->input('nama') . '%');
+        }
+
+        if ($request->filled('deskripsi')) {
+            $query->where('deskripsi', 'like', '%' . $request->input('deskripsi') . '%');
+        }
+        
+        $dataProjek = $query->orderBy('created_at', 'DESC')->paginate(10);
         $title = 'Data Projek';
         return view('data_projek.index', compact('dataProjek', 'title')); 
     }
