@@ -26,7 +26,7 @@
                             <th>Elemen</th>
                             <th>Sub Elemen</th>
                             <th>Capaian Akhir Fase</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +37,7 @@
                                 <td>{{ $item->elemen }}</td>
                                 <td>{{ $item->sub_elemen }}</td>
                                 <td>{{ $item->capaian_akhir_fase }}</td>
-                                <td class="d-flex gap-2">
+                                <td class="d-flex gap-2 justify-content-center">
                                     <a href="{{ route('target_capaian.show', $item->id_target_capaian) }}" class="btn btn-outline-info" title="Lihat Profil">
                                         <i class="bi bi-eye"></i>
                                     </a>

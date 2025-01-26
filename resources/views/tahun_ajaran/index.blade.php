@@ -38,7 +38,7 @@
                             <th>Nama Tahun Ajaran</th>
                             <th>Semester</th>
                             <th>Status Aktif</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +67,7 @@
                                         </div>
                                     </form>
                                 </td>
-                                <td class="d-flex gap-2">
+                                <td class="d-flex gap-2 justify-content-center">
                                     <a href="{{ route('tahun_ajaran.edit', $item_tahun_ajaran->id_tahun_ajaran) }}"
                                         class="btn btn-outline-success">
                                         <i class="bi bi-pencil-square"></i>

@@ -31,7 +31,7 @@
                             <th>No</th>
                             <th>Nama Ekstrakulikuler</th>
                             @if (Auth::user()->hasRole('admin'))
-                                <th>Aksi</th>
+                                <th class="text-center">Aksi</th>
                             @endif
                         </tr>
                     </thead>
@@ -41,7 +41,7 @@
                                 <td>{{ ($ekskuls->currentPage() - 1) * $ekskuls->perPage() + $loop->iteration }}</td>
                                 <td>{{ $ekskul->nama_ekstrakulikuler }}</td>
                                 @if (Auth::user()->hasRole('admin'))
-                                    <td>
+                                    <td class="d-flex gap-2 justify-content-center">
                                         <a href="{{ route('edit-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}"
                                             class="btn btn-outline-success" title="Edit"> <i
                                                 class="bi bi-pencil-square"></i></a>

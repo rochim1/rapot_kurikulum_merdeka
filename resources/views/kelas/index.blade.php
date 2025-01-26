@@ -36,7 +36,7 @@
                                 <th>No</th>
                                 <th>Tingkat</th>
                                 <th>Fase</th>
-                                <th>Aksi</th>
+                                <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,7 +45,7 @@
                                     <td>{{ ($kelas->currentPage() - 1) * $kelas->perPage() + $loop->iteration }}</td>
                                     <td>{{ $item_kelas->kelas_tingkatan }}.{{ $item_kelas->kelas_abjad }}</td>
                                     <td>{{ $item_kelas->fase }}</td>
-                                    <td class="d-flex gap-2">
+                                    <td class="d-flex gap-2 justify-content-center">
                                         <a href="{{ route('kelas.edit', $item_kelas->id_kelas) }}"
                                             class="btn btn-outline-success">
                                             <i class="bi bi-pencil-square"></i>

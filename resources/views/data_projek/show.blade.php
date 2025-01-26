@@ -43,7 +43,7 @@
                     <th>Elemen</th>
                     <th>Sub Elemen</th>
                     <th>Capaian Akhir Fase</th>
-                    <th>Aksi</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,7 +91,7 @@
                             <th>Elemen</th>
                             <th>Sub Elemen</th>
                             <th>Capaian Akhir Fase</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

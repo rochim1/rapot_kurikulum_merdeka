@@ -48,7 +48,7 @@
                     <th>Dimensi</th>
                     <th>Nama Projek</th>
                     <th>Deskripsi</th>
-                    <th>Aksi</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -94,7 +94,7 @@
                             <th>Tema</th>
                             <th>Nama</th>
                             <th>Deskripsi</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

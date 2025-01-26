@@ -20,7 +20,7 @@
                             <th>Tema</th>
                             <th>Nama</th>
                             <th>Deskripsi</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,7 +30,7 @@
                                 <td>{{ $item_projek->tema }}</td>
                                 <td>{{ Str::limit($item_projek->nama, 50, '...') }}</td>
                                 <td>{{ Str::limit($item_projek->deskripsi, 50, '...') }}</td>
-                                <td class="d-flex gap-2">
+                                <td class="d-flex gap-2 justify-content-center">
                                     <a href="{{ route('data_projek.show', $item_projek->id_data_projek) }}" class="btn btn-outline-info" title="Lihat Profil">
                                         Target Capaian
                                     </a>

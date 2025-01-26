@@ -21,7 +21,7 @@
                             <th>Tahun Ajaran</th>
                             <th>Kelas</th>
                             <th>Koordinator</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +37,7 @@
                                     {{ $item_kelompok->kelas->kelas_tingkatan ?? 'N/A' }}.{{ $item_kelompok->kelas->kelas_abjad ?? 'N/A' }}
                                 </td>
                                 <td>{{ $item_kelompok->user->name ?? 'N/A' }}</td>
-                                <td class="d-flex gap-2">
+                                <td class="d-flex gap-2 justify-content-center">
                                     <a href="{{ route('kelompok_projek.show', $item_kelompok->id_kelompok_projek) }}" class="btn btn-outline-info" title="Lihat Profil">
                                         Data Projek
                                     </a>

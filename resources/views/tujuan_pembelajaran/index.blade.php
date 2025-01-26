@@ -22,7 +22,7 @@
                             <th>Kelas</th>
                             <th>Tujuan Pembelajaran</th>
                             <th>Status</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +51,7 @@
                                         </div>
                                     </form>
                                 </td>
-                                <td class="d-flex gap-2">
+                                <td class="d-flex gap-2 justify-content-center">
                                     <a href="{{ route('tujuan_pembelajaran.edit', $item_tujuan_pembelajaran->id_tujuan_pembelajaran) }}" class="btn btn-outline-success">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>

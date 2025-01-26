@@ -24,7 +24,7 @@
                         <th>Wali Kelas</th>
                         <th>Tahun Ajaran</th>
                         <th>Active</th>
-                        <th>Aksi</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,18 +42,20 @@
                                     <span class="badge rounded-pill text-bg-danger">Non Active</span>
                                 @endif
                             </td>
-                            <td class="d-flex gap-2">
-                                <a href="{{ route('kelola_kelas.edit', $item_kelola_kelas->id_kelola_kelas) }}" class="btn btn-outline-success">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                
-                                <form action="{{ route('kelola_kelas.destroy', $item_kelola_kelas->id_kelola_kelas) }}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-outline-danger">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </form>
+                            <td>
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <a href="{{ route('kelola_kelas.edit', $item_kelola_kelas->id_kelola_kelas) }}" class="btn btn-outline-success">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    
+                                    <form action="{{ route('kelola_kelas.destroy', $item_kelola_kelas->id_kelola_kelas) }}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

@@ -49,7 +49,7 @@
                             <th>NISN</th>
                             <th>Jenis Kelamin</th>
                             <th>Status</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,14 +57,11 @@
                             <tr class="align-top">
                                 <td>{{ ($siswa->currentPage() - 1) * $siswa->perPage() + $loop->iteration }}</td>
                                 <td>
-                                    @if ($item_siswa->foto)
-                                        <img src="{{ asset('storage/' . $item_siswa->foto) }}"
-                                            alt="Foto {{ $item_siswa->nama }}" class="border object-fit-cover "
-                                            style="width: 75px; height: 95px;">
-                                    @else
-                                        <img src="{{ asset('storage/no-image.png') }}" alt="Default Foto"
-                                            class="border object-fit-cover " style="width: 50px; height: 65px;">
-                                    @endif
+                                    <img 
+                                        src="{{ $item_siswa->foto ? asset('storage/' . $item_siswa->foto) : asset('storage/no-image.png') }}" 
+                                        alt="{{ $item_siswa->foto ? 'Foto ' . $item_siswa->nama : 'Default Foto' }}" 
+                                        class="border rounded object-fit-cover" 
+                                        style="width: 75px; height: 95px; object-fit: cover;">
                                 </td>
                                 <td>{{ $item_siswa->nama }}</td>
                                 <td>{{ $item_siswa->nis }}</td>

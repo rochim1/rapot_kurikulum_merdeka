@@ -23,7 +23,7 @@
                             <th>Semester</th>
                             <th>Dimensi</th>
                             <th>Tema</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,7 +34,7 @@
                                 <td>{{ $item->tahunAjaran->semester }}</td>
                                 <td>{{ $item->dimensi }}</td>
                                 <td>{{ $item->nama_tema }}</td>
-                                <td class="d-flex gap-2">
+                                <td class="d-flex gap-2 justify-content-center">
                                     <a href="{{ route('tema.show', $item->id_tema) }}" class="btn btn-outline-info" title="Detail">
                                         <i class="bi bi-eye"></i>
                                     </a>

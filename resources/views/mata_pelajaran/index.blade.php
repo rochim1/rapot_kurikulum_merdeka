@@ -50,7 +50,7 @@
                             <th>Nama Mata Pelajaran</th>
                             <th>Kelompok</th>
                             @if (Auth::user()->hasRole('admin'))
-                                <th>Aksi</th>
+                                <th class="text-center">Aksi</th>
                             @endif
                         </tr>
                     </thead>
@@ -62,7 +62,7 @@
                                 <td>{{ $item->nama_mata_pelajaran }}</td>
                                 <td>{{ $item->kelompok }}</td>
                                 @if (Auth::user()->hasRole('admin'))
-                                    <td class="d-flex gap-2">
+                                    <td class="d-flex gap-2 justify-content-center">
                                         <a href="{{ route('mata_pelajaran.edit', $item->id_mata_pelajaran) }}"
                                             class="btn btn-outline-success">
                                             <i class="bi bi-pencil-square"></i>
