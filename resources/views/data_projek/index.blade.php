@@ -30,20 +30,22 @@
                                 <td>{{ $item_projek->tema }}</td>
                                 <td>{{ Str::limit($item_projek->nama, 50, '...') }}</td>
                                 <td>{{ Str::limit($item_projek->deskripsi, 50, '...') }}</td>
-                                <td class="d-flex gap-2 justify-content-center">
-                                    <a href="{{ route('data_projek.show', $item_projek->id_data_projek) }}" class="btn btn-outline-info" title="Lihat Profil">
-                                        Target Capaian
-                                    </a>
-                                    <a href="{{ route('data_projek.edit', $item_projek->id_data_projek) }}" class="btn btn-outline-success">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <form id="myForm" action="{{ route('data_projek.destroy', $item_projek->id_data_projek) }}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline-danger" id="btn_delete">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    </form>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="{{ route('data_projek.show', $item_projek->id_data_projek) }}" class="btn btn-outline-info" title="Lihat Profil">
+                                            Target
+                                        </a>
+                                        <a href="{{ route('data_projek.edit', $item_projek->id_data_projek) }}" class="btn btn-outline-success">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <form id="myForm" action="{{ route('data_projek.destroy', $item_projek->id_data_projek) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-danger" id="btn_delete">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty

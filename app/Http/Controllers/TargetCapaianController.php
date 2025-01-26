@@ -13,11 +13,26 @@ class TargetCapaianController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // Menampilkan semua data TargetCapaian
-        $targetCapaian = TargetCapaian::orderBy('dimensi', 'ASC')->orderBy('elemen', 'ASC')->paginate(10);
+        $query = TargetCapaian::query();
+        
+        if ($request->filled('dimensi')) {
+            $query->where('dimensi', 'like', '%' . $request->input('dimensi') . '%');
+        }
+
+        if ($request->filled('elemen')) {
+            $query->where('elemen', 'like', '%' . $request->input('elemen') . '%');
+        }
+
+        if ($request->filled('sub_elemen')) {
+            $query->where('sub_elemen', 'like', '%' . $request->input('sub_elemen') . '%');
+        }
+        
+        $targetCapaian = $query->orderBy('dimensi', 'ASC')->orderBy('elemen', 'ASC')->paginate(10);
         $title = 'Target Capaian';
+        
         return view('target_capaian.index', compact('targetCapaian', 'title')); 
     }
 
