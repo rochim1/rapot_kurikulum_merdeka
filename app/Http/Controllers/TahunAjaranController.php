@@ -143,15 +143,18 @@ class TahunAjaranController extends Controller
      * Update is_active status.
      */
     public function tahun_ajaran_is_active(TahunAjaran $tahunAjaran)
-    { 
-        $tahunAjaran->is_active == true 
-            ? $tahunAjaran->update(['is_active' => false]) 
-            : $tahunAjaran->update(['is_active' => true]);
+    {
+        // Set all rows to is_active = false
+        TahunAjaran::query()->update(['is_active' => false]);
+
+        // Set the selected row to is_active = true
+        $tahunAjaran->update(['is_active' => true]);
 
         $tahunAjaran->refresh();
         $status = $tahunAjaran->is_active ? 'aktif' : 'nonaktif';
 
         Alert::success('Sukses', "Status tahun ajaran berhasil diperbarui menjadi $status!");
         return redirect()->route('tahun_ajaran.index');
-    }    
+    }
+   
 }
