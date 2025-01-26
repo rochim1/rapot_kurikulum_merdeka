@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tb_ekstrakulikuler', function (Blueprint $table) {
             $table->bigIncrements('id_ekstrakulikuler');
             $table->string('nama_ekstrakulikuler', 38);
+            $table->text('keterangan')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

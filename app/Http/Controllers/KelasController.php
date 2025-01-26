@@ -1,167 +1,118 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Guru;
+use App\Imports\KelasImport;
 use App\Models\Kelas;
-use App\Models\Siswa;
-use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KelasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
+        // Start building the query for the 'kelas' table
+        $query = Kelas::query();
+
+        // Apply filters dynamically
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            // Use DB::raw to concatenate fields and apply a filter
+            $query->whereRaw("CONCAT(kelas_tingkatan, '.', kelas_abjad) LIKE ?", ["%$search%"]);
+        }
+
+        // Add ordering and paginate the results
+        $kelas = $query->orderBy('kelas_tingkatan', 'asc')
+            ->orderBy('fase', 'asc')
+            ->orderBy('kelas_abjad', 'asc')
+            ->paginate(10)
+            ->withQueryString(); // Retain query parameters during pagination
+
+        // Return the view with data and filters
         return view('kelas.index', [
-            'kelas' => Kelas::all(),
+            'kelas' => $kelas,
             'title' => 'Kelas'
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        $guru = Guru::all();
-        $siswa = Siswa::all(); // Mengambil semua siswa
-        $tahunAjaran = TahunAjaran::all();
         return view('kelas.create', [
             'title' => 'Tambah Kelas',
-            'guru' => $guru,
-            'tahunAjaran' => $tahunAjaran,
-            'siswa'=>$siswa
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        // Validasi data yang dikirim dari form
+        // Validasi inputan
         $validateData = $request->validate([
-            'id_guru' => 'required|exists:tb_guru,id_guru',
-            'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
-            'nama_kelas' => 'required|max:50',
-            'tingkat' => 'required|in:1,2,3,4,5,6',
+            'kelas_tingkatan' => 'required|in:I,II,III,IV,V,VI',
+            'kelas_abjad' => 'required|in:A,B,C,D,E,F',
             'fase' => 'required|in:A,B,C',
-            'id_siswa' => 'required',
-            'id_siswa.*' => 'exists:tb_siswa,id_siswa', 
         ]);
 
-        // Buat data kelas baru
-        $kelas = Kelas::create([
-            'id_guru' => $validateData['id_guru'],
-            'id_tahun_ajaran' => $validateData['id_tahun_ajaran'],
-            'nama_kelas' => $validateData['nama_kelas'],
-            'tingkat' => $validateData['tingkat'],
-            'fase' => $validateData['fase'],
-        ]);
+        // Membuat data Kelas
+        Kelas::create($validateData);
 
-        // Tambahkan siswa ke kelas melalui relasi many-to-many
-        $kelas->siswa()->attach($validateData['id_siswa']);
-
-        // Tampilkan notifikasi sukses
         Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
+        if ($request->has('repeat')) {
+            Alert::success('Kerja Bagus', 'Data berhasil ditambahkan, silakan tambahkan data baru.');
+            return back();
+        }
         return redirect()->route('kelas.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Kelas $kela)
     {
-        // 
+        // Menampilkan detail kelas jika diperlukan
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Kelas $kela)
     {
-        $guru = Guru::all();
-        $siswa = Siswa::all();
-        $tahunAjaran = TahunAjaran::all();
-        $selectSiswa=$kela->siswa->pluck('id_siswa')->toArray();
         return view('kelas.edit', [
             'title' => 'Edit Kelas',
             'kelas' => $kela,
-            'guru' => $guru,
-            'siswa' => $siswa,
-            'tahunAjaran' => $tahunAjaran,
-            'selectSiswa' => $selectSiswa,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id_kelas)
-{
-    // Ambil data kelas berdasarkan ID kelas
-    $kelas = Kelas::findOrFail($id_kelas); // Mengambil kelas berdasarkan ID kelas
+    public function update(Request $request, Kelas $kela)
+    {
+        // Validasi inputan
+        $validateData = $request->validate([
+            'kelas_tingkatan' => 'required|in:I,II,III,IV,V,VI',
+            'kelas_abjad' => 'required|in:A,B,C,D,E,F',
+            'fase' => 'required|in:A,B,C',
+        ]);
 
-    // Validasi data yang dikirim dari form
-    $validateData = $request->validate([
-        'id_guru' => 'required|exists:tb_guru,id_guru',
-        'id_tahun_ajaran' => 'required|exists:tb_tahun_ajaran,id_tahun_ajaran',
-        'nama_kelas' => 'required|max:50',
-        'tingkat' => 'required|in:1,2,3,4,5,6',
-        'fase' => 'required|in:A,B,C',
-        'id_siswa' => 'required|array',
-        'id_siswa.*' => 'exists:tb_siswa,id_siswa', 
-    ]);
+        // Mengupdate data kelas
+        $kela->update($validateData);
 
-    // Update data kelas
-    $kelas->update([
-        'id_guru' => $validateData['id_guru'],
-        'id_tahun_ajaran' => $validateData['id_tahun_ajaran'],
-        'nama_kelas' => $validateData['nama_kelas'],
-        'tingkat' => $validateData['tingkat'],
-        'fase' => $validateData['fase'],
-    ]);
-
-    // Detach siswa yang sudah ada sebelumnya
-    $kelas->siswa()->detach();
-
-    // Menambahkan siswa baru ke kelas menggunakan attach
-    if (isset($validateData['id_siswa']) && is_array($validateData['id_siswa'])) {
-        $kelas->siswa()->attach($validateData['id_siswa'], ['is_active' => true]);
+        Alert::success('Kerja bagus', 'Kelas berhasil diperbarui!');
+        return redirect()->route('kelas.index');
     }
 
-    // Tampilkan notifikasi sukses
-    Alert::success('Kerja bagus', 'Kelas berhasil diperbarui!');
-
-    // Redirect ke halaman kelas
-    return redirect()->route('kelas.index');
-}
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Kelas $kela)
     {
+        // Menghapus data kelas
         $kela->delete();
         Alert::success('Kerja bagus', 'Kelas berhasil dihapus!');
-        return redirect()->route('kelas.index')->with('success', 'Data kelas berhasil dihapus.');
+        return redirect(  )->route('kelas.index');
     }
 
-    public function toggleStatus(Request $request, $id_kelas)
+    public function import_kelas(Request $request)
     {
         $request->validate([
-            'is_active' => 'required|integer|in:1,2', 
-        ]);
-        $kelas = Kelas::findOrFail($id_kelas);
-        $kelas->update([
-            'is_active' => $request->input('is_active'),
-        ]);
-        Alert::success('Status berhasil diperbarui!', 'Kelas berhasil diubah statusnya.');
-        return redirect()->route('kelas.index');
+            'file' => 'required|mimes:xlsx,csv,ods'
+        ]); 
+    
+        try {
+            Excel::import(new KelasImport, $request->file('file'));
+            Alert::success('Kerja bagus', 'Data berhasil diimport!');
+            return redirect()->route('kelas.index');
+        } catch (\Exception $e) {
+            Alert::error('Terjadi kesalahan saat mengimport data', $e->getMessage());
+            return redirect()->route('kelas.index');
+        }
     }
 }

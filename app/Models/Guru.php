@@ -9,18 +9,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Guru extends Model
 {
     use HasFactory, SoftDeletes;
+    public $incrementing = false;
 
     protected $table ='tb_guru';
     protected $primaryKey = 'id_guru';
-    protected $guarded=['id_guru'];
+    protected $guarded=[''];
 
     public function mata_pelajaran()
     {
         return $this->belongsTo(MataPelajaran::class, 'mata_pelajaran_id');
     }
 
+    public function Kelas()
+    {
+        return $this->hasMany(Kelas::class);
+    }
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
-    }
+    }    
 }

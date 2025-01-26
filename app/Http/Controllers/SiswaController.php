@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\SiswaImport;
+use App\Models\KelolaKelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SiswaController extends Controller
@@ -14,10 +18,32 @@ class SiswaController extends Controller
      */
     public function index()
     {
+        $kelola_kelas = KelolaKelas::with('kelas','guru')
+            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+            ->where('id_guru', auth()->user()->id)
+            ->first();
+            
+        $query = DB::table('tb_siswa');
+        if($kelola_kelas?->guru?->is_wali_kelas) {
+            $query->whereIn('id_siswa', $kelola_kelas->daftar_id_siswa);
+        }
+
+        if (request()->filled('nama')) {
+            $query->where('nama', 'like', '%' . request('nama') . '%');
+        }
+        
+        if (request()->filled('nis')) {
+            $query->where('nis', 'like', '%' . request('nis') . '%');
+        }
+        
+        if (request()->filled('nisn')) {
+            $query->where('nisn', 'like', '%' . request('nisn') . '%');
+        }
+        
         return view('siswa.index', [
-            'siswa' => Siswa::all(), 
-            'title' => 'Siswa']
-        );
+            'siswa' => $query->paginate(10), 
+            'title' => 'Siswa'
+        ]);
     }
 
     /**
@@ -48,7 +74,7 @@ class SiswaController extends Controller
             'no_telp_ortu' => 'nullable|max:100',
             'alamat' => 'nullable',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'status' => 'required|in:active,berhenti,mutasi,pensiun',
+            'status' => 'required|in:active,berhenti,mutasi,lulus',
         ]);
 
         if ($request->file('foto')) {
@@ -60,6 +86,10 @@ class SiswaController extends Controller
         Siswa::create($validateData);
 
         Alert::success('kerja bagus', 'Data berhasil disimpan!');
+        if ($request->has('repeat')) {
+            Alert::success('Kerja Bagus', 'Data berhasil ditambahkan, silakan tambahkan data baru.');
+            return back();
+        }
         return redirect()->route('siswa.index');
     }
 
@@ -103,7 +133,7 @@ class SiswaController extends Controller
             'no_telp_ortu' => 'nullable|max:100',
             'alamat' => 'nullable',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'status' => 'required|in:active,berhenti,mutasi,pensiun',
+            'status' => 'required|in:active,berhenti,mutasi,lulus',
         ]);
 
         if ($request->file('foto')) {
@@ -133,6 +163,41 @@ class SiswaController extends Controller
 
         $siswa->delete();
         Alert::success('kerja bagus', 'Data berhasil dihapus!');
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil dihapus.');
+        return redirect()->route('siswa.index');
+    }
+
+    public function import_siswa(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,ods'
+        ]);
+        
+        try {
+            Excel::import(new SiswaImport, $request->file('file'));
+            Alert::success('kerja bagus', 'Data berhasil diimport!');        
+            return redirect()->route('siswa.index');
+        } catch (\Exception $e) {
+            Alert::error('Terjadi kesalahan saat mengimport data', $e->getMessage());        
+            return redirect()->route('siswa.index');
+        }
+    }
+
+    // Wali Kelas
+    public function wali_kelas_tampil_siswa()
+    {
+
+        $id_kelas = 1;
+        $id_tahun_ajaran = 1;
+        $siswa = Siswa::join('tb_ambil_kelas', 'tb_siswa.id_siswa', '=', 'tb_ambil_kelas.id_siswa')
+            ->join('tb_siswa_tahun_ajaran', 'tb_siswa.id_siswa', '=', 'tb_siswa_tahun_ajaran.id_siswa')
+            ->where('tb_ambil_kelas.id_kelas', $id_kelas)
+            ->where('tb_siswa_tahun_ajaran.id_tahun_ajaran', $id_tahun_ajaran)
+            ->select('tb_siswa.id_siswa', 'tb_siswa.nama', 'tb_siswa.nis', 'tb_siswa.nisn')
+            ->get();
+
+        return view('rapot.nilai', [
+            'title' => 'Siswa',
+            'siswa' => $siswa,
+        ]);
     }
 }

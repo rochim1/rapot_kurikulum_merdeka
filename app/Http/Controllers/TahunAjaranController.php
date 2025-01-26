@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\TahunAjaranImport;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class TahunAjaranController extends Controller
@@ -11,11 +13,43 @@ class TahunAjaranController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // Start building the query
+        $query = TahunAjaran::query();
+
+        // Add filters dynamically if provided
+        if ($request->filled('tahun_ajaran_awal')) {
+            $query->where('tahun_ajaran_awal', $request->input('tahun_ajaran_awal'));
+        }
+
+        if ($request->filled('tahun_ajaran_akhir')) {
+            $query->where('tahun_ajaran_akhir', $request->input('tahun_ajaran_akhir'));
+        }
+
+        if ($request->filled('semester')) {
+            $query->where('semester', $request->input('semester'));
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('tahun_ajaran_awal', 'LIKE', "%$search%")
+                  ->orWhere('tahun_ajaran_akhir', 'LIKE', "%$search%");
+            });
+        }
+
+        // Apply ordering and paginate results
+        $tahunAjaran = $query->orderBy('tahun_ajaran_awal', 'desc')
+            ->orderBy('tahun_ajaran_akhir', 'desc')
+            ->orderBy('semester', 'desc')
+            ->paginate(10)
+            ->withQueryString(); // Retain query parameters in pagination links
+
+        // Return the view with the data
         return view('tahun_ajaran.index', [
-            'tahunAjaran' => TahunAjaran::all(),
-            'title' => 'Tahun Ajaran'
+            'tahunAjaran' => $tahunAjaran,
+            'title' => 'Tahun Ajaran',
         ]);
     }
 
@@ -25,6 +59,10 @@ class TahunAjaranController extends Controller
     public function create()
     {
         return view('tahun_ajaran.create', [
+            'tahunAjaranTerakhir' => TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')
+                ->orderBy('tahun_ajaran_akhir', 'desc')
+                ->orderBy('semester', 'desc')
+                ->first(),
             'title' => 'Tambah Tahun Ajaran'
         ]);
     }
@@ -35,20 +73,14 @@ class TahunAjaranController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nama_tahun_ajaran' => 'required|max:50',
+            'tahun_ajaran_awal' => 'required|integer|digits:4',
+            'tahun_ajaran_akhir' => 'required|integer|digits:4|gt:tahun_ajaran_awal',
+            'semester' => 'required|in:Ganjil,Genap',
         ]);
 
         TahunAjaran::create($validatedData);
         Alert::success('Sukses', 'Tahun ajaran berhasil disimpan!');
         return redirect()->route('tahun_ajaran.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(TahunAjaran $tahunAjaran)
-    {
-        //
     }
 
     /**
@@ -68,7 +100,9 @@ class TahunAjaranController extends Controller
     public function update(Request $request, TahunAjaran $tahunAjaran)
     {
         $validatedData = $request->validate([
-            'nama_tahun_ajaran' => 'required|max:50',
+            'tahun_ajaran_awal' => 'required|integer|digits:4',
+            'tahun_ajaran_akhir' => 'required|integer|digits:4|gt:tahun_ajaran_awal',
+            'semester' => 'required|in:Ganjil,Genap',
         ]);
 
         $tahunAjaran->update($validatedData);
@@ -85,4 +119,42 @@ class TahunAjaranController extends Controller
         Alert::success('Sukses', 'Tahun ajaran berhasil dihapus!');
         return redirect()->route('tahun_ajaran.index');
     }
+
+    /**
+     * Import data tahun ajaran from a file.
+     */
+    public function import_tahun_ajaran(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,ods'
+        ]);
+
+        try {
+            Excel::import(new TahunAjaranImport, $request->file('file'));
+            Alert::success('Sukses', 'Data berhasil diimport!');
+            return redirect()->route('tahun_ajaran.index');
+        } catch (\Exception $e) {
+            Alert::error('Terjadi kesalahan saat mengimport data', $e->getMessage());
+            return redirect()->route('tahun_ajaran.index');
+        }
+    }
+
+    /**
+     * Update is_active status.
+     */
+    public function tahun_ajaran_is_active(TahunAjaran $tahunAjaran)
+    {
+        // Set all rows to is_active = false
+        TahunAjaran::query()->update(['is_active' => false]);
+
+        // Set the selected row to is_active = true
+        $tahunAjaran->update(['is_active' => true]);
+
+        $tahunAjaran->refresh();
+        $status = $tahunAjaran->is_active ? 'aktif' : 'nonaktif';
+
+        Alert::success('Sukses', "Status tahun ajaran berhasil diperbarui menjadi $status!");
+        return redirect()->route('tahun_ajaran.index');
+    }
+   
 }

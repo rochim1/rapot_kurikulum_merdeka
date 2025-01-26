@@ -9,37 +9,67 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class EkstrakulikulerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $ekskuls = Ekstrakulikuler::all();
-        return view('ekstrakulikuler.index', compact('ekskuls'));
+        // Start building the query for 'ekstrakulikuler'
+        $query = Ekstrakulikuler::query();
+
+        // Apply filters based on user input
+        if ($request->filled('nama_ekstrakulikuler')) {
+            $query->where('nama_ekstrakulikuler', 'like', '%' . $request->input('nama_ekstrakulikuler') . '%');
+        }
+
+        // Paginate the results with query strings preserved
+        $ekskuls = $query->orderBy('nama_ekstrakulikuler', 'ASC')
+            ->paginate(10)
+            ->withQueryString(); // Retain query parameters during pagination
+
+        // Title for the page
+        $title = 'Ekstrakulikuler';
+
+        // Return the view with data and filters
+        return view('ekstrakulikuler.index', compact('ekskuls', 'title'));
     }
     public function create()
     {
-        return view('ekstrakulikuler.create');
+        $title = 'Ekstrakulikuler';
+        return view('ekstrakulikuler.create', compact('title'));
     }
     public function store(Request $request)
     {
         $request->validate([
             'nama_ekstrakulikuler' => 'required|max:38',
+            'keterangan' => 'nullable|string',
+        ],[
+            'nama_ekstrakulikuler.required' => 'Nama ekstrakulikuler harus diisi',
+            'nama_ekstrakulikuler.max' => 'Nama ekstrakulikuler maksimal 38 karakter',
+            'keterangan' => 'Keterangan harus berupa text'
         ]);
         Ekstrakulikuler::create($request->all());
-        Alert::success('Berhasil', 'Data berhasil ditambahkan.');
+        Alert::success('Kerja Bagus', 'Data berhasil ditambahkan.');
+        
         if ($request->has('repeat')) {
-            Alert::success('Berhasil', 'Data berhasil ditambahkan, silakan tambahkan data baru.');
+            Alert::success('Kerja Bagus', 'Data berhasil ditambahkan, silakan tambahkan data baru.');
             return back();
         }
         return redirect()->route('data-ekstrakulikuler');
     }
     public function edit($id)
     {
+        $title = 'Ekstrakulikuler';
         $ekskul = Ekstrakulikuler::findOrFail($id);
-        return view('ekstrakulikuler.edit', compact('ekskul'));
+        return view('ekstrakulikuler.edit', compact('ekskul','title'));
+        
     }
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_ekstrakulikuler' => 'required|max:38',
+        'nama_ekstrakulikuler' => 'required|max:38',
+        'keterangan' => 'nullable|string',
+        ],[
+            'nama_ekstrakulikuler.required' => 'Nama ekstrakulikuler harus diisi',
+            'nama_ekstrakulikuler.max' => 'Nama ekstrakulikuler maksimal 38 karakter',
+            'keterangan' => 'Keterangan harus berupa text'
         ]);
         $ekskul = Ekstrakulikuler::findOrFail($id);
         $ekskul->update($request->all());

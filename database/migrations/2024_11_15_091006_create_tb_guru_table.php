@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tb_guru', function (Blueprint $table) {
-            $table->bigIncrements('id_guru');
+            $table->bigInteger('id_guru')->unsigned(); 
+            $table->primary('id_guru');
             $table->unsignedBigInteger('id_user')->nullable();
-            $table->integer('mata_pelajaran_id')->unsigned();
-            $table->string('nama', 100);
+            $table->integer('mata_pelajaran_id')->unsigned()->nullable();
+            // $table->string('nama', 100);
             $table->string('nip', 50)->nullable();
             $table->string('nrg', 50)->nullable();
             $table->string('jk', 10);
@@ -24,12 +25,16 @@ return new class extends Migration
             $table->string('agama', 50)->nullable();
             $table->text('alamat')->nullable();
             $table->string('no_hp', 20)->nullable();
+            // $table->string('email', 30)->unique();
             $table->string('jabatan', 50)->nullable();
             $table->string('golongan', 50)->nullable();
             $table->date('tmt_awal')->nullable();
             $table->string('pendidikan_terakhir', 50)->nullable();
             $table->string('status')->default('Aktif')->nullable();
+            $table->boolean('is_wali_kelas')->default(false);
             $table->string('foto')->nullable();
+
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('no_telp_ortu', 100)->nullable();
             $table->text('alamat')->nullable();
             $table->text('foto')->nullable();
-            $table->enum('status',['active','berhenti','mutasi','pensiun']);
+            $table->enum('status',['active','berhenti','mutasi','lulus']);
             $table->timestamps();
             $table->softDeletes();
         });
