@@ -90,8 +90,16 @@
     
                     <!-- Agama -->
                     <div class="form-group mt-2">
-                        <label for="agama">Agama</label>
-                        <input type="text" class="form-control @error('agama') is-invalid @enderror" id="agama" name="agama" value="{{ old('agama', $guru->agama) }}">
+                        <label for="agama" class="form-label">Agama</label>
+                        <select class="form-select @error('agama') is-invalid @enderror" id="agama" name="agama">
+                            <option value="" selected disabled>Pilih Agama</option>
+                            <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                            <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                            <option value="Katolik" {{ old('agama') == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+                            <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                            <option value="Buddha" {{ old('agama') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                            <option value="Konghucu" {{ old('agama') == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
+                        </select>
                         @error('agama')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
