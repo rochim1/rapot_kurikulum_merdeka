@@ -63,9 +63,9 @@ class RapotCetakController extends Controller
             // $pdf = Pdf::loadView('rapot.cetak.export_pdf', compact('siswa', 'title', 'rapot', 'profilSekolah', 'tujuanPembelajaran'));
             // return $pdf->stream('rapot kelas 1a.pdf');
             $pdf = Pdf::loadView('rapot.cetak.export_pdf', compact('siswa', 'title', 'rapot', 'profilSekolah', 'tujuanPembelajaran'))
-    ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+            ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
 
-return $pdf->stream('rapot kelas 1a.pdf');
+            return $pdf->stream('rapot kelas 1a.pdf');
         }
         
         return view('rapot.cetak.index', compact('siswa', 'title', 'rapot', 'profilSekolah', 'tujuanPembelajaran'));

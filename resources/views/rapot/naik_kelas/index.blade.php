@@ -16,7 +16,7 @@
         <form action="{{ route('rapot_naik_kelas.storeOrUpdate') }}" method="POST">
             @csrf
             <div class="table-responsive mb-3">
-                <div class="d-flex mb-3">
+                <div class="d-flex mb-3 float-end">
                     <label class="me-2 mt-2">Pilih Kelas All</label>
                     <select id="selectAll" class="form-control w-auto">
                         <option value="">- Pilih Kelas All  -</option>

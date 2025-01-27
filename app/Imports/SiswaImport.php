@@ -4,33 +4,69 @@ namespace App\Imports;
 
 use App\Models\Siswa;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Support\Facades\DB;
 
-class SiswaImport implements ToModel
+class SiswaImport implements ToModel, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+    private $rowCount = 0; // Track the number of rows processed
+
     public function model(array $row)
     {
-        if (!isset($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9], $row[10], $row[11])) {
-            return null;
+        // Check if required columns exist
+        $requiredColumns = ['nama', 'nis', 'nisn', 'tempat_lahir', 'tanggal_lahir', 'jk', 'agama', 'nama_ayah', 'nama_ibu', 'no_telp_ortu', 'alamat', 'status'];
+        
+        foreach ($requiredColumns as $column) {
+            if (!isset($row[$column]) || empty($row[$column])) {
+                return null; // Skip rows with missing data
+            }
+        }
+        // Insert data using Query Builder, nyoba pakai query builder 
+        $import = DB::table('tb_siswa')->insert([
+            'nama' => $row['nama'],
+            'nis' => $row['nis'],
+            'nisn' => $row['nisn'],
+            'tempat_lahir' => $row['tempat_lahir'],
+            'tanggal_lahir' => $this->transformDate($row['tanggal_lahir']), // Transform date if necessary
+            'jk' => $row['jk'],
+            'agama' => $row['agama'],
+            'nama_ayah' => $row['nama_ayah'],
+            'nama_ibu' => $row['nama_ibu'],
+            'no_telp_ortu' => $row['no_telp_ortu'],
+            'alamat' => $row['alamat'],
+            'status' => $row['status'] ?? 'active',
+        ]);
+        
+        $this->rowCount++; // Increment the row count
+    }
+
+    public function getRowCount()
+    {
+        return $this->rowCount; // Return the row count
+    }
+
+    private function transformDate($date)
+    {
+        if (is_numeric($date)) {
+            return \Carbon\Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($date))->format('Y-m-d');
         }
 
-        return new Siswa([
-            'nama' => $row[0],
-            'nis' => $row[1],
-            'nisn' => $row[2],
-            'tempat_lahir' => $row[3],
-            'tanggal_lahir' => $row[4],
-            'jk' => $row[5],
-            'agama' => $row[6],
-            'nama_ayah' => $row[7],
-            'nama_ibu' => $row[8],
-            'no_telp_ortu' => $row[9],
-            'alamat' => $row[10],
-            'status' => $row[11],
-        ]);
+        $formats = ['d/m/Y', 'Y-m-d', 'm/d/Y']; // List of possible date formats
+        foreach ($formats as $format) {
+            try {
+                // Attempt to parse the date using the current format
+                return \Carbon\Carbon::createFromFormat($format, $date)->format('Y-m-d');
+            } catch (\Exception $e) {
+                // Log a debug message for the failed attempt
+                // \Log::debug("Failed to parse date '{$date}' with format '{$format}': " . $e->getMessage());
+            }
+        }
+
+        // Log a warning if all formats fail
+        // \Log::warning("Unrecognized date format: '{$date}'");
+
+        return null; // Return null if none of the formats match
     }
+
+
 }

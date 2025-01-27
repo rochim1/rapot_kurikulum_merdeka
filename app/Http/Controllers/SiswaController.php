@@ -18,30 +18,30 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $kelola_kelas = KelolaKelas::with('kelas','guru')
+        $kelola_kelas = KelolaKelas::with('kelas', 'guru')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_guru', auth()->user()->id)
             ->first();
-            
+
         $query = DB::table('tb_siswa');
-        if($kelola_kelas?->guru?->is_wali_kelas) {
+        if ($kelola_kelas?->guru?->is_wali_kelas) {
             $query->whereIn('id_siswa', $kelola_kelas->daftar_id_siswa);
         }
 
         if (request()->filled('nama')) {
             $query->where('nama', 'like', '%' . request('nama') . '%');
         }
-        
+
         if (request()->filled('nis')) {
             $query->where('nis', 'like', '%' . request('nis') . '%');
         }
-        
+
         if (request()->filled('nisn')) {
             $query->where('nisn', 'like', '%' . request('nisn') . '%');
         }
-        
+
         return view('siswa.index', [
-            'siswa' => $query->paginate(10), 
+            'siswa' => $query->paginate(10),
             'title' => 'Siswa'
         ]);
     }
@@ -168,19 +168,41 @@ class SiswaController extends Controller
 
     public function import_siswa(Request $request)
     {
+        // Validate the file input with custom messages
         $request->validate([
-            'file' => 'required|mimes:xlsx,csv,ods'
+            'file' => 'required|mimes:xlsx,csv,ods',
+        ], [
+            'file.required' => 'File wajib diunggah.',
+            'file.mimes' => 'Format file harus berupa xlsx, csv, atau ods.',
         ]);
-        
+
         try {
-            Excel::import(new SiswaImport, $request->file('file'));
-            Alert::success('kerja bagus', 'Data berhasil diimport!');        
-            return redirect()->route('siswa.index');
+            // Count inserted rows using a variable passed to the import class
+            $import = new SiswaImport();
+            Excel::import($import, $request->file('file'));
+
+            $rowCount = $import->getRowCount();
+
+            if ($rowCount > 0) {
+                // Success alert with the count of inserted rows
+                Alert::success('Kerja bagus', "Data berhasil diimport! Total baris: $rowCount");
+            } else {
+                // Alert for no rows imported
+                Alert::info('Tidak ada data', 'File berhasil diunggah tetapi tidak ada data yang diimport.');
+            }
         } catch (\Exception $e) {
-            Alert::error('Terjadi kesalahan saat mengimport data', $e->getMessage());        
-            return redirect()->route('siswa.index');
+            // Log the error for debugging
+            // \Log::error('Error importing siswa data: ' . $e->getMessage());
+
+            // Error alert
+            Alert::error('Terjadi kesalahan', 'Kesalahan saat mengimport data: ' . $e->getMessage());
         }
+
+        // Redirect back to the siswa index page
+        return redirect()->route('siswa.index');
     }
+
+
 
     // Wali Kelas
     public function wali_kelas_tampil_siswa()

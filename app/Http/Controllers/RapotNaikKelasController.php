@@ -17,6 +17,7 @@ class RapotNaikKelasController extends Controller
      */
     public function index()
     { 
+        dump('test');
         $kelola_kelas = KelolaKelas::with('kelas', 'TahunAjaran')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_guru', auth()->user()->id)
