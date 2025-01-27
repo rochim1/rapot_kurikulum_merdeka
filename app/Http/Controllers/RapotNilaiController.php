@@ -54,6 +54,7 @@ class RapotNilaiController extends Controller
                 $id_mata_pelajaran = $tujuan_pembelajaran->first()->id_mata_pelajaran;
             }
 
+            dump($rapot_nilai->count());
             if ($rapot_nilai->count() > 0) {
                 $title = 'Edit Rapot';
                 return view('rapot.nilai.nilai_edit', compact(

@@ -14,7 +14,7 @@
     <div class="card-body">
         <form action="{{ route('rapot_ekstrakulikuler.storeOrUpdate') }}" method="POST">
             @csrf
-            <div class="table-responsive">
+            <div class="table-responsive mb-3">
                 <table class="table table-hover">
                     <thead>
                         <tr>

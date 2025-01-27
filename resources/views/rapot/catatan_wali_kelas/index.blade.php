@@ -15,7 +15,7 @@
     <div class="card-body">
         <form action="{{ route('rapot_catatan_wali_kelas.storeOrUpdate') }}" method="POST">
             @csrf
-            <div class="table-responsive">
+            <div class="table-responsive mb-3">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -58,7 +58,7 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
 </div>

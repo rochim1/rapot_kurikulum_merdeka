@@ -15,7 +15,7 @@
     <div class="card-body">
         <form action="{{ route('rapot_naik_kelas.storeOrUpdate') }}" method="POST">
             @csrf
-            <div class="table-responsive">
+            <div class="table-responsive mb-3">
                 <div class="d-flex mb-3">
                     <label class="me-2 mt-2">Pilih Kelas All</label>
                     <select id="selectAll" class="form-control w-auto">
@@ -73,7 +73,7 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
 </div>
