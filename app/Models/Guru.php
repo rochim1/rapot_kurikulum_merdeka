@@ -9,11 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Guru extends Model
 {
     use HasFactory, SoftDeletes;
-    public $incrementing = false;
 
     protected $table ='tb_guru';
     protected $primaryKey = 'id_guru';
-    protected $guarded=[''];
+    protected $guarded=['id_guru'];
 
     public function mata_pelajaran()
     {

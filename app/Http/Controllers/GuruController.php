@@ -155,7 +155,6 @@ class GuruController extends Controller
 
         // Menyimpan data guru dan menghubungkan dengan user
         $guru = Guru::create([
-            'id_guru' => $user->id,
             'id_user' => $user->id,
             'mata_pelajaran_id' => $request->mata_pelajaran_id,
             // 'nama' => $request->nama,

@@ -22,39 +22,44 @@ class GuruImport implements ToModel, WithHeadingRow, SkipsOnError
     public function model(array $row)
     {
         return DB::transaction(function () use ($row) {
-            $guru = Guru::Create([
-            'mata_pelajaran_id'   => $row['mata_pelajaran_id'],
-            'nama'                => $row['nama'],
-            'nip'                 => $row['nip'],
-            'nrg'                 => $row['nrg'],
-            'jk'                  => $row['jk'],
-            'tempat_lahir'        => $row['tempat_lahir'],
-            'tgl_lahir'           => $row['tgl_lahir'],
-            'agama'               => $row['agama'],
-            'alamat'              => $row['alamat'],
-            'no_hp'               => $row['no_hp'],
-            'jabatan'             => $row['jabatan'],
-            'golongan'            => $row['golongan'],
-            'tmt_awal'            => $row['tmt_awal'],
-            'pendidikan_terakhir' => $row['pendidikan_terakhir'],
-            ]);
-            // Membuat data user
-            $email = strtolower(str_replace(' ', '.', $guru->nama)) . '@gmail.com';
+            // Validasi data input
+            if (empty($row['email'])) {
+                throw new \Exception("Kolom email tidak boleh kosong untuk guru: " . $row['nama']);
+            }
+        
+            // Buat data user terlebih dahulu
             $user = User::create([
-                'name'     => $guru->nama,
-                'email'    => $email,
-                'password' => Hash::make('guru'),
+                'name'     => $row['nama'],
+                'email'    => $row['email'],
+                'password' => Hash::make('guru'), // Default password
             ]);
-
-            // Menambahkan role untuk user
-            $role = Role::firstOrCreate(['name' => 'walas']);
-            $user->assignRole($role);
-
-            // Mengupdate data guru dengan id_user
-            $guru->update(['id_user' => $user->id]);
+        
+            // Berikan role pada user
+            $user->assignRole('walas');
+        
+            // Buat data guru dan hubungkan dengan user
+            $guru = Guru::create([
+                'id_user'             => $user->id,
+                'nama'                => $row['nama'],
+                'nip'                 => $row['nip'] ?? null,
+                'nrg'                 => $row['nrg'] ?? null,
+                'jk'                  => $row['jk'],
+                'tempat_lahir'        => $row['tempat_lahir'] ?? null,
+                'tgl_lahir'           => $row['tgl_lahir'] ?? null,
+                'agama'               => $row['agama'] ?? null,
+                'alamat'              => $row['alamat'] ?? null,
+                'no_hp'               => $row['no_hp'] ?? null,
+                'jabatan'             => $row['jabatan'] ?? null,
+                'golongan'            => $row['golongan'] ?? null,
+                'tmt_awal'            => $row['tmt_awal'] ?? null,
+                'pendidikan_terakhir' => $row['pendidikan_terakhir'] ?? null,
+                'status'              => 'Aktif',
+                'foto'                => null, // Foto tidak diupload melalui import
+            ]);
+        
+            return $guru;
         });
     }
-
     public function headingRow():int{
         return 1;
     }
