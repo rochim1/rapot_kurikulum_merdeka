@@ -60,7 +60,7 @@ class RapotKehadiranController extends Controller
                     'id_kelas' => $kelola_kelas->id_kelas,
                     'id_tahun_ajaran' => $kelola_kelas->id_tahun_ajaran,
                     'id_siswa' => $siswa_id,
-                    'id_guru' => $kelola_kelas->pluck('id_guru')->first(),
+                    'id_guru' => $kelola_kelas->id_guru,
                     'nama_kepsek' => $profilSekolah->nama_kepsek,
                     'nip_kepsek' => $profilSekolah->nip_kepsek,
                 ],

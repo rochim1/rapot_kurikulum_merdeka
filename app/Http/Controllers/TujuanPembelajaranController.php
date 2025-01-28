@@ -13,9 +13,10 @@ class TujuanPembelajaranController extends Controller
     public function index()
     {
         $tujuanPembelajaran = TujuanPembelajaran::with(['mataPelajaran', 'kelas'])
-            ->where('id_kelas', KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', session('id_guru'))
-            ->value('id_kelas'))
+        //  sepertinya tidak perlu di spesifikkan karena di rapot nilai pun ditampilkan semua
+            // ->where('id_kelas', KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))
+            // ->where('id_guru', session('id_guru'))
+            // ->value('id_kelas'))
             ->join('tb_mata_pelajaran', 'tb_mata_pelajaran.id_mata_pelajaran', '=', 'tb_tujuan_pembelajaran.id_mata_pelajaran') 
             ->orderBy('tb_mata_pelajaran.kelompok', 'asc')  
             ->orderBy('tb_mata_pelajaran.nama_mata_pelajaran', 'asc')  

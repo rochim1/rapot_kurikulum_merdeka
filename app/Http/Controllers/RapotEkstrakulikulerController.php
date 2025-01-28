@@ -75,26 +75,37 @@ class RapotEkstrakulikulerController extends Controller
                     'id_kelas' => $kelola_kelas->id_kelas,
                     'id_tahun_ajaran' => $kelola_kelas->id_tahun_ajaran,
                     'id_siswa' => $siswa_id,
-                    'id_guru' => $kelola_kelas->pluck('id_guru')->first(),
+                    'id_guru' => $kelola_kelas->id_guru,
                     'nama_kepsek' => $profilSekolah->nama_kepsek,
                     'nip_kepsek' => $profilSekolah->nip_kepsek,
                 ]
             );
 
             // Loop over the extracurriculars for each student
-            foreach ($validatedData['id_ekstrakulikuler'][$siswa_id] as $ekskul_id => $ekskul) {
-                DB::table('tb_rapot_ekstrakulikuler')->updateOrInsert(
-                    [
-                        'id_rapot' => $rapot->id_rapot,
-                        'id_ekstrakulikuler' => $ekskul_id,
-                    ],
-                    [
-                        'id_ekstrakulikuler' => $ekskul_id,
-                        'catatan_ekstrakulikuler' => $validatedData['catatan_ekstrakulikuler'][$siswa_id][$ekskul_id] ?? null,
-                        'predikat_ekstrakulikuler' => $validatedData['predikat_ekstrakulikuler'][$siswa_id][$ekskul_id] ?? null,
-                    ]
-                );
+            foreach ($validatedData['id_ekstrakulikuler'] as $siswa_id => $ekstrakulikuler) {
+                // Make sure the $ekstrakulikuler is an array before looping
+                if (is_array($ekstrakulikuler)) {
+                    foreach ($ekstrakulikuler as $ekskul_id => $ekskul) {
+                        // Check if there's a valid note for the extracurricular activity
+                        if (isset($validatedData['catatan_ekstrakulikuler'][$siswa_id][$ekskul_id]) &&
+                            $validatedData['catatan_ekstrakulikuler'][$siswa_id][$ekskul_id]) {
+                            
+                            // Perform the updateOrInsert operation
+                            DB::table('tb_rapot_ekstrakulikuler')->updateOrInsert(
+                                [
+                                    'id_rapot' => $rapot->id_rapot,
+                                    'id_ekstrakulikuler' => $ekskul_id,
+                                ],
+                                [
+                                    'catatan_ekstrakulikuler' => $validatedData['catatan_ekstrakulikuler'][$siswa_id][$ekskul_id] ?? null,
+                                    'predikat_ekstrakulikuler' => $validatedData['predikat_ekstrakulikuler'][$siswa_id][$ekskul_id] ?? null,
+                                ]
+                            );
+                        }
+                    }
+                }
             }
+            
         }
 
         Alert::success('Success', 'Data berhasil disimpan!');

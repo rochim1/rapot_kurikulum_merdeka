@@ -41,19 +41,19 @@
                             <td>{{ $itemRapot->siswa->nis }} / {{ $itemRapot->siswa->nisn }}</td>
                             <td class="d-flex gap-2">
                                 <a href="{{ route('rapot_persiswa.show', $itemRapot->siswa->id_siswa) }}?btn=view" target="_blank" class="btn btn-secondary">
-                                    <i class="bi bi-search">
+                                    <i class="bi bi-eye">
                                         View
                                     </i>
                                 </a>  
                                 <a href="{{ route('rapot_persiswa.show', $itemRapot->siswa->id_siswa) }}?btn=download" class="btn btn-primary">
-                                    <i class="bi bi-search">
+                                    <i class="bi bi-download">
                                         Download
                                     </i>
                                 </a>
                             </td>
                             <td>
                                 <a href="" class="btn btn-secondary">
-                                    <i class="bi bi-search">
+                                    <i class="bi bi-eye">
                                         View
                                     </i>
                                 </a>

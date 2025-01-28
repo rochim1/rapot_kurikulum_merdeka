@@ -16,26 +16,37 @@ class RapotNaikKelasController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    { 
+    {
+        // Fetch `KelolaKelas` with relationships
         $kelola_kelas = KelolaKelas::with('kelas', 'TahunAjaran')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_guru', session('id_guru'))
             ->get();
 
+        if ($kelola_kelas->isEmpty()) {
+            // If no data exists, return with a message or redirect
+            Alert::info('Info', 'Tidak ada data kelas yang tersedia untuk tahun ajaran ini.');
+            return redirect()->route('dashboard'); // Adjust the route as needed
+        }
+
+        // Add siswa and rapot data for each `KelolaKelas`
         $kelola_kelas->each(function ($kelola) {
-            $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa)->where('status', 'active')->get();
-        
+            $kelola->siswa = Siswa::whereIn('id_siswa', $kelola->daftar_id_siswa ?? [])
+                ->where('status', 'active')
+                ->get();
+
             $kelola->siswa->each(function ($siswa) use ($kelola) {
                 $siswa->rapot = Rapot::where('id_kelas', $kelola->id_kelas)
-                                     ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-                                     ->where('id_siswa', $siswa->id_siswa)
-                                     ->first();
+                    ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+                    ->where('id_siswa', $siswa->id_siswa)
+                    ->first();
             });
         });
         
         $title = 'Rapot';
         return view('rapot.naik_kelas.index', compact('kelola_kelas', 'title'));
     }
+
 
     public function storeOrUpdate(Request $request)
     {
@@ -45,7 +56,7 @@ class RapotNaikKelasController extends Controller
             'naik_kelas.*' => 'nullable|in:Tinggal Kelas,II,III,IV,V,VI',
         ]);
 
-        $kelola_kelas = KelolaKelas::with('kelas','guru','tahunAjaran')
+        $kelola_kelas = KelolaKelas::with('kelas', 'guru', 'tahunAjaran')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_guru', session('id_guru'))
             ->first();
@@ -54,7 +65,7 @@ class RapotNaikKelasController extends Controller
 
         DB::beginTransaction();
         try {
-            foreach ($validatedData['id_siswa'] as $siswa_id) {
+            foreach ($validatedData['id_siswa'] as $index => $siswa_id) {
                 Rapot::updateOrCreate(
                     [
                         'id_kelas' => $kelola_kelas->id_kelas,
@@ -65,10 +76,10 @@ class RapotNaikKelasController extends Controller
                         'nip_kepsek' => $profilSekolah->nip_kepsek,
                     ],
                     [
-                        'naik_kelas' => $validatedData['naik_kelas'][$siswa_id] ?? null,
+                        'naik_kelas' => $validatedData['naik_kelas'][$index] ?? null, // Use the index to fetch corresponding data
                     ]
                 );
-            }
+            }            
 
             DB::commit();
             Alert::success('Success', 'Data berhasil disimpan!');
@@ -79,5 +90,4 @@ class RapotNaikKelasController extends Controller
             return redirect()->route('rapot_naik_kelas.index');
         }
     }
-
 }
