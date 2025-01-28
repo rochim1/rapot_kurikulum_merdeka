@@ -250,7 +250,7 @@ class KelolaKelasController extends Controller
         // Update the record with the provided input
         $result = $kelolaKelas->update($input);
 
-        Alert::success('Kerja bagus', 'Kelas berhasil disimpan!');
+        Alert::success('Kerja bagus', 'Kelas berhasil diupdate!');
         session()->forget('selected_students');
         return $result;
     }
