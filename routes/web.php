@@ -131,6 +131,7 @@ Route::middleware(['role:walas'])->group(function () {
     Route::post('/rapot_ttd/storeOrUpdate', [RapotTtdController::class, 'storeOrUpdate'])->name('rapot_ttd.storeOrUpdate');
 
     Route::get('/rapot_cetak', [RapotCetakController::class, 'index'])->name('rapot_cetak.index');
+    Route::get('/rapot_persiswa/{id}', [RapotCetakController::class, 'show'])->name('rapot_persiswa.show');
     Route::get('/rapot_cetak_export_pdf', [RapotCetakController::class, 'export_pdf'])->name('rapot_cetak.export_pdf');
 
     Route::get('/rapot_p5_capaian_projek', [RapotP5CapaianProjekController::class, 'index'])->name('rapot_p5_capaian_projek.index');
