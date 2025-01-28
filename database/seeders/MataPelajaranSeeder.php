@@ -15,36 +15,18 @@ class MataPelajaranSeeder extends Seeder
     public function run()
     {
         $data = [
-            ['nama_mata_pelajaran' => 'IPA', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'IPS', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'MTK', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'SEJARAH', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'KIMIA', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'SBK', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'PENJASKES', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'BIOLOGI', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'FISIKA', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'INFORMATIKA', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'IPA', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'IPS', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'MTK', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'SEJARAH', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'KIMIA', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'SBK', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'PENJASKES', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'BIOLOGI', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'FISIKA', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'INFORMATIKA', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'IPA', 'kelompok' => 'C'],
-            ['nama_mata_pelajaran' => 'IPS', 'kelompok' => 'C'],
-            ['nama_mata_pelajaran' => 'MTK', 'kelompok' => 'C'],
-            ['nama_mata_pelajaran' => 'SEJARAH', 'kelompok' => 'C'],
-            ['nama_mata_pelajaran' => 'KIMIA', 'kelompok' => 'C'],
-            ['nama_mata_pelajaran' => 'SBK', 'kelompok' => 'C'],
-            ['nama_mata_pelajaran' => 'PENJASKES', 'kelompok' => 'C'],
-            ['nama_mata_pelajaran' => 'BIOLOGI', 'kelompok' => 'C'],
-            ['nama_mata_pelajaran' => 'FISIKA', 'kelompok' => 'C'],
-            ['nama_mata_pelajaran' => 'INFORMATIKA', 'kelompok' => 'C'],
+            ['nama_mata_pelajaran' => 'Pendidikan agama dan budi pekerti', 'kelompok' => 'A'],
+            ['nama_mata_pelajaran' => 'Pendidikan Pancasila', 'kelompok' => 'A'],
+            ['nama_mata_pelajaran' => 'Bahasa indonesia', 'kelompok' => 'A'],
+            ['nama_mata_pelajaran' => 'Matematika', 'kelompok' => 'A'],
+            ['nama_mata_pelajaran' => 'Pendidikan Jasmani, Olahraga, dan Kesehatan', 'kelompok' => 'A'],
+
+            ['nama_mata_pelajaran' => 'Seni Musik', 'kelompok' => 'B'],
+            ['nama_mata_pelajaran' => 'Seni Tari', 'kelompok' => 'A'],
+            ['nama_mata_pelajaran' => 'Seni Rupa', 'kelompok' => 'A'],
+            ['nama_mata_pelajaran' => 'Seni Teater', 'kelompok' => 'A'],
+
+            ['nama_mata_pelajaran' => 'Mulok Budaya Komering', 'kelompok' => 'C'],
         ];
 
         DB::table('tb_mata_pelajaran')->insert($data);

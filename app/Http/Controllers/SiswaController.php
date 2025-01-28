@@ -23,7 +23,7 @@ class SiswaController extends Controller
             ->where('id_guru', session('id_guru'))
             ->first();
 
-        $query = DB::table('tb_siswa');
+        $query = DB::table('tb_siswa')->where('deleted_at', null);
         if ($kelola_kelas?->guru?->is_wali_kelas) {
             $query->whereIn('id_siswa', $kelola_kelas->daftar_id_siswa);
         }

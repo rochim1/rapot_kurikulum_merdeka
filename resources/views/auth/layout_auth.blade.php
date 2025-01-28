@@ -25,7 +25,7 @@
                                 <img src="{{ asset('media/logo pendidikan.png') }}" alt="img-logo" style="width: auto; height: 100px;">
                             </div>
                             <h5 class="fw-bold mt-2 text-uppercase">E-Rapot Kurikulum Merdeka</h5>
-                            <h5 class="fw-bold mt-2 text-uppercase">SDN 2 Air Deras</h5>
+                            <h5 class="fw-bold mt-2 text-uppercase">SD Negeri Nusa Bali</h5>
                         </div>
                         
                         {{-- content --}}

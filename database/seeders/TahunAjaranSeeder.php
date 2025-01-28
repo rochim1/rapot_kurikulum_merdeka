@@ -16,8 +16,38 @@ class TahunAjaranSeeder extends Seeder
     {
         $data = [
             [
-                'tahun_ajaran_awal' => 2023,
-                'tahun_ajaran_akhir' => 2024,
+                'tahun_ajaran_awal' => 2020,
+                'tahun_ajaran_akhir' => 2021,
+                'semester' => 'Ganjil',
+                'is_active' => false,
+            ],
+            [
+                'tahun_ajaran_awal' => 2020,
+                'tahun_ajaran_akhir' => 2021,
+                'semester' => 'Genap',
+                'is_active' => false,
+            ],
+            [
+                'tahun_ajaran_awal' => 2021,
+                'tahun_ajaran_akhir' => 2022,
+                'semester' => 'Ganjil',
+                'is_active' => false,
+            ],
+            [
+                'tahun_ajaran_awal' => 2021,
+                'tahun_ajaran_akhir' => 2022,
+                'semester' => 'Genap',
+                'is_active' => false,
+            ],
+            [
+                'tahun_ajaran_awal' => 2022,
+                'tahun_ajaran_akhir' => 2023,
+                'semester' => 'Ganjil',
+                'is_active' => false,
+            ],
+            [
+                'tahun_ajaran_awal' => 2022,
+                'tahun_ajaran_akhir' => 2023,
                 'semester' => 'Genap',
                 'is_active' => false,
             ],
@@ -28,51 +58,21 @@ class TahunAjaranSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'tahun_ajaran_awal' => 2022,
-                'tahun_ajaran_akhir' => 2023,
+                'tahun_ajaran_awal' => 2023,
+                'tahun_ajaran_akhir' => 2024,
                 'semester' => 'Genap',
                 'is_active' => false,
             ],
             [
-                'tahun_ajaran_awal' => 2022,
-                'tahun_ajaran_akhir' => 2023,
+                'tahun_ajaran_awal' => 2024,
+                'tahun_ajaran_akhir' => 2025,
                 'semester' => 'Ganjil',
                 'is_active' => false,
             ],
             [
-                'tahun_ajaran_awal' => 2021,
-                'tahun_ajaran_akhir' => 2022,
+                'tahun_ajaran_awal' => 2024,
+                'tahun_ajaran_akhir' => 2025,
                 'semester' => 'Genap',
-                'is_active' => false,
-            ],
-            [
-                'tahun_ajaran_awal' => 2021,
-                'tahun_ajaran_akhir' => 2022,
-                'semester' => 'Ganjil',
-                'is_active' => false,
-            ],
-            [
-                'tahun_ajaran_awal' => 2020,
-                'tahun_ajaran_akhir' => 2021,
-                'semester' => 'Genap',
-                'is_active' => false,
-            ],
-            [
-                'tahun_ajaran_awal' => 2020,
-                'tahun_ajaran_akhir' => 2021,
-                'semester' => 'Ganjil',
-                'is_active' => false,
-            ],
-            [
-                'tahun_ajaran_awal' => 2019,
-                'tahun_ajaran_akhir' => 2020,
-                'semester' => 'Genap',
-                'is_active' => false,
-            ],
-            [
-                'tahun_ajaran_awal' => 2019,
-                'tahun_ajaran_akhir' => 2020,
-                'semester' => 'Ganjil',
                 'is_active' => false,
             ],
         ];

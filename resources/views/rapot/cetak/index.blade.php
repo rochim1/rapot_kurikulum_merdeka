@@ -8,11 +8,12 @@
 <div class="card shadow mb-4">
     <div class="card-body">
         <div class="mb-4 row">
-            <label for="inputPassword" class="col-sm-1 col-form-label">Cetak All : </label>
+            <label for="inputPassword" class="col-sm-1 col-form-label">Download All</label>
             <div class="col-sm-4">
               <select
                     class="form-select form-select"
                     name=""
+                    on
                 >
                     <option selected>-Pilih Rapot-</option>
                     <option value="">Rapot Utama</option>
