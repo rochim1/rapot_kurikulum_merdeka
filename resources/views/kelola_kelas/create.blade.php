@@ -125,7 +125,7 @@
 
                 <div class="mb-3">
                     <label for="daftar_id_siswa" class="form-label">
-                        Pilih Siswa<span class="text-danger fs-5">*</span>
+                        Pilih Siswa<span class="text-danger fs-5">*</span> ({{ count(session('selected_students', []) )}})
                     </label>
                     @if (!empty($siswa))
                         <div id="list_siswa" class="border p-3" style="max-height: 300px; overflow-y: auto;">
