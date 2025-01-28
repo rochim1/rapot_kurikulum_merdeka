@@ -14,7 +14,7 @@ class TujuanPembelajaranController extends Controller
     {
         $tujuanPembelajaran = TujuanPembelajaran::with(['mataPelajaran', 'kelas'])
             ->where('id_kelas', KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', auth()->user()->id)
+            ->where('id_guru', session('id_guru'))
             ->value('id_kelas'))
             ->join('tb_mata_pelajaran', 'tb_mata_pelajaran.id_mata_pelajaran', '=', 'tb_tujuan_pembelajaran.id_mata_pelajaran') 
             ->orderBy('tb_mata_pelajaran.kelompok', 'asc')  
@@ -49,7 +49,7 @@ class TujuanPembelajaranController extends Controller
             'tujuan_pembelajaran' => 'required|string',
         ]);
 
-        $validateData['id_kelas'] = KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))->where('id_guru', auth()->user()->id)->value('id_kelas');
+        $validateData['id_kelas'] = KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))->where('id_guru', session('id_guru'))->value('id_kelas');
         $validateData['tujuan_pembelajaran_tercapai'] = 'Peserta Didik Mampu ' . $request->tujuan_pembelajaran;
         $validateData['tujuan_pembelajaran_tidak_tercapai'] = 'Peserta Didik Tidak Mampu ' . $request->tujuan_pembelajaran;
 
@@ -70,7 +70,7 @@ class TujuanPembelajaranController extends Controller
     {
         $kelola_kelas = KelolaKelas::with('kelas')
         ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-        ->where('id_guru', auth()->user()->id)
+        ->where('id_guru', session('id_guru'))
         ->get();
             
         $mataPelajaran = $kelola_kelas->map(function($kelola) {
@@ -95,7 +95,7 @@ class TujuanPembelajaranController extends Controller
             'tujuan_pembelajaran' => 'required|string',
         ]);
         
-        $validateData['id_kelas'] = KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))->where('id_guru', auth()->user()->id)->value('id_kelas');
+        $validateData['id_kelas'] = KelolaKelas::where('id_tahun_ajaran', session('id_tahun_ajaran'))->where('id_guru', session('id_guru'))->value('id_kelas');
         $validateData['tujuan_pembelajaran_tercapai'] = 'Peserta Didik Mampu ' . $request->tujuan_pembelajaran;
         $validateData['tujuan_pembelajaran_tidak_tercapai'] = 'Peserta Didik Tidak Mampu ' . $request->tujuan_pembelajaran;
         

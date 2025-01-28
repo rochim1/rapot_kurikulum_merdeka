@@ -20,7 +20,7 @@ class SiswaController extends Controller
     {
         $kelola_kelas = KelolaKelas::with('kelas', 'guru')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', auth()->user()->id)
+            ->where('id_guru', session('id_guru'))
             ->first();
 
         $query = DB::table('tb_siswa');

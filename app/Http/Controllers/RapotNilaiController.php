@@ -21,7 +21,7 @@ class RapotNilaiController extends Controller
     {
         $kelola_kelas = KelolaKelas::with('kelas')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', auth()->user()->id)
+            ->where('id_guru', session('id_guru'))
             ->get();
 
         $kelola_kelas->each(function ($kelola) {
@@ -97,7 +97,7 @@ class RapotNilaiController extends Controller
 
         $kelola_kelas = KelolaKelas::with('kelas', 'guru', 'tahunAjaran')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', auth()->user()->id)
+            ->where('id_guru', session('id_guru'))
             ->first();
 
         $profilSekolah = ProfilSekolah::find(1);

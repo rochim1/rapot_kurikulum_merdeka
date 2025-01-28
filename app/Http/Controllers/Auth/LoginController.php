@@ -95,14 +95,17 @@ class LoginController extends Controller
                 $tahunAjaran = TahunAjaran::find($request->id_tahun_ajaran);
                 
                 if($tahunAjaran){
+                    $id_guru = Guru::where('id_user', auth()->user()->id)->first()->id_guru;
+
                     $kelola_kelas = KelolaKelas::where('id_tahun_ajaran', $request->id_tahun_ajaran)
-                        ->where('id_guru', auth()->user()->id)
+                        ->where('id_guru', $id_guru)
                         ->first();
                         
                     // cek apa dia wali kelasnya?
                     if($kelola_kelas) {
                         session(['id_tahun_ajaran' => $kelola_kelas->id_tahun_ajaran]);
                         session(['id_kelas' => $kelola_kelas->id_kelas]);
+                        session(['id_guru' => $id_guru]);
                         Alert::success('Kerja Bagus!', 'Login Berhasil');
                         return redirect()->route('home');
                     } else {

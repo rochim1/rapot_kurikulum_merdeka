@@ -18,7 +18,7 @@ class RapotCetakController extends Controller
     {
         $rapot = Rapot::with('kelas', 'TahunAjaran', 'siswa', 'guru', 'rapotEkstrakulikuler.ekstrakulikuler', 'rapotNilai.mataPelajaran')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', auth()->user()->id)
+            ->where('id_guru', session('id_guru'))
             ->get();
 
         $tujuanPembelajaran = TujuanPembelajaran::all(); // Ambil semua tujuan pembelajaran
@@ -75,7 +75,7 @@ class RapotCetakController extends Controller
     // {
     //     $rapot = Rapot::with('kelas', 'TahunAjaran', 'siswa', 'guru', 'rapotEkstrakulikuler.ekstrakulikuler', 'rapotNilai.mataPelajaran')
     //         ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-    //         ->where('id_guru', auth()->user()->id)
+    //         ->where('id_guru', session('id_guru'))
     //         ->get();
 
     //     $tujuanPembelajaran = TujuanPembelajaran::all(); // Ambil semua tujuan pembelajaran

@@ -20,7 +20,7 @@ class RapotEkstrakulikulerController extends Controller
     {
         $kelola_kelas = KelolaKelas::with('kelas', 'TahunAjaran')
         ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-        ->where('id_guru', auth()->user()->id)
+        ->where('id_guru', session('id_guru'))
         ->get();
 
         $ekstrakulikuler = Ekstrakulikuler::all();
@@ -62,7 +62,7 @@ class RapotEkstrakulikulerController extends Controller
 
         $kelola_kelas = KelolaKelas::with('kelas', 'guru', 'tahunAjaran')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', auth()->user()->id)
+            ->where('id_guru', session('id_guru'))
             ->first();
 
         $profilSekolah = ProfilSekolah::find(1);
