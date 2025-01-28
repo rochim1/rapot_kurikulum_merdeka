@@ -24,7 +24,7 @@ class RapotP5CapaianProjekController extends Controller
         $kelompokProjek = KelompokProjek::orderBy('nama')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_kelas', session('id_kelas'))
-            ->where('id_user', auth()->user()->id)
+            ->where('id_user', session('id_guru'))
             ->get();
     
         if ($request->has('id_kelompok_projek')) {
@@ -37,7 +37,7 @@ class RapotP5CapaianProjekController extends Controller
                 if ($request->has('id_target_capaian')) {
                     $targetCapaian = TargetCapaian::find($request->id_target_capaian);
 
-                    $kelola_kelas = KelolaKelas::where('id_guru', auth()->user()->id)
+                    $kelola_kelas = KelolaKelas::where('id_guru', session('id_guru'))
                                             ->where('id_kelas', session('id_kelas'))
                                             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
                                             ->get();
