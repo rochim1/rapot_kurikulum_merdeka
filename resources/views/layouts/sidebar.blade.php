@@ -121,6 +121,10 @@
                 <div data-i18n="Analytics">Tujuan Pembelajaran</div>
             </a>
         </li>
+
+        <li class="menu-header small text-uppercase fw-bold">
+            <span class="menu-header-text">Rapot</span>
+        </li>
         <li class="menu-item 
             @php
                 if(Request::is('rapot_nilai')) {
@@ -136,8 +140,6 @@
                 } else if(Request::is('rapot_naik_kelas')) {
                     echo 'active open';
                 } else if(Request::is('rapot_ttd')) {
-                    echo 'active open';
-                } else if(Request::is('rapot_cetak')) {
                     echo 'active open';
                 }
             @endphp
@@ -182,11 +184,6 @@
                         <div data-i18n="Account">Tanda Tangan</div>
                     </a>
                 </li>
-                <li class="menu-item {{ Request::is('rapot_cetak') ? 'active' : '' }}">
-                    <a href="{{ route('rapot_cetak.index') }}" class="menu-link">
-                        <div data-i18n="Account">Cetak</div>
-                    </a>
-                </li>
             </ul>
         </li>
 
@@ -195,8 +192,6 @@
                 if(Request::is('rapot_p5_capaian_projek')) {
                     echo 'active open';
                 } else if(Request::is('rapot_p5_catatan_proses_projek')) {
-                    echo 'active open';
-                } else if(Request::is('rapot_p5_cetak')) {
                     echo 'active open';
                 }
             @endphp
@@ -216,12 +211,14 @@
                         <div data-i18n="Notifications">Catatan Proses Projek</div>
                     </a>
                 </li>
-                <li class="menu-item {{ Request::is('rapot_p5_cetak*') ? 'active' : '' }}">
-                    <a href="{{ route('rapot_p5_cetak.index') }}" class="menu-link">
-                        <div data-i18n="Connections">Cetak</div>
-                    </a>
-                </li>
             </ul>
+        </li>
+
+        <li class="menu-item {{ Request::is('rapot_cetak*') ? 'active' : '' }}">
+            <a href="{{ route('rapot_cetak.index') }}" class="menu-link">
+                <i class="menu-icon bi bi-printer"></i>
+                <div data-i18n="Account">Cetak</div>
+            </a>
         </li>
     @endif
 </ul>
