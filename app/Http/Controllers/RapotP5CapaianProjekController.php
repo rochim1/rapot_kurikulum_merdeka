@@ -24,7 +24,7 @@ class RapotP5CapaianProjekController extends Controller
         $kelompokProjek = KelompokProjek::orderBy('nama')
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_kelas', session('id_kelas'))
-            ->where('id_user', session('id_guru'))
+            ->where('id_user', auth()->user()->id)
             ->get();
     
         if ($request->has('id_kelompok_projek')) {
