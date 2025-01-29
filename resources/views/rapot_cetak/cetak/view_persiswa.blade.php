@@ -8,7 +8,7 @@
     <title>Rapot {{ $nama_siswa ?? '-' }}</title>
     <style>
         <style>
-            @page {
+        @page {
             margin: 50px;
         }
 

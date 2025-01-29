@@ -6,7 +6,6 @@ use App\Models\DataProjekTargetCapaian;
 use App\Models\KelolaKelas;
 use App\Models\KelompokProjek;
 use App\Models\KelompokProjekDataProjek;
-use App\Models\RapotP5CapaianProjek;
 use App\Models\Siswa;
 use App\Models\TargetCapaian;
 use Illuminate\Http\Request;
@@ -55,6 +54,18 @@ class RapotP5CapaianProjekController extends Controller
                                 ->first();
                         });
                     });
+
+                    // Cek apakah ada siswa yang belum memiliki rapot
+                    $siswaTanpaRapot = $kelola_kelas->flatMap(function ($kelola) {
+                        return $kelola->siswa->filter(function ($siswa) {
+                            return is_null($siswa->rapot); // Filter siswa yang belum punya rapot
+                        });
+                    });
+        
+                    if ($siswaTanpaRapot->isNotEmpty()) {
+                        Alert::error('Error Rapot P5', 'Beberapa siswa belum memiliki rapot. Silakan input Rapot Utama terlebih dahulu.');
+                        return redirect()->route('rapot_p5_catatan_proses_projek.index');
+                    }
 
                     $predikat = DB::table('tb_rapot_p5_capaian_projek')
                         ->where('id_target_capaian', $request->id_target_capaian)

@@ -10,15 +10,18 @@
         <div class="mb-4 row">
             <label for="inputPassword" class="col-sm-1 col-form-label">Download All</label>
             <div class="col-sm-4">
-              <select
-                    class="form-select form-select"
-                    name=""
-                    on
-                >
-                    <option selected>-Pilih Rapot-</option>
-                    <option value="">Rapot Utama</option>
-                    <option value="">Rapot P5</option>
-                </select>
+                <form action="{{ route('rapot_all') }}" target="_blank" method="POST">
+                    @csrf
+                    <select
+                        class="form-select form-select"
+                        name="download_all"
+                        onchange="this.form.submit()">
+                    >
+                        <option selected>-Pilih Rapot-</option>
+                        <option value="rapot_umum">Rapot Utama</option>
+                        <option value="rapot_p5">Rapot P5</option>
+                    </select>
+                </form>
             </div>
         </div>
 
