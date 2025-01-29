@@ -23,14 +23,11 @@ class RapotP5CapaianProjek extends Model
         return $this->belongsTo(KelompokProjek::class, 'id_kelompok_projek', 'id_kelompok_projek');
     }
 
-    // public function KelompokProjekDataProjek()
-    // {
-    //     return $this->belongsTo(KelompokProjekDataProjek::class, 'id_kel_pro_data_pro', 'id_kelompok_projek_data_projek');
-    // }
-    public function kelompokProjekDataProjek()
-{
-    return $this->hasOne(KelompokProjekDataProjek::class);
-}
+    public function KelompokProjekDataProjek()
+    {
+        return $this->belongsTo(KelompokProjekDataProjek::class, 'id_kel_pro_data_pro', 'id_kelompok_projek_data_projek');
+    }
+
 
 
 }

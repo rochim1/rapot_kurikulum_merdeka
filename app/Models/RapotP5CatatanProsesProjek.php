@@ -17,4 +17,9 @@ class RapotP5CatatanProsesProjek extends Model
     {
         return $this->belongsTo(Rapot::class, 'id_rapot', 'id_rapot');
     }
+
+    public function KelompokProjekDataProjek()
+    {
+        return $this->belongsTo(KelompokProjekDataProjek::class, 'id_kel_pro_data_pro', 'id_kelompok_projek_data_projek');
+    }
 }
