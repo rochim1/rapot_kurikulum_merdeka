@@ -140,10 +140,6 @@ class RapotCetakController extends Controller
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
             ->where('id_guru', session('id_guru'))
             ->paginate(1);
-            
-            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', session('id_guru'))
-            ->paginate(1);
 
             $profilSekolah = ProfilSekolah::find(1);
             $nama_siswa = 'P5';
