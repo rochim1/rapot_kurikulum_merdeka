@@ -11,7 +11,8 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <!-- Form untuk memilih Tahun Ajaran dan Guru -->
-            <form id="createKelolaKelas_form" action="{{ route('kelola_kelas.edit', $kelolakelas->id_kelola_kelas) }}" method="GET" class="mb-0">
+            <form id="createKelolaKelas_form" action="{{ route('kelola_kelas.edit', $kelolakelas->id_kelola_kelas) }}"
+                method="GET" class="mb-0">
                 @csrf
 
                 <!-- Guru -->
@@ -22,7 +23,7 @@
                         <option value="">Pilih Guru</option>
                         @foreach ($guru as $item_guru)
                             <option value="{{ $item_guru->id_guru }}"
-                                {{ old('id_guru', request('id_guru')) == $item_guru->id_guru ? 'selected' : '' }}>
+                                {{ old('id_guru', $kelolakelas->id_guru ?? '') == $item_guru->id_guru ? 'selected' : '' }}>
                                 {{ $item_guru->user->name }}
                             </option>
                         @endforeach
@@ -31,6 +32,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <h5>Kelas Tujuan</h5>
@@ -42,7 +44,7 @@
                                 <option value="">Pilih Tahun Ajaran</option>
                                 @foreach ($tahunAjaran as $item_tahun)
                                     <option value="{{ $item_tahun->id_tahun_ajaran }}"
-                                        {{ old('id_tahun_ajaran_tujuan', request('id_tahun_ajaran_tujuan')) == $item_tahun->id_tahun_ajaran ? 'selected' : '' }}>
+                                        {{ old('id_tahun_ajaran_tujuan', $kelolakelas->id_tahun_ajaran ?? '') == $item_tahun->id_tahun_ajaran ? 'selected' : '' }}>
                                         {{ $item_tahun->tahun_ajaran_awal }}/{{ $item_tahun->tahun_ajaran_akhir }} -
                                         {{ $item_tahun->semester }}
                                     </option>
@@ -60,7 +62,7 @@
                                 <option value="">Pilih Kelas Tujuan</option>
                                 @foreach ($kelas as $item_kelas)
                                     <option value="{{ $item_kelas->id_kelas }}"
-                                        {{ request('id_kelas_tujuan') == $item_kelas->id_kelas ? 'selected' : '' }}>
+                                        {{ old('id_kelas_tujuan', $kelolakelas->id_kelas ?? '') == $item_kelas->id_kelas ? 'selected' : '' }}>
                                         {{ $item_kelas->kelas_tingkatan }} - {{ $item_kelas->kelas_abjad }}
                                     </option>
                                 @endforeach
@@ -70,6 +72,29 @@
                             @enderror
                         </div>
                     </div>
+                </div>
+                <div class="mb-3">
+                    <label for="daftar_id_siswa" class="form-label">
+                        Siswa terpilih
+                    </label>
+                    @if (!empty($siswa))
+                        <div id="list_siswa" class="border p-3" style="max-height: 300px; overflow-y: auto;">
+                            <div class="row">
+                                @foreach ($siswa as $s)
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input disabled type="checkbox" class="form-check-input"
+                                                value="{{ $s->id_siswa }}"
+                                                {{ in_array($s->id_siswa, session('selected_students', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label ms-2">{{ $s->nama }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <div class="w-100 bg-secondary text-white p-2 rounded text-center">Tidak ada data siswa</div>
+                    @endif
                 </div>
                 <hr>
                 <label for="">filter siswa</label>
@@ -122,15 +147,14 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="mb-3">
                     <label for="daftar_id_siswa" class="form-label">
-                        Pilih Siswa<span class="text-danger fs-5">*</span>
+                        Pilih Siswa<span class="text-danger fs-5">*</span> ({{ count(session('selected_students', []) )}})
                     </label>
-                    @if (!empty($siswa))
+                    @if (!empty($searchSiswa))
                         <div id="list_siswa" class="border p-3" style="max-height: 300px; overflow-y: auto;">
                             <div class="row">
-                                @foreach ($siswa as $s)
+                                @foreach ($searchSiswa as $s)
                                     <div class="col-md-3">
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input siswa-checkbox"
@@ -146,7 +170,6 @@
                         <div class="w-100 bg-secondary text-white p-2 rounded text-center">Tidak ada data siswa</div>
                     @endif
                 </div>
-
                 <!-- Hidden input for unselected students -->
                 <input type="hidden" class="unselected_students" name="unselected_students" value="">
                 <button type="submit" name="submit_action" value="true" class="btn btn-primary">Simpan</button>
@@ -202,10 +225,10 @@
 
                     // Set the hidden input's value
                     const hiddenInput = document.querySelector(
-                    '.unselected_students'); // Fix: document.querySelector, not getElementByClass
+                        '.unselected_students'); // Fix: document.querySelector, not getElementByClass
                     if (hiddenInput) {
                         hiddenInput.value = JSON.stringify(
-                        unselectedStudents); // Setting value as JSON string
+                            unselectedStudents); // Setting value as JSON string
                     } else {
                         console.error('Hidden input .unselected_students not found.');
                     }
@@ -215,5 +238,10 @@
                 console.error('Form #createKelolaKelas_form not found.');
             }
         });
+
+        // if (!localStorage.getItem('tabId')) {
+        //     localStorage.setItem('tabId', Math.random().toString(36).substr(2, 9));
+        // }
+        const tabId = localStorage.getItem('tabId');
     </script>
 @endpush

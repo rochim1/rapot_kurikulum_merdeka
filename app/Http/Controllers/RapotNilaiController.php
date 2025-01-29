@@ -54,7 +54,6 @@ class RapotNilaiController extends Controller
                 $id_mata_pelajaran = $tujuan_pembelajaran->first()->id_mata_pelajaran;
             }
 
-            dump($rapot_nilai->count());
             if ($rapot_nilai->count() > 0) {
                 $title = 'Edit Rapot';
                 return view('rapot.nilai.nilai_edit', compact(
@@ -111,7 +110,7 @@ class RapotNilaiController extends Controller
                 ],
                 [
                     'naik_kelas' => $kelola_kelas->tahunAjaran->semester == 'Ganjil' ? false : true,
-                    'id_guru' => $kelola_kelas->pluck('id_guru')->first(),
+                    'id_guru' => $kelola_kelas->id_guru,
                     'nama_kepsek' => $profilSekolah->nama_kepsek,
                     'nip_kepsek' => $profilSekolah->nip_kepsek,
                 ]
