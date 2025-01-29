@@ -22,9 +22,9 @@ class MataPelajaranSeeder extends Seeder
             ['nama_mata_pelajaran' => 'Pendidikan Jasmani, Olahraga, dan Kesehatan', 'kelompok' => 'A'],
 
             ['nama_mata_pelajaran' => 'Seni Musik', 'kelompok' => 'B'],
-            ['nama_mata_pelajaran' => 'Seni Tari', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'Seni Rupa', 'kelompok' => 'A'],
-            ['nama_mata_pelajaran' => 'Seni Teater', 'kelompok' => 'A'],
+            ['nama_mata_pelajaran' => 'Seni Tari', 'kelompok' => 'B'],
+            ['nama_mata_pelajaran' => 'Seni Rupa', 'kelompok' => 'B'],
+            ['nama_mata_pelajaran' => 'Seni Teater', 'kelompok' => 'B'],
 
             ['nama_mata_pelajaran' => 'Mulok Budaya Komering', 'kelompok' => 'C'],
         ];

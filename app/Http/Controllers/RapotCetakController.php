@@ -71,18 +71,52 @@ class RapotCetakController extends Controller
         }
 
         $profilSekolah = ProfilSekolah::find(1);
-        $nama_siswa = $rapot->first()->siswa->nama;
+        $nama_siswa = 'Rapot '. $rapot->first()->siswa->nama. '.pdf';
 
         $pdf = Pdf::loadView('rapot_cetak.cetak.view_persiswa', compact('rapot', 'profilSekolah', 'nama_siswa'))
             ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
 
         if($request->get('btn') == 'view')
         {
-            return $pdf->stream('rapot kelas 1a.pdf');
+            return $pdf->stream($nama_siswa);
         } 
         else if($request->get('btn') == 'download')
         {
-            return $pdf->download('Rapot ' . $nama_siswa.'.pdf');
+            return $pdf->download($nama_siswa);
+        }
+    }
+
+    public function rapot_p5_persiswa($id, Request $request)
+    {
+        $rapot = Rapot::with([
+            'kelas', 
+            'TahunAjaran', 
+            'siswa',
+            'guru.user',
+            'RapotP5CapaianProjek.KelompokProjekDataProjek.dataProjek.DataProjekTargetCapaian.targetCapaian', 
+            'RapotP5CatatanProsesProjek'
+        ])
+            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+            ->where('id_guru', session('id_guru'))
+            ->where('id_guru', session('id_guru'))
+            ->whereHas('siswa', function ($query) use ($id) {
+                $query->where('id_siswa', $id);
+            })
+            ->get();
+        
+        $profilSekolah = ProfilSekolah::find(1);
+        $nama_siswa =  'Rapot '. $rapot->first()->siswa->nama. '.pdf';
+
+        $pdf = Pdf::loadView('rapot_cetak.cetak_p5.view_persiswa', compact('rapot', 'profilSekolah', 'nama_siswa'))
+            ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+        if($request->get('btn') == 'view')
+        {
+            return $pdf->stream($nama_siswa);
+        } 
+        else if($request->get('btn') == 'download')
+        {
+            return $pdf->download($nama_siswa);
         }
     }
 
@@ -127,12 +161,13 @@ class RapotCetakController extends Controller
                         }
                 }
             }
+
             $profilSekolah = ProfilSekolah::find(1);
-            $nama_siswa = 'Kelas ' . $rapot->first()->kelas->kelas_tingkatan . '.' . $rapot->first()->kelas->kelas_abjad;
+            $nama_siswa = 'Kelas ' . $rapot->first()->kelas->kelas_tingkatan . '.' . $rapot->first()->kelas->kelas_abjad . '.pdf';
 
             $pdf = Pdf::loadView('rapot_cetak.cetak.view_persiswa', compact('rapot', 'profilSekolah', 'nama_siswa'))
                 ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
-            return $pdf->stream('rapot kelas 1a.pdf');
+            return $pdf->stream($nama_siswa);
         }
         else if($request->download_all == 'rapot_p5')
         {
@@ -149,14 +184,12 @@ class RapotCetakController extends Controller
                 ->get();
             
             $profilSekolah = ProfilSekolah::find(1);
-            $nama_siswa = 'P5';
+            $nama_siswa = 'Kelas P5' . $rapot->first()->kelas->kelas_tingkatan . '.' . $rapot->first()->kelas->kelas_abjad . '.pdf';
             
             $pdf = Pdf::loadView('rapot_cetak.cetak_p5.view_persiswa', compact('rapot', 'profilSekolah', 'nama_siswa'))
                 ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
             
-                
-            
-            return $pdf->stream('rapot kelas 1a.pdf');
+                return $pdf->stream($nama_siswa . '.pdf');
         }
     }
 }

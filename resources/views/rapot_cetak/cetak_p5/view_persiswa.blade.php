@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Rapot {{ $nama_siswa ?? '-' }}</title>
+    <title>{{ $nama_siswa ?? '-' }}</title>
     <style>
         body {
             counter-reset: page;
@@ -173,7 +173,7 @@
 {{-- hal 2 --}}
 @foreach ($itemRapot->RapotP5CapaianProjek as $itemRapotP5CapaianProjek)
 
-<table style="width: 100%; border-collapse: collapse; border: 1px solid #000;">
+<table style="width: 100%; border-collapse: collapse; border: 0px solid #000;">
     <thead>
         <tr>
             <th style="padding: 8px; text-align: left; border: 1px solid #000;">{{ $loop->iteration }} | {{ $itemRapotP5CapaianProjek->KelompokProjekDataProjek->dataProjek->nama }}</th>
@@ -212,10 +212,10 @@
             </tr>
         @endforeach
             <tr>
-                <td colspan="5">
-                    <div style="font-style: italic; margin-bottom: 0.5rem;">Catatan Proses</div>
+                <td colspan="5" style="border: 1px solid #000;">
+                    <div style="padding: 8px; font-style: italic; margin-bottom: 0.5rem;">Catatan Proses</div>
                     @foreach ($itemRapot->rapotP5CatatanProsesProjek as $itemrapotP5CatatanProsesProjek)
-                        <div style="font-style: italic; margin-bottom: 0.5rem;">
+                        <div style="padding: 8px; font-style: italic; margin-bottom: 0.5rem;">
                             {{ $itemrapotP5CatatanProsesProjek->catatan_proses_projek }}
                         </div>
                     @endforeach

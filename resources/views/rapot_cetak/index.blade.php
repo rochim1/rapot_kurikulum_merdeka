@@ -55,14 +55,14 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="" class="btn btn-secondary">
+                                <a href="{{ route('rapot_p5_persiswa', $itemRapot->siswa->id_siswa) }}?btn=view" target="_blank" class="btn btn-secondary">
                                     <i class="bi bi-eye">
-                                        View
+                                        View P5
                                     </i>
                                 </a>
-                                <a href="" class="btn btn-primary">
+                                <a href="{{ route('rapot_p5_persiswa', $itemRapot->siswa->id_siswa) }}?btn=download" class="btn btn-primary">
                                     <i class="bi bi-download">
-                                        Download
+                                        Download P5
                                     </i>
                                 </a>
                             </td>
