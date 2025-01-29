@@ -72,10 +72,10 @@ class RapotNaikKelasController extends Controller
                         'id_tahun_ajaran' => $kelola_kelas->id_tahun_ajaran,
                         'id_siswa' => $siswa_id,
                         'id_guru' => $kelola_kelas->id_guru,
-                        'nama_kepsek' => $profilSekolah->nama_kepsek,
-                        'nip_kepsek' => $profilSekolah->nip_kepsek,
                     ],
                     [
+                        'nama_kepsek' => $profilSekolah->nama_kepsek,
+                        'nip_kepsek' => $profilSekolah->nip_kepsek,
                         'naik_kelas' => $validatedData['naik_kelas'][$index] ?? null, // Use the index to fetch corresponding data
                     ]
                 );
