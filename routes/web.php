@@ -44,6 +44,8 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Auth::routes();
+
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate']);
 

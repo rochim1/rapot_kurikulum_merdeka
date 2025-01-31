@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h4 class="mb-md-0">Edit {{ $title }}</h4>
+    <h4 class="mb-md-0">{{ $title }}</h4>
     <a href="{{ route('mata_pelajaran.index') }}" class="btn btn-danger btn-icon-split">
         <span class="text"><i class="bi bi-arrow-left-short"></i> Kembali</span>
     </a>

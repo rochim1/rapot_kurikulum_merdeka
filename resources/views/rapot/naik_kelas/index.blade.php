@@ -48,7 +48,7 @@
                                     <td>
                                         <input type="hidden" name="id_siswa[{{ $siswa->id_siswa }}]" value="{{ $siswa->id_siswa }}">
                                         <select class="form-control mb-1 naik-kelas" name="naik_kelas[{{ $siswa->id_siswa }}]">
-                                            <option value="">- Pilih Predikat -</option>
+                                            <option value="">- Pilih Kelas -</option>
                                             <option value="Tinggal Kelas" {{ $siswa->rapot && $siswa->rapot->naik_kelas === 'Tinggal Kelas' ? 'selected' : '' }}>Tinggal Kelas</option>
                                             <option value="II" {{ $siswa->rapot && $siswa->rapot->naik_kelas === 'II' ? 'selected' : '' }}>II</option>
                                             <option value="III" {{ $siswa->rapot && $siswa->rapot->naik_kelas === 'III' ? 'selected' : '' }}>III</option>

@@ -3,12 +3,6 @@
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h4 class="mb-md-0">{{ $title }}</h4>
-
-    <div class="d-flex gap-3">
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import"><i class="bi bi-folder-plus"></i>
-            Import
-        </button>
-    </div>
 </div>
 
 <div class="card shadow mb-4">

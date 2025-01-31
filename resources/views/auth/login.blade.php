@@ -74,8 +74,8 @@
             </div>
             <div class="col-md">
                 @if (Route::has('password.request'))
-                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                        <i class="fa fa-key me-2"></i>Lupa Password?
+                    <a class="btn btn-danger" href="{{ route('password.request') }}">
+                        <i class="fa fa-key me-2"></i>Lupa Password
                     </a>
                 @endif 
             </div>
