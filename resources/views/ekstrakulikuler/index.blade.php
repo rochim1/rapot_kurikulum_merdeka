@@ -30,6 +30,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Ekstrakulikuler</th>
+                            <th>Keterangan</th>
                             @if (Auth::user()->hasRole('admin'))
                                 <th class="text-center">Aksi</th>
                             @endif
@@ -40,14 +41,18 @@
                             <tr>
                                 <td>{{ ($ekskuls->currentPage() - 1) * $ekskuls->perPage() + $loop->iteration }}</td>
                                 <td>{{ $ekskul->nama_ekstrakulikuler }}</td>
+                                <td>{{ $ekskul->keterangan }}</td>
                                 @if (Auth::user()->hasRole('admin'))
                                     <td class="d-flex gap-2 justify-content-center">
                                         <a href="{{ route('edit-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}"
                                             class="btn btn-outline-success" title="Edit"> <i
                                                 class="bi bi-pencil-square"></i></a>
-                                        <a href="{{ route('delete-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}"
-                                            class="btn btn-outline-danger" id="btn_delete" title="Hapus"><i
-                                                class="bi bi-trash"></i></a>
+                                        <form id="myForm" action="{{ route('delete-ekstrakulikuler', $ekskul->id_ekstrakulikuler) }}" method="get">
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-danger" id="btn_delete">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 @endif
                             </tr>
