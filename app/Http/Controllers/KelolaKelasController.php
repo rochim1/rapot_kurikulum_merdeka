@@ -29,7 +29,7 @@ class KelolaKelasController extends Controller
     public function create(Request $request)
     {
         // Mengambil data guru, kelas, dan tahun ajaran
-        $guru = Guru::with('user')->where('status', '=', 'active')->where('is_wali_kelas', '=', true)->orderBy('updated_at', 'asc')->get();
+        $guru = Guru::with('user')->where('status', '=', 'active')->where('is_wali_kelas', '=', true)->orderBy('updated_at', 'DESC')->get();
         $kelas = Kelas::orderBy('kelas_tingkatan', 'asc')->orderBy('kelas_abjad', 'asc')->get();
         $tahunAjaran = TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')->get();
         $title = 'Kelola Kelas';
@@ -143,7 +143,7 @@ class KelolaKelasController extends Controller
     public function edit(KelolaKelas $kelola_kela, Request $request)
     {
         // Fetch data for the form
-        $guru = Guru::with('user')->where('status', '=', 'active')->where('is_wali_kelas', '=', true)->orderBy('updated_at', 'asc')->get();
+        $guru = Guru::with('user')->where('status', '=', 'active')->where('is_wali_kelas', '=', true)->orderBy('updated_at', 'DESC')->get();
         $kelas = Kelas::orderBy('kelas_tingkatan', 'asc')->orderBy('kelas_abjad', 'asc')->get();
         $tahunAjaran = TahunAjaran::orderBy('tahun_ajaran_awal', 'desc')->get();
         $title = 'Edit Kelola Kelas';

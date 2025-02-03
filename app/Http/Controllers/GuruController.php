@@ -46,7 +46,7 @@ class GuruController extends Controller
         }
 
         // Paginate the results with query strings preserved
-        $gurus = $query->orderBy('updated_at', 'ASC')  // You can change this to sort by other columns as needed
+        $gurus = $query->orderBy('updated_at', 'DESC')  // You can change this to sort by other columns as needed
             ->paginate(10)
             ->withQueryString();  // Retain query parameters during pagination
 
