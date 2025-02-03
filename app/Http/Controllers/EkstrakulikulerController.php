@@ -12,7 +12,7 @@ class EkstrakulikulerController extends Controller
     public function index(Request $request)
     {
         // Start building the query for 'ekstrakulikuler'
-        $query = Ekstrakulikuler::whereNull('deleted_at')->query();
+        $query = Ekstrakulikuler::whereNull('deleted_at');
 
         // Apply filters based on user input
         if ($request->filled('nama_ekstrakulikuler')) {
@@ -22,7 +22,7 @@ class EkstrakulikulerController extends Controller
         // Paginate the results with query strings preserved
         $ekskuls = $query->orderBy('nama_ekstrakulikuler', 'ASC')
             ->paginate(10)
-            ->withQueryString(); // Retain query parameters during pagination
+            ->withQueryString();
 
         // Title for the page
         $title = 'Ekstrakulikuler';
