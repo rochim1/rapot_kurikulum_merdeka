@@ -84,7 +84,7 @@ Route::middleware(['role:admin'])->group(function () {
     Route::get('/edit-ekstrakulikuler/{id_ekstrakulikuler}', [EkstrakulikulerController::class, 'edit'])->name('edit-ekstrakulikuler');
     Route::post('/update-ekstrakulikuler/{id_ekstrakulikuler}', [EkstrakulikulerController::class, 'update'])->name('update-ekstrakulikuler');
     Route::get('/delete-ekstrakulikuler/{id_ekstrakulikuler}', [EkstrakulikulerController::class, 'destroy'])->name('delete-ekstrakulikuler');
-    // user
+    
     Route::post('/import_siswa', [SiswaController::class, 'import_siswa'])->name('import_siswa');
     Route::post('/import_mata_pelajaran', [MataPelajaranController::class, 'import_mata_pelajaran'])->name('import_mata_pelajaran');
 
