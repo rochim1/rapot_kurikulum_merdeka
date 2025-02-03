@@ -104,9 +104,9 @@
                                         @csrf
                                         <select name="status" class="form-select" style="width: 150px;"
                                             onchange="this.form.submit()">
-                                            <option value="Aktif" {{ $guru->status == 'Aktif' ? 'selected' : '' }}>Aktif
+                                            <option value="active" {{ $guru->status == 'active' ? 'selected' : '' }}>Aktif
                                             </option>
-                                            <option value="Non-Aktif" {{ $guru->status == 'Non-Aktif' ? 'selected' : '' }}>
+                                            <option value="deleted" {{ $guru->status == 'deleted' ? 'selected' : '' }}>
                                                 Non-Aktif</option>
                                             <option value="Mutasi" {{ $guru->status == 'Mutasi' ? 'selected' : '' }}>Mutasi
                                             </option>

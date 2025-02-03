@@ -63,7 +63,7 @@ class HomeController extends Controller
             // If the user is an admin, display all students regardless of 'tahun ajaran'
             $jumlahSiswa = Siswa::count(); // Assuming you have a Siswa model for students
         }
-        $jumlahGuru = Guru::where('status', '=', 'Aktif')->count();
+        $jumlahGuru = Guru::where('status', '=', 'active')->count();
         return view('home', compact('jumlahSiswa', 'tahunAjaran', 'title','jumlahGuru'));
     }
 }

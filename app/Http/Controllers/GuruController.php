@@ -22,7 +22,7 @@ class GuruController extends Controller
     public function index(Request $request)
     {
         // Start building the query for 'guru' with relationships 'user' and 'mata_pelajaran'
-        $query = Guru::with('user', 'mata_pelajaran')->where('status', '=', 'Aktif');
+        $query = Guru::with('user', 'mata_pelajaran')->where('status', '=', 'active');
 
         // Apply filters based on user input
         if ($request->filled('nama_guru')) {
@@ -92,7 +92,7 @@ class GuruController extends Controller
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
             'pendidikan_terakhir' => 'nullable|string|max:50',
-            'status' => 'nullable|string|in:Aktif,Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun',
+            'status' => 'nullable|string|in:active,deleted, Wali Kelas, Cuti, Mutasi, Pensiun',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'status' => 'nullable|string|max:50',
         ], [
@@ -127,7 +127,7 @@ class GuruController extends Controller
             'pendidikan_terakhir.string' => 'Pendidikan terakhir harus berupa teks.',
             'pendidikan_terakhir.max' => 'Pendidikan terakhir maksimal 50 karakter.',
             'status.string' => 'Status harus berupa teks.',
-            'status.in' => 'Status tidak valid. Pilihan yang tersedia: Aktif, Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun.',
+            'status.in' => 'Status tidak valid. Pilihan yang tersedia: active, deleted, Wali Kelas, Cuti, Mutasi, Pensiun.',
             'foto.image' => 'File foto harus berupa gambar.',
             'foto.mimes' => 'Format file foto harus jpg, jpeg, atau png.',
             'foto.max' => 'Ukuran file foto maksimal 2 MB.',
@@ -172,7 +172,7 @@ class GuruController extends Controller
             'tmt_awal' => $request->tmt_awal,
             'pendidikan_terakhir' => $request->pendidikan_terakhir,
             'foto' => $fotoPath,
-            'status' => 'Aktif'
+            'status' => 'active'
         ]);
         Alert::success('success', 'Data guru berhasil disimpan dan user berhasil dibuat dengan role guru.');
         return redirect()->route('data-guru');
@@ -184,7 +184,7 @@ class GuruController extends Controller
     public function show($id_guru)
     {
         $title = 'Guru';
-        $guru = Guru::with('user', 'mata_pelajaran')->where('id_guru', $id_guru)->where('status', '=', 'Aktif')->firstOrFail();
+        $guru = Guru::with('user', 'mata_pelajaran')->where('id_guru', $id_guru)->where('status', '=', 'active')->firstOrFail();
         return view('guru.show', compact('guru', 'title'));
     }
 
@@ -194,7 +194,7 @@ class GuruController extends Controller
     public function edit($id_guru)
     {
         $title = 'Guru';
-        $guru = Guru::where('status', '=', 'Aktif')->findOrFail($id_guru);
+        $guru = Guru::where('status', '=', 'active')->findOrFail($id_guru);
         $mataPelajarans =  MataPelajaran::orderBy('kelompok', 'ASC')->orderBy('nama_mata_pelajaran', 'ASC')->get();
         return view('guru.edit', compact('guru', 'mataPelajarans','title'));
     }
@@ -217,7 +217,7 @@ class GuruController extends Controller
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
             'pendidikan_terakhir' => 'nullable|string|max:50',
-            'status' => 'nullable|string|in:Aktif,Tidak Aktif,Wali Kelas,Cuti,Mutasi,Pensiun',
+            'status' => 'nullable|string|in:active,deleted,Wali Kelas,Cuti,Mutasi,Pensiun',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -287,7 +287,7 @@ class GuruController extends Controller
         DB::table('users')
             ->where('id', $id_guru)
             ->update([
-                'status' => 'Non-Aktif',
+                'status' => 'deleted',
                 'deleted_at' => now() // Soft delete manually
             ]);
 
@@ -308,7 +308,7 @@ class GuruController extends Controller
     public function updateStatus(Request $request, $id_guru)
     {
         $request->validate([
-            'status' => 'required|in:Aktif,Non-Aktif,Wali Kelas,Mutasi,Pensiun',
+            'status' => 'required|in:active,deleted,Wali Kelas,Mutasi,Pensiun',
         ]);
 
         $guru = Guru::findOrFail($id_guru);

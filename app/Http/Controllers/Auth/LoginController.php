@@ -119,9 +119,9 @@ class LoginController extends Controller
                 return redirect()->route('login');
             }
 
-            if ($guru->status == 'Non-Aktif') {
+            if ($guru->status == 'deleted') {
                 Auth::logout();
-                Alert::error('Terjadi kesalahan!', 'Mohon maaf, status guru non aktif.');
+                Alert::error('Terjadi kesalahan!', 'Mohon maaf, status guru non aktif/dihapus.');
                 return redirect()->route('login');
             }
 
