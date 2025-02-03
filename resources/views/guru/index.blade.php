@@ -106,7 +106,7 @@
                                             onchange="this.form.submit()">
                                             <option value="active" {{ $guru->status == 'active' ? 'selected' : '' }}>Aktif
                                             </option>
-                                            <option value="deleted" {{ $guru->status == 'deleted' ? 'selected' : '' }}>
+                                            <option value="inactive" {{ $guru->status == 'inactive' ? 'selected' : '' }}>
                                                 Non-Aktif</option>
                                             <option value="Mutasi" {{ $guru->status == 'Mutasi' ? 'selected' : '' }}>Mutasi
                                             </option>

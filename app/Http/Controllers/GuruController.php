@@ -22,7 +22,7 @@ class GuruController extends Controller
     public function index(Request $request)
     {
         // Start building the query for 'guru' with relationships 'user' and 'mata_pelajaran'
-        $query = Guru::with('user', 'mata_pelajaran')->where('status', '=', 'active');
+        $query = Guru::with('user', 'mata_pelajaran')->where('status', '!=', 'deleted');
 
         // Apply filters based on user input
         if ($request->filled('nama_guru')) {
@@ -308,7 +308,7 @@ class GuruController extends Controller
     public function updateStatus(Request $request, $id_guru)
     {
         $request->validate([
-            'status' => 'required|in:active,deleted,Wali Kelas,Mutasi,Pensiun',
+            'status' => 'required|in:active,inactive,Mutasi,Pensiun,deleted,Wali Kelas',
         ]);
 
         $guru = Guru::findOrFail($id_guru);
