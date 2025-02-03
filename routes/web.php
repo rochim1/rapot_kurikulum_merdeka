@@ -70,6 +70,4 @@ Route::middleware(['role:admin|walas'])->group(function () {
     Route::resource('kelas', KelasController::class);
     Route::resource('tahun-ajaran', TahunAjaranController::class);
     Route::resource('rapor', RaporController::class);
-
-
 });
