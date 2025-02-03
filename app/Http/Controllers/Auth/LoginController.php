@@ -78,78 +78,84 @@ class LoginController extends Controller
             'email.required' => 'Email tidak boleh kosong.',
             'email.email' => 'Email harus berupa format email yang valid.',
             'password.required' => 'Password tidak boleh kosong.',
-            'password.min' => 'Password harus memiliki minimal 6 karakter.',
             'id_tahun_ajaran.exists' => 'Tahun ajaran tidak valid.',
         ]);
 
-        $credentials = $request->only('email', 'password');
         // Proses login
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-
-            if ($user->hasRole('admin')) {
-                Alert::success('Kerja Bagus!', 'Login Berhasil');
-                return redirect()->route('home');
-            } 
-            else if($user->hasRole('walas')) {
-                $tahunAjaran = TahunAjaran::find($request->id_tahun_ajaran);
-                
-                if($tahunAjaran){
-                    $id_guru = Guru::where('id_user', auth()->user()->id)->first()->id_guru;
-
-                    $kelola_kelas = KelolaKelas::where('id_tahun_ajaran', $request->id_tahun_ajaran)
-                        ->where('id_guru', $id_guru)
-                        ->first();
-                        
-                    // cek apa dia wali kelasnya?
-                    if($kelola_kelas) {
-                        session(['id_tahun_ajaran' => $kelola_kelas->id_tahun_ajaran]);
-                        session(['id_kelas' => $kelola_kelas->id_kelas]);
-                        session(['id_guru' => $id_guru]);
-                        Alert::success('Kerja Bagus!', 'Login Berhasil');
-                        return redirect()->route('home');
-                    } else {
-                        Auth::logout();
-                        Alert::error('Terjadi kesalahan!', 'Anda bukan wali kelas pada tahun ajaran ' 
-                                                            . $tahunAjaran->tahun_ajaran_awal 
-                                                            . '/'. $tahunAjaran->tahun_ajaran_akhir 
-                                                            . ' - ' . $tahunAjaran->semester
-                                    );
-                        return redirect()->route('login');
-                    }
-                    
-                
-
-                } else if (!$tahunAjaran) {
-                    Auth::logout();
-                    Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda harus memilih tahun ajaran terlebih dahulu');
-                    return redirect()->route('login');
-                } 
-                else if(!$tahunAjaran->is_active) {
-                    Auth::logout();
-                    Alert::error('Terjadi kesalahan!', 'Hubungi admin untuk mengaktifkan Tahun Ajaran');
-                    return redirect()->route('login');
-                }  
-                else {
-                    Auth::logout();
-                    Alert::error('Terjadi kesalahan!', 'Mohon maaf, Hubungi admin Website.');
-                    return redirect()->route('login');
-                }
-            }
-            
-
-        } else {
-            Auth::logout();
+        if (!Auth::attempt($request->only('email', 'password'))) {
             Alert::error('Terjadi kesalahan!', 'Mohon maaf, Email / password yang Anda masukkan salah.');
             return redirect()->route('login');
         }
 
-        // Login Wali Kelas
+        $user = Auth::user();
 
+        // Admin Login
+        if ($user->hasRole('admin')) {
+            Alert::success('Kerja Bagus!', 'Login Berhasil');
+            return redirect()->route('home');
+        }
 
-        
+        // Wali Kelas Login
+        if ($user->hasRole('walas')) {
+            // Pastikan tahun ajaran valid
+            if (!$request->id_tahun_ajaran) {
+                Auth::logout();
+                Alert::error('Terjadi kesalahan!', 'Mohon maaf, Anda harus memilih tahun ajaran terlebih dahulu.');
+                return redirect()->route('login');
+            }
+
+            $tahunAjaran = TahunAjaran::find($request->id_tahun_ajaran);
+            if (!$tahunAjaran || !$tahunAjaran->is_active) {
+                Auth::logout();
+                Alert::error('Terjadi kesalahan!', 'Hubungi admin untuk mengaktifkan Tahun Ajaran.');
+                return redirect()->route('login');
+            }
+
+            // Ambil data guru berdasarkan user
+            $guru = Guru::where('id_user', $user->id)->first();
+            if (!$guru) {
+                Auth::logout();
+                Alert::error('Terjadi kesalahan!', 'Data guru tidak ditemukan.');
+                return redirect()->route('login');
+            }
+
+            if ($guru->status == 'deleted') {
+                Auth::logout();
+                Alert::error('Terjadi kesalahan!', 'Mohon maaf, status guru non aktif/dihapus.');
+                return redirect()->route('login');
+            }
+
+            // Cek apakah dia wali kelas pada tahun ajaran yang dipilih
+            $kelola_kelas = KelolaKelas::where([
+                'id_tahun_ajaran' => $request->id_tahun_ajaran,
+                'id_guru' => $guru->id_guru
+            ])->first();
+
+            if (!$kelola_kelas) {
+                Auth::logout();
+                Alert::error('Terjadi kesalahan!', 'Anda bukan wali kelas pada tahun ajaran ' 
+                    . $tahunAjaran->tahun_ajaran_awal . '/' . $tahunAjaran->tahun_ajaran_akhir 
+                    . ' - ' . $tahunAjaran->semester
+                );
+                return redirect()->route('login');
+            }
+
+            // Simpan data ke sesi
+            session([
+                'id_tahun_ajaran' => $kelola_kelas->id_tahun_ajaran,
+                'id_kelas' => $kelola_kelas->id_kelas,
+                'id_guru' => $guru->id_guru
+            ]);
+
+            Alert::success('Kerja Bagus!', 'Login Berhasil');
+            return redirect()->route('home');
+        }
+
+        // Jika role tidak dikenali
+        Auth::logout();
+        Alert::error('Terjadi kesalahan!', 'Mohon maaf, Hubungi admin Website.');
+        return redirect()->route('login');
     }
-
 
 
     /**

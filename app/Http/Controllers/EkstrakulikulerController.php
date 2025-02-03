@@ -12,7 +12,7 @@ class EkstrakulikulerController extends Controller
     public function index(Request $request)
     {
         // Start building the query for 'ekstrakulikuler'
-        $query = Ekstrakulikuler::query();
+        $query = Ekstrakulikuler::whereNull('deleted_at')->query();
 
         // Apply filters based on user input
         if ($request->filled('nama_ekstrakulikuler')) {
@@ -79,8 +79,11 @@ class EkstrakulikulerController extends Controller
     public function destroy($id)
     {
         $ekskul = Ekstrakulikuler::findOrFail($id);
-        $ekskul->delete();
+        $ekskul->deleted_at = now(); // Menandai sebagai terhapus
+        $ekskul->save();
+
         Alert::success('success', 'Data berhasil dihapus.');
         return redirect()->route('data-ekstrakulikuler');
     }
+
 }

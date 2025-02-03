@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('golongan', 50)->nullable();
             $table->date('tmt_awal')->nullable();
             $table->string('pendidikan_terakhir', 50)->nullable();
-            $table->string('status')->default('Aktif')->nullable();
+            $table->string('status')->default('active')->nullable();
             $table->boolean('is_wali_kelas')->default(true);
             $table->string('foto')->nullable();
             $table->timestamps();

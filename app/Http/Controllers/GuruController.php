@@ -22,7 +22,7 @@ class GuruController extends Controller
     public function index(Request $request)
     {
         // Start building the query for 'guru' with relationships 'user' and 'mata_pelajaran'
-        $query = Guru::with('user', 'mata_pelajaran');
+        $query = Guru::with('user', 'mata_pelajaran')->where('status', '!=', 'deleted');
 
         // Apply filters based on user input
         if ($request->filled('nama_guru')) {
@@ -46,7 +46,7 @@ class GuruController extends Controller
         }
 
         // Paginate the results with query strings preserved
-        $gurus = $query->orderBy('updated_at', 'ASC')  // You can change this to sort by other columns as needed
+        $gurus = $query->orderBy('created_at', 'DESC')  // You can change this to sort by other columns as needed
             ->paginate(10)
             ->withQueryString();  // Retain query parameters during pagination
 
@@ -92,7 +92,7 @@ class GuruController extends Controller
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
             'pendidikan_terakhir' => 'nullable|string|max:50',
-            'status' => 'nullable|string|in:Aktif,Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun',
+            'status' => 'nullable|string|in:active,deleted, Wali Kelas, Cuti, Mutasi, Pensiun',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'status' => 'nullable|string|max:50',
         ], [
@@ -127,7 +127,7 @@ class GuruController extends Controller
             'pendidikan_terakhir.string' => 'Pendidikan terakhir harus berupa teks.',
             'pendidikan_terakhir.max' => 'Pendidikan terakhir maksimal 50 karakter.',
             'status.string' => 'Status harus berupa teks.',
-            'status.in' => 'Status tidak valid. Pilihan yang tersedia: Aktif, Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun.',
+            'status.in' => 'Status tidak valid. Pilihan yang tersedia: active, deleted, Wali Kelas, Cuti, Mutasi, Pensiun.',
             'foto.image' => 'File foto harus berupa gambar.',
             'foto.mimes' => 'Format file foto harus jpg, jpeg, atau png.',
             'foto.max' => 'Ukuran file foto maksimal 2 MB.',
@@ -172,6 +172,7 @@ class GuruController extends Controller
             'tmt_awal' => $request->tmt_awal,
             'pendidikan_terakhir' => $request->pendidikan_terakhir,
             'foto' => $fotoPath,
+            'status' => 'active'
         ]);
         Alert::success('success', 'Data guru berhasil disimpan dan user berhasil dibuat dengan role guru.');
         return redirect()->route('data-guru');
@@ -183,7 +184,7 @@ class GuruController extends Controller
     public function show($id_guru)
     {
         $title = 'Guru';
-        $guru = Guru::with('user', 'mata_pelajaran')->where('id_guru', $id_guru)->firstOrFail();
+        $guru = Guru::with('user', 'mata_pelajaran')->where('id_guru', $id_guru)->where('status', '=', 'active')->firstOrFail();
         return view('guru.show', compact('guru', 'title'));
     }
 
@@ -193,7 +194,7 @@ class GuruController extends Controller
     public function edit($id_guru)
     {
         $title = 'Guru';
-        $guru = Guru::findOrFail($id_guru);
+        $guru = Guru::where('status', '=', 'active')->findOrFail($id_guru);
         $mataPelajarans =  MataPelajaran::orderBy('kelompok', 'ASC')->orderBy('nama_mata_pelajaran', 'ASC')->get();
         return view('guru.edit', compact('guru', 'mataPelajarans','title'));
     }
@@ -211,50 +212,13 @@ class GuruController extends Controller
             'agama' => 'nullable|string|max:50',
             'alamat' => 'nullable|string',
             'no_hp' => 'nullable|string|max:20',
-            'email' => 'required',
+            'email' => 'required|email',
             'jabatan' => 'nullable|string|max:50',
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
             'pendidikan_terakhir' => 'nullable|string|max:50',
-            'status' => 'nullable|string|in:Aktif,Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun',
+            'status' => 'nullable|string|in:active,deleted,Wali Kelas,Cuti,Mutasi,Pensiun',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'status' => 'nullable|string|max:50',
-        ], [
-            'name.required' => 'Nama wajib diisi.',
-            'name.string' => 'Nama harus berupa teks.',
-            'status.required' => 'Status wajib diisi.',
-            'status.string' => 'Status harus berupa teks.',
-            'name.max' => 'Nama maksimal 100 karakter.',
-            'mata_pelajaran_id.required' => 'Mata pelajaran wajib dipilih.',
-            'mata_pelajaran_id.exists' => 'Mata pelajaran tidak valid.',
-            'nip.string' => 'NIP harus berupa teks.',
-            'nip.max' => 'NIP maksimal 50 karakter.',
-            'nrg.string' => 'NRG harus berupa teks.',
-            'nrg.max' => 'NRG maksimal 50 karakter.',
-            'jk.required' => 'Jenis kelamin wajib dipilih.',
-            'jk.string' => 'Jenis kelamin harus berupa teks.',
-            'jk.max' => 'Jenis kelamin maksimal 10 karakter.',
-            'tempat_lahir.string' => 'Tempat lahir harus berupa teks.',
-            'tempat_lahir.max' => 'Tempat lahir maksimal 50 karakter.',
-            'tgl_lahir.date' => 'Tanggal lahir harus berupa format tanggal yang valid.',
-            'agama.string' => 'Agama harus berupa teks.',
-            'agama.max' => 'Agama maksimal 50 karakter.',
-            'alamat.string' => 'Alamat harus berupa teks.',
-            'no_hp.string' => 'Nomor HP harus berupa teks.',
-            'no_hp.max' => 'Nomor HP maksimal 20 karakter.',
-            'email.required' => 'Email haru diisi.',
-            'jabatan.string' => 'Jabatan harus berupa teks.',
-            'jabatan.max' => 'Jabatan maksimal 50 karakter.',
-            'golongan.string' => 'Golongan harus berupa teks.',
-            'golongan.max' => 'Golongan maksimal 50 karakter.',
-            'tmt_awal.date' => 'TMT Awal harus berupa format tanggal yang valid.',
-            'pendidikan_terakhir.string' => 'Pendidikan terakhir harus berupa teks.',
-            'pendidikan_terakhir.max' => 'Pendidikan terakhir maksimal 50 karakter.',
-            'status.string' => 'Status harus berupa teks.',
-            'status.in' => 'Status tidak valid. Pilihan yang tersedia: Aktif, Tidak Aktif, Wali Kelas, Cuti, Mutasi, Pensiun.',
-            'foto.image' => 'File foto harus berupa gambar.',
-            'foto.mimes' => 'Format file foto harus jpg, jpeg, atau png.',
-            'foto.max' => 'Ukuran file foto maksimal 2 MB.',
         ]);
 
         // Ambil data lama
@@ -262,7 +226,7 @@ class GuruController extends Controller
 
         // Cek jika ada file baru diunggah
         if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada di folder foto-guru
+            // Hapus foto lama jika ada
             if (!empty($data->foto) && Storage::disk('public')->exists($data->foto)) {
                 Storage::disk('public')->delete($data->foto);
             }
@@ -276,9 +240,7 @@ class GuruController extends Controller
             $data->foto = 'foto-guru/' . $uniqueName;
         }
 
-        $data = Guru::findOrFail($id_guru); // Atau bisa gunakan find($id_guru) jika Anda ingin menangani kasus data tidak ditemukan
-
-        // Update data guru menggunakan array
+        // Update data guru
         $data->update([
             'mata_pelajaran_id' => $request->mata_pelajaran_id,
             'nip' => $request->nip,
@@ -293,16 +255,19 @@ class GuruController extends Controller
             'golongan' => $request->golongan,
             'tmt_awal' => $request->tmt_awal,
             'pendidikan_terakhir' => $request->pendidikan_terakhir,
+            'status' => $request->status,
+            'foto' => $data->foto, // Pastikan foto diperbarui jika ada
         ]);
 
         // Update data user terkait dengan guru
-        $user = $data->user; // Mengambil relasi user dari guru
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        if ($data->user) {
+            $data->user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+        }
 
-        Alert::success('success', 'Data guru berhasil diperbarui.');
+        Alert::success('Success', 'Data guru berhasil diperbarui.');
         return redirect()->route('data-guru');
     }
 
@@ -311,11 +276,24 @@ class GuruController extends Controller
      */
     public function destroy($id_guru)
     {
-        User::find($id_guru)->delete();
-        Alert::success('success','Data guru berhasil dihapus');
+        $user = DB::table('users')->where('id', $id_guru)->first();
+
+        if (!$user) {
+            Alert::error('Error', 'Data guru tidak ditemukan');
+            return redirect()->route('data-guru');
+        }
+
+        // Update status and set deleted_at timestamp
+        DB::table('users')
+            ->where('id', $id_guru)
+            ->update([
+                'status' => 'deleted',
+                'deleted_at' => now() // Soft delete manually
+            ]);
+
+        Alert::success('Success', 'Data guru berhasil dihapus');
         return redirect()->route('data-guru');
     }
-
     public function import(Request $request)
     {
         $request->validate([
@@ -330,7 +308,7 @@ class GuruController extends Controller
     public function updateStatus(Request $request, $id_guru)
     {
         $request->validate([
-            'status' => 'required|in:Aktif,Non-Aktif,Wali Kelas,Mutasi,Pensiun',
+            'status' => 'required|in:active,inactive,Mutasi,Pensiun,deleted',
         ]);
 
         $guru = Guru::findOrFail($id_guru);

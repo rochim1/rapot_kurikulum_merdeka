@@ -81,9 +81,9 @@
                 <tr>
                     <th>Status</th>
                     <td>
-                        @if($guru->status == 'Aktif')
+                        @if($guru->status == 'active')
                             <span class="badge bg-success">{{ $guru->status }}</span>
-                        @elseif($guru->status == 'Tidak Aktif')
+                        @elseif($guru->status == 'deleted')
                             <span class="badge bg-danger">{{ $guru->status }}</span>
                         @elseif($guru->status == 'Mutasi')
                             <span class="badge bg-warning">{{ $guru->status }}</span>

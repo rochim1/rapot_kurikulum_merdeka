@@ -192,7 +192,7 @@
                                     </td>
                                     <td
                                         style="border: 1px solid #000; padding: 8px; text-align: center; vertical-align: top;">
-                                        {{ $itemrapotEkstrakulikuler->ekstrakulikuler->nama_ekstrakulikuler }}
+                                        {{ $itemrapotEkstrakulikuler->ekstrakulikuler->nama_ekstrakulikuler ?? '-' }}
                                     </td>
                                     <td
                                         style="border: 1px solid #000; padding: 8px; text-align: center; vertical-align: top;">

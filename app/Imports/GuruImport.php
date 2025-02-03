@@ -53,7 +53,7 @@ class GuruImport implements ToModel, WithHeadingRow, SkipsOnError
                 'golongan'            => $row['golongan'] ?? null,
                 'tmt_awal'            => $row['tmt_awal'] ?? null,
                 'pendidikan_terakhir' => $row['pendidikan_terakhir'] ?? null,
-                'status'              => 'Aktif',
+                'status'              => 'active',
                 'foto'                => null, // Foto tidak diupload melalui import
             ]);
         
