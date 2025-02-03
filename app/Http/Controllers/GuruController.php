@@ -308,7 +308,7 @@ class GuruController extends Controller
     public function updateStatus(Request $request, $id_guru)
     {
         $request->validate([
-            'status' => 'required|in:active,inactive,Mutasi,Pensiun,deleted,Wali Kelas',
+            'status' => 'required|in:active,inactive,Mutasi,Pensiun,deleted',
         ]);
 
         $guru = Guru::findOrFail($id_guru);
