@@ -139,10 +139,9 @@
                                             title="Edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <form action="{{ route('delete-guru', $guru->id_guru) }}" method="POST">
+                                        <form id="myForm" action="{{ route('delete-guru', $guru->id_guru) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-outline-danger" title="Hapus"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                            <button type="submit" class="btn btn-outline-danger" id="btn_delete">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
                                         </form>

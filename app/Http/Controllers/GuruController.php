@@ -184,7 +184,7 @@ class GuruController extends Controller
     public function show($id_guru)
     {
         $title = 'Guru';
-        $guru = Guru::with('user', 'mata_pelajaran')->where('id_guru', $id_guru)->where('status', '=', 'active')->firstOrFail();
+        $guru = Guru::with('user', 'mata_pelajaran')->where('id_guru', $id_guru)->firstOrFail();
         return view('guru.show', compact('guru', 'title'));
     }
 
@@ -194,7 +194,7 @@ class GuruController extends Controller
     public function edit($id_guru)
     {
         $title = 'Guru';
-        $guru = Guru::where('status', '=', 'active')->findOrFail($id_guru);
+        $guru = Guru::findOrFail($id_guru);
         $mataPelajarans =  MataPelajaran::orderBy('kelompok', 'ASC')->orderBy('nama_mata_pelajaran', 'ASC')->get();
         return view('guru.edit', compact('guru', 'mataPelajarans','title'));
     }
@@ -276,20 +276,10 @@ class GuruController extends Controller
      */
     public function destroy($id_guru)
     {
-        $user = DB::table('users')->where('id', $id_guru)->first();
-
-        if (!$user) {
-            Alert::error('Error', 'Data guru tidak ditemukan');
-            return redirect()->route('data-guru');
-        }
-
-        // Update status and set deleted_at timestamp
-        DB::table('users')
-            ->where('id', $id_guru)
-            ->update([
-                'status' => 'deleted',
-                'deleted_at' => now() // Soft delete manually
-            ]);
+        $guru = Guru::find($id_guru);
+        $user = User::find($guru->id_user);
+        $guru->delete();
+        $user->delete();
 
         Alert::success('Success', 'Data guru berhasil dihapus');
         return redirect()->route('data-guru');
