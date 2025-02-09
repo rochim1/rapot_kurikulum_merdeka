@@ -47,7 +47,7 @@ class Rapot extends Model
 
     public function rapotEkstrakulikuler()
     {
-        return $this->hasMany(rapotEkstrakulikuler::class, 'id_rapot', 'id_rapot');
+        return $this->hasMany(RapotEkstrakulikuler::class, 'id_rapot', 'id_rapot');
     }
 
     public function RapotP5CapaianProjek()
