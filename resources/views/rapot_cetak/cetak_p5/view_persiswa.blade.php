@@ -13,7 +13,7 @@
 
         .footer {
             position: fixed;
-            bottom: 10px;
+            bottom: -100px;
             width: 100%;
             text-align: center;
             font-size: 12px;
