@@ -22,7 +22,7 @@ class GuruController extends Controller
     public function index(Request $request)
     {
         // Start building the query for 'guru' with relationships 'user' and 'mata_pelajaran'
-        $query = Guru::with('user', 'mata_pelajaran')->whereNull('deleted_at'); 
+        $query = Guru::with('user', 'mata_pelajaran')->where('status', '!=', 'deleted');
 
         // Apply filters based on user input
         if ($request->filled('nama_guru')) {
