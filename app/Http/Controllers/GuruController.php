@@ -22,7 +22,7 @@ class GuruController extends Controller
     public function index(Request $request)
     {
         // Start building the query for 'guru' with relationships 'user' and 'mata_pelajaran'
-        $query = Guru::with('user', 'mata_pelajaran')->where('status', '!=', 'deleted');
+        $query = Guru::with('user', 'mata_pelajaran')->whereNull('deleted_at'); 
 
         // Apply filters based on user input
         if ($request->filled('nama_guru')) {
@@ -77,7 +77,7 @@ class GuruController extends Controller
     {
         DB::enableQueryLog();
         $request->validate([
-            // 'nama' => 'required|string|max:100',
+            'nama' => 'required|string|max:100',
             'mata_pelajaran_id' => 'nullable|exists:tb_mata_pelajaran,id_mata_pelajaran',
             'nip' => 'nullable|string|max:50',
             'nrg' => 'nullable|string|max:50',
@@ -87,7 +87,7 @@ class GuruController extends Controller
             'agama' => 'nullable|string|max:50',
             'alamat' => 'nullable|string',
             'no_hp' => 'nullable|string|max:20',
-            // 'email' => 'required',
+            'email' => 'required|unique:users',
             'jabatan' => 'nullable|string|max:50',
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
@@ -100,7 +100,7 @@ class GuruController extends Controller
             'nama.string' => 'Nama harus berupa teks.',
             'status.required' => 'Status wajib diisi.',
             'status.string' => 'Status harus berupa teks.',
-            // 'nama.max' => 'Nama maksimal 100 karakter.',
+            'nama.max' => 'Nama maksimal 100 karakter.',
             'mata_pelajaran_id.required' => 'Mata pelajaran wajib dipilih.',
             'mata_pelajaran_id.exists' => 'Mata pelajaran tidak valid.',
             'nip.string' => 'NIP harus berupa teks.',
@@ -157,7 +157,6 @@ class GuruController extends Controller
         $guru = Guru::create([
             'id_user' => $user->id,
             'mata_pelajaran_id' => $request->mata_pelajaran_id,
-            // 'nama' => $request->nama,
             'nip' => $request->nip,
             'nrg' => $request->nrg,
             'jk' => $request->jk,
@@ -166,7 +165,6 @@ class GuruController extends Controller
             'agama' => $request->agama,
             'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
-            // 'email' => $request->email,
             'jabatan' => $request->jabatan,
             'golongan' => $request->golongan,
             'tmt_awal' => $request->tmt_awal,
@@ -212,7 +210,7 @@ class GuruController extends Controller
             'agama' => 'nullable|string|max:50',
             'alamat' => 'nullable|string',
             'no_hp' => 'nullable|string|max:20',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'jabatan' => 'nullable|string|max:50',
             'golongan' => 'nullable|string|max:50',
             'tmt_awal' => 'nullable|date',
