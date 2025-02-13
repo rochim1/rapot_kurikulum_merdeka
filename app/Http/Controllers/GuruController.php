@@ -253,7 +253,7 @@ class GuruController extends Controller
             'golongan' => $request->golongan,
             'tmt_awal' => $request->tmt_awal,
             'pendidikan_terakhir' => $request->pendidikan_terakhir,
-            'status' => $request->status,
+            'status' => $data->status,
             'foto' => $data->foto, // Pastikan foto diperbarui jika ada
         ]);
 
