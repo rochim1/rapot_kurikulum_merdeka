@@ -80,7 +80,7 @@
 <header>
     <table class="header-table">
         <tr>
-            <td style="width:50%;">
+            <td style="width:70%;">
                 <table style="width: 100%; border-collapse: collapse;">
                     <tbody>
                         <tr>
@@ -102,7 +102,7 @@
                     </tbody>
                 </table>
             </td>
-            <td style="width:50%;">
+            <td style="width:30%;">
                 <table style="width: 100%; border-collapse: collapse;">
                     <tbody>
                         <tr>
