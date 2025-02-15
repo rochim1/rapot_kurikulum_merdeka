@@ -20,6 +20,6 @@ class DataProjekTargetCapaian extends Model
 
     public function targetCapaian()
     {
-        return $this->belongsTo(targetCapaian::class, 'id_target_capaian');
+        return $this->belongsTo(TargetCapaian::class, 'id_target_capaian');
     }
 }
