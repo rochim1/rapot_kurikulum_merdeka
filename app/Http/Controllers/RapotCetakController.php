@@ -33,12 +33,12 @@ class RapotCetakController extends Controller
     public function show($id, Request $request)
     {
         $rapot = Rapot::with('kelas', 'TahunAjaran', 'siswa', 'guru.user', 'rapotEkstrakulikuler.ekstrakulikuler', 'rapotNilai.mataPelajaran')
-                    ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-                    ->where('id_guru', session('id_guru'))
-                    ->whereHas('siswa', function ($query) use ($id) {
-                        $query->where('id_siswa', $id);
-                    })
-                    ->get();
+            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+            ->where('id_guru', session('id_guru'))
+            ->whereHas('siswa', function ($query) use ($id) {
+                $query->where('id_siswa', $id);
+            })
+            ->get();
 
         if (!$rapot) {
             return redirect()->back()->with('error', 'Data rapot tidak ditemukan.');
@@ -48,43 +48,45 @@ class RapotCetakController extends Controller
             // Iterasi setiap data rapot
             foreach ($rapot as $item) {
                 // Periksa jika $item->rapot_nilai bukan null dan memiliki data
-                    foreach ($item->rapotNilai as $nilai) {
-                        
-                        // Decode JSON tujuan_pembelajaran_tercapai
-                        $tujuan_ids_tercapai = json_decode($nilai->tujuan_pembelajaran_tercapai);
-                        $tujuan_ids_tidak_tercapai = json_decode($nilai->tujuan_pembelajaran_tidak_tercapai);
-                        
-                        // Cek apakah tujuan_ids terkapai ada dan berupa array
-                        if (is_array($tujuan_ids_tercapai)) {
-                            // Ambil data tujuan pembelajaran berdasarkan ID yang ada
-                            $nilai->tujuan_pembelajaran_tercapai_detail = TujuanPembelajaran::whereIn('id_tujuan_pembelajaran', $tujuan_ids_tercapai)->get();
-                            // Convert to readable format (text) if needed
-                            $nilai->tujuan_pembelajaran_tercapai_text = $nilai->tujuan_pembelajaran_tercapai_detail->pluck('tujuan_pembelajaran')->join(', ');
-                        }
+                foreach ($item->rapotNilai as $nilai) {
 
-                        // Cek apakah tujuan_ids tidak tercapai ada dan berupa array
-                        if (is_array($tujuan_ids_tidak_tercapai)) {
-                            // Ambil data tujuan pembelajaran berdasarkan ID yang ada
-                            $nilai->tujuan_pembelajaran_tidak_tercapai_detail = TujuanPembelajaran::whereIn('id_tujuan_pembelajaran', $tujuan_ids_tidak_tercapai)->get();
-                            // Convert to readable format (text) if needed
-                            $nilai->tujuan_pembelajaran_tidak_tercapai_text = $nilai->tujuan_pembelajaran_tidak_tercapai_detail->pluck('tujuan_pembelajaran')->join(', ');
-                        }
+                    // Decode JSON tujuan_pembelajaran_tercapai
+                    $tujuan_ids_tercapai = json_decode($nilai->tujuan_pembelajaran_tercapai);
+                    $tujuan_ids_tidak_tercapai = json_decode($nilai->tujuan_pembelajaran_tidak_tercapai);
+
+                    // Cek apakah tujuan_ids terkapai ada dan berupa array
+                    if (is_array($tujuan_ids_tercapai)) {
+                        // Ambil data tujuan pembelajaran berdasarkan ID yang ada
+                        $nilai->tujuan_pembelajaran_tercapai_detail = TujuanPembelajaran::whereIn('id_tujuan_pembelajaran', $tujuan_ids_tercapai)->get();
+                        // Convert to readable format (text) if needed
+                        $nilai->tujuan_pembelajaran_tercapai_text = $nilai->tujuan_pembelajaran_tercapai_detail
+                            ->pluck('tujuan_pembelajaran')
+                            ->map(fn($tujuan) => 'Siswa mampu ' . $tujuan)
+                            ->join(', ');
                     }
+
+                    // Cek apakah tujuan_ids tidak tercapai ada dan berupa array
+                    if (is_array($tujuan_ids_tidak_tercapai)) {
+                        // Ambil data tujuan pembelajaran berdasarkan ID yang ada
+                        $nilai->tujuan_pembelajaran_tidak_tercapai_detail = TujuanPembelajaran::whereIn('id_tujuan_pembelajaran', $tujuan_ids_tidak_tercapai)->get();
+                        // Convert to readable format (text) if needed
+                        $nilai->tujuan_pembelajaran_tidak_tercapai_text = $nilai->tujuan_pembelajaran_tidak_tercapai_detail->pluck('tujuan_pembelajaran')
+                        ->map(fn($tujuan) => 'Siswa tidak mampu ' . $tujuan)
+                        ->join(', ');;
+                    }
+                }
             }
         }
 
         $profilSekolah = ProfilSekolah::find(1);
-        $nama_siswa = 'Rapot '. $rapot->first()->siswa->nama. '.pdf';
+        $nama_siswa = 'Rapot ' . $rapot->first()->siswa->nama . '.pdf';
 
         $pdf = Pdf::loadView('rapot_cetak.cetak.view_persiswa', compact('rapot', 'profilSekolah', 'nama_siswa'))
             ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
 
-        if($request->get('btn') == 'view')
-        {
+        if ($request->get('btn') == 'view') {
             return $pdf->stream($nama_siswa);
-        } 
-        else if($request->get('btn') == 'download')
-        {
+        } else if ($request->get('btn') == 'download') {
             return $pdf->download($nama_siswa);
         }
     }
@@ -92,11 +94,11 @@ class RapotCetakController extends Controller
     public function rapot_p5_persiswa($id, Request $request)
     {
         $rapot = Rapot::with([
-            'kelas', 
-            'TahunAjaran', 
+            'kelas',
+            'TahunAjaran',
             'siswa',
             'guru.user',
-            'RapotP5CapaianProjek.KelompokProjekDataProjek.dataProjek.DataProjekTargetCapaian.targetCapaian', 
+            'RapotP5CapaianProjek.KelompokProjekDataProjek.dataProjek.DataProjekTargetCapaian.targetCapaian',
             'RapotP5CatatanProsesProjek'
         ])
             ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
@@ -106,19 +108,16 @@ class RapotCetakController extends Controller
                 $query->where('id_siswa', $id);
             })
             ->get();
-        
+
         $profilSekolah = ProfilSekolah::find(1);
-        $nama_siswa =  'Rapot '. $rapot->first()->siswa->nama. '.pdf';
+        $nama_siswa =  'Rapot ' . $rapot->first()->siswa->nama . '.pdf';
 
         $pdf = Pdf::loadView('rapot_cetak.cetak_p5.view_persiswa', compact('rapot', 'profilSekolah', 'nama_siswa'))
             ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
 
-        if($request->get('btn') == 'view')
-        {
+        if ($request->get('btn') == 'view') {
             return $pdf->stream($nama_siswa);
-        } 
-        else if($request->get('btn') == 'download')
-        {
+        } else if ($request->get('btn') == 'download') {
             return $pdf->download($nama_siswa);
         }
     }
@@ -164,9 +163,9 @@ class RapotCetakController extends Controller
     {
         if ($request->download_all == 'rapot_umum') {
             $rapot = Rapot::with('kelas', 'TahunAjaran', 'siswa', 'guru.user', 'rapotEkstrakulikuler.ekstrakulikuler', 'rapotNilai.mataPelajaran')
-                        ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-                        ->where('id_guru', session('id_guru'))
-                        ->get();
+                ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+                ->where('id_guru', session('id_guru'))
+                ->get();
 
             if (!$rapot->count()) {
                 return redirect()->back()->with('error', 'Data rapot tidak ditemukan.');
@@ -176,7 +175,7 @@ class RapotCetakController extends Controller
                 foreach ($item->rapotNilai as $nilai) {
                     $tujuan_ids_tercapai = json_decode($nilai->tujuan_pembelajaran_tercapai);
                     $tujuan_ids_tidak_tercapai = json_decode($nilai->tujuan_pembelajaran_tidak_tercapai);
-                    
+
                     if (is_array($tujuan_ids_tercapai)) {
                         $nilai->tujuan_pembelajaran_tercapai_detail = TujuanPembelajaran::whereIn('id_tujuan_pembelajaran', $tujuan_ids_tercapai)->get();
                         $nilai->tujuan_pembelajaran_tercapai_text = $nilai->tujuan_pembelajaran_tercapai_detail->pluck('tujuan_pembelajaran')->join(', ');
@@ -191,20 +190,19 @@ class RapotCetakController extends Controller
 
             $profilSekolah = ProfilSekolah::find(1);
             return $this->mergePdfs($rapot, $profilSekolah, 'rapot_cetak.cetak.view_persiswa');
-        } 
-        else if ($request->download_all == 'rapot_p5') {
+        } else if ($request->download_all == 'rapot_p5') {
             $rapot = Rapot::with([
-                'kelas', 
-                'TahunAjaran', 
+                'kelas',
+                'TahunAjaran',
                 'siswa',
                 'guru.user',
-                'RapotP5CapaianProjek.KelompokProjekDataProjek.dataProjek.DataProjekTargetCapaian.targetCapaian', 
+                'RapotP5CapaianProjek.KelompokProjekDataProjek.dataProjek.DataProjekTargetCapaian.targetCapaian',
                 'RapotP5CatatanProsesProjek'
             ])
-            ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
-            ->where('id_guru', session('id_guru'))
-            ->get();
-            
+                ->where('id_tahun_ajaran', session('id_tahun_ajaran'))
+                ->where('id_guru', session('id_guru'))
+                ->get();
+
             if (!$rapot->count()) {
                 return redirect()->back()->with('error', 'Data rapot tidak ditemukan.');
             }
@@ -213,5 +211,4 @@ class RapotCetakController extends Controller
             return $this->mergePdfs($rapot, $profilSekolah, 'rapot_cetak.cetak_p5.view_persiswa');
         }
     }
-
 }

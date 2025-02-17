@@ -161,7 +161,7 @@
                                 <td style="text-align: center; padding: 8px; border: 1px solid #000;">{{ $nomorUrut }}</td>
                                 <td style="padding: 8px; border: 1px solid #000;">{{ $rapotNilai->mataPelajaran->nama_mata_pelajaran }}</td>
                                 <td style="text-align: center; padding: 8px; border: 1px solid #000;">{{ $rapotNilai->nilai_akhir }}</td>
-                                <td style="padding: 8px; border: 1px solid #000;">{{ $rapotNilai->capaian_kompetensi }}</td>
+                                <td style="padding: 8px; border: 1px solid #000;">{{ $rapotNilai->tujuan_pembelajaran_tercapai_text }} {{ $rapotNilai->tujuan_pembelajaran_tidak_tercapai_text }}</td>
                             </tr>
                         @endforeach
                     </tbody>

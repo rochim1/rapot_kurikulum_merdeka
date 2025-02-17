@@ -51,17 +51,19 @@
                                         </div>
                                     </form>
                                 </td>
-                                <td class="d-flex gap-2 justify-content-center">
-                                    <a href="{{ route('tujuan_pembelajaran.edit', $item_tujuan_pembelajaran->id_tujuan_pembelajaran) }}" class="btn btn-outline-success">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <form id="myForm" action="{{ route('tujuan_pembelajaran.destroy', $item_tujuan_pembelajaran->id_tujuan_pembelajaran) }}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline-danger" id="btn_delete">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    </form>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="{{ route('tujuan_pembelajaran.edit', $item_tujuan_pembelajaran->id_tujuan_pembelajaran) }}" class="btn btn-outline-success">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <form id="myForm" action="{{ route('tujuan_pembelajaran.destroy', $item_tujuan_pembelajaran->id_tujuan_pembelajaran) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-danger" id="btn_delete">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
